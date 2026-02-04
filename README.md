@@ -3,7 +3,7 @@
 ## Project Overview
 
 **Concept**: "Tinder for UMKM & Nano Influencers"
-Platform untuk mencocokkan UMKM/SME dengan nano influencers lokal berdasarkan budget, niche, dan target audience.
+A platform that matches SMEs (UMKM) with local nano influencers based on budget, niche, and target audience.
 
 ## Business Requirements
 
@@ -56,10 +56,11 @@ npm install
 
 ### Run Commands
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run linter
+npm run dev              # Start development server (Vite)
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Run ESLint
+npx prettier --write .   # Format code
 ```
 
 ### Project Structure
@@ -80,6 +81,15 @@ Create `.env` file with:
 - `VITE_OPENROUTER_API_KEY` - OpenRouter API key
 
 ### Tech Conventions
-- Use TypeScript for type safety
-- Follow existing component patterns
-- Run `npm run lint` before committing
+- **TypeScript**: All new code must be TypeScript with strict types
+- **Linting**: Run `npm run lint` before committing
+- **Formatting**: Run `npx prettier --write .` to format code
+- **File naming**: PascalCase for components (e.g., `InfluencerCard.tsx`), camelCase for utilities
+- **Imports**: Use path aliases (`@/components`, `@/lib`, `@/pages`)
+
+### Important
+1. Always check existing components in `src/components/` before creating new ones
+2. Run `npm run lint` after making changes
+3. Run `npx prettier --write <files-you-changed>` to format your changes
+4. Prefer existing utility functions in `src/lib/` over creating new ones
+5. Use the project's existing UI patterns (check `src/components/ui/`)

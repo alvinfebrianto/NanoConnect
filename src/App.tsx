@@ -11,28 +11,32 @@ import { Terms } from './pages/Terms'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { AuthProvider } from './contexts/AuthContext'
+import { Agentation } from 'agentation'
 
 function App() {
   return (
-    <AuthProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/influencers" element={<InfluencerListing />} />
-            <Route path="/influencers/:id" element={<InfluencerDetail />} />
-            <Route path="/order/:influencerId" element={<OrderBooking />} />
-            <Route path="/ai-recommendations" element={<AIRecommendations />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/influencers" element={<InfluencerListing />} />
+              <Route path="/influencers/:id" element={<InfluencerDetail />} />
+              <Route path="/order/:influencerId" element={<OrderBooking />} />
+              <Route path="/ai-recommendations" element={<AIRecommendations />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
+      {process.env.NODE_ENV === 'development' && <Agentation />}
+    </>
   )
 }
 

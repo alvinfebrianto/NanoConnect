@@ -1,19 +1,50 @@
 {
   "name": "nanoconnect-app",
   "version": "1.0.0",
-  "description": "NanoConnect Application",
+  "description": "NanoConnect - SME & Nano Influencer Matching Platform",
   "build": {
     "command": "npm install && npm run build",
     "output": "dist"
   },
   "functions": {
-    "directory": "functions",
-    "runtime": "nodejs"
+    "directory": "node-functions",
+    "runtime": "nodejs18"
   },
+  "edge_functions": {
+    "directory": "edge-functions"
+  },
+  "routes": [
+    {
+      "src": "/api/.*",
+      "dest": "/node-functions/$1"
+    },
+    {
+      "src": "/edge/.*",
+      "dest": "/edge-functions/$1"
+    },
+    {
+      "src": "/[^.]+",
+      "dest": "/index.html"
+    }
+  ],
   "caches": [
     {
       "source": "/images/*",
       "cacheTtl": 86400
+    },
+    {
+      "source": "/assets/*",
+      "cacheTtl": 31536000
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": {
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+      }
     }
   ]
 }

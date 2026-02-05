@@ -12,6 +12,10 @@ A platform that matches SMEs (UMKM) with local nano influencers based on budget,
 - **Target Users**: SMEs and local nano influencers
 - **Low Latency**: Real-time data using edge computing
 
+### Localization Requirements
+- **Language**: All user-facing text must be in Indonesian
+- **Currency**: All pricing and budget displays must use Rupiah (Rp)
+
 ## External File Loading
 
 CRITICAL: When you encounter a file reference (e.g., @rules/pages-llms.mdc), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.

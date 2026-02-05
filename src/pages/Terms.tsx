@@ -3,199 +3,221 @@ export function Terms() {
     <div className="animate-fade-in">
       <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-display text-4xl font-bold text-gray-900 mb-4">
-            Terms & Conditions
-          </h1>
-          <p className="text-gray-600">
-            Last updated: January 2024
-          </p>
+          <h1 className="font-display text-4xl font-bold text-gray-900 mb-4">Syarat & Ketentuan</h1>
+          <p className="text-gray-600">Terakhir diperbarui: Januari 2024</p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="prose prose-lg max-w-none">
           <section className="mb-12">
-            <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              1. Introduction
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">1. Pendahuluan</h2>
             <p className="text-gray-600 mb-4">
-              Welcome to NanoConnect. These Terms and Conditions govern your use of our platform 
-              and services. By accessing or using NanoConnect, you agree to be bound by these terms. 
-              If you disagree with any part of these terms, you may not access the service.
+              Selamat datang di NanoConnect. Syarat dan Ketentuan ini mengatur penggunaan platform
+              dan layanan kami. Dengan mengakses atau menggunakan NanoConnect, Anda setuju untuk
+              terikat oleh syarat-syarat ini. Jika Anda tidak setuju dengan bagian mana pun dari
+              syarat-syarat ini, Anda tidak boleh mengakses layanan ini.
             </p>
             <p className="text-gray-600">
-              NanoConnect is a platform that connects small and medium enterprises (SMEs) with 
-              nano influencers for marketing collaborations. Our platform facilitates the discovery, 
-              communication, and transaction between businesses and content creators.
+              NanoConnect adalah platform yang menghubungkan usaha kecil dan menengah (UMKM) dengan
+              nano influencer untuk kolaborasi pemasaran. Platform kami memfasilitasi penemuan,
+              komunikasi, dan transaksi antara bisnis dan content creator.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              2. Definitions
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">2. Definisi</h2>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li><strong>"Platform"</strong> refers to the NanoConnect website and services.</li>
-              <li><strong>"User"</strong> refers to any individual or entity using the Platform.</li>
-              <li><strong>"SME"</strong> refers to small and medium enterprises seeking influencer services.</li>
-              <li><strong>"Influencer"</strong> refers to content creators offering promotional services.</li>
-              <li><strong>"Order"</strong> refers to a booking request for influencer services.</li>
-              <li><strong>"Content"</strong> refers to any material created by influencers for campaigns.</li>
+              <li>
+                <strong>"Platform"</strong> mengacu pada situs web dan layanan NanoConnect.
+              </li>
+              <li>
+                <strong>"Pengguna"</strong> mengacu pada individu atau entitas apa pun yang
+                menggunakan Platform.
+              </li>
+              <li>
+                <strong>"UMKM"</strong> mengacu pada usaha kecil dan menengah yang mencari layanan
+                influencer.
+              </li>
+              <li>
+                <strong>"Influencer"</strong> mengacu pada content creator yang menawarkan layanan
+                promosi.
+              </li>
+              <li>
+                <strong>"Pesanan"</strong> mengacu pada permintaan pemesanan untuk layanan
+                influencer.
+              </li>
+              <li>
+                <strong>"Konten"</strong> mengacu pada materi apa pun yang dibuat oleh influencer
+                untuk kampanye.
+              </li>
             </ul>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              3. Account Registration
+              3. Pendaftaran Akun
             </h2>
             <p className="text-gray-600 mb-4">
-              To use certain features of the Platform, you must register for an account. You agree to:
+              Untuk menggunakan fitur-fitur tertentu dari Platform, Anda harus mendaftar untuk
+              sebuah akun. Anda setuju untuk:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li>Provide accurate, current, and complete information during registration</li>
-              <li>Maintain and promptly update your account information</li>
-              <li>Keep your password secure and confidential</li>
-              <li>Be responsible for all activities that occur under your account</li>
-              <li>Notify us immediately of any unauthorized use of your account</li>
+              <li>Memberikan informasi yang akurat, terkini, dan lengkap selama pendaftaran</li>
+              <li>Memelihara dan segera memperbarui informasi akun Anda</li>
+              <li>Menjaga kata sandi Anda tetap aman dan rahasia</li>
+              <li>Bertanggung jawab atas semua aktivitas yang terjadi di bawah akun Anda</li>
+              <li>Segera memberi tahu kami tentang penggunaan akun Anda yang tidak sah</li>
             </ul>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              4. Platform Fees and Payments
+              4. Biaya Platform dan Pembayaran
             </h2>
             <p className="text-gray-600 mb-4">
-              NanoConnect charges a platform fee of 10% on all transactions. This fee is automatically 
-              added to the influencer's base price. Payment processing is handled securely through our 
-              payment partners.
+              NanoConnect mengenakan biaya platform sebesar 10% pada semua transaksi. Biaya ini
+              secara otomatis ditambahkan ke harga dasar influencer. Pemrosesan pembayaran ditangani
+              dengan aman melalui mitra pembayaran kami.
             </p>
             <p className="text-gray-600 mb-4">
-              <strong>For SMEs:</strong>
+              <strong>Untuk UMKM:</strong>
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 mb-4">
-              <li>Payment is held in escrow until the influencer delivers the agreed content</li>
-              <li>You have 48 hours to request revisions after content delivery</li>
-              <li>Refunds are processed according to our refund policy</li>
+              <li>
+                Pembayaran ditahan dalam escrow hingga influencer mengirimkan konten yang disepakati
+              </li>
+              <li>Anda memiliki waktu 48 jam untuk meminta revisi setelah pengiriman konten</li>
+              <li>Pengembalian dana diproses sesuai dengan kebijakan pengembalian dana kami</li>
             </ul>
             <p className="text-gray-600 mb-4">
-              <strong>For Influencers:</strong>
+              <strong>Untuk Influencer:</strong>
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li>Earnings are transferred to your account within 7 days after order completion</li>
-              <li>You must maintain accurate payment information in your profile</li>
-              <li>Tax obligations are your responsibility</li>
+              <li>
+                Penghasilan ditransfer ke akun Anda dalam waktu 7 hari setelah pesanan selesai
+              </li>
+              <li>Anda harus memelihara informasi pembayaran yang akurat di profil Anda</li>
+              <li>Kewajiban pajak adalah tanggung jawab Anda</li>
             </ul>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              5. Content and Conduct
+              5. Konten dan Perilaku
             </h2>
             <p className="text-gray-600 mb-4">
-              Users agree not to use the Platform for any illegal or unauthorized purpose. You must not:
+              Pengguna setuju untuk tidak menggunakan Platform untuk tujuan ilegal atau tidak sah.
+              Anda tidak boleh:
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li>Post false, misleading, or deceptive content</li>
-              <li>Infringe on intellectual property rights of others</li>
-              <li>Engage in harassment, hate speech, or discriminatory behavior</li>
-              <li>Attempt to circumvent our fees or payment systems</li>
-              <li>Use automated systems to access the Platform</li>
-              <li>Share confidential information obtained through the Platform</li>
+              <li>Memposting konten yang palsu, menyesatkan, atau deceptive</li>
+              <li>Melanggar hak kekayaan intelektual orang lain</li>
+              <li>Terlibat dalam pelecehan, ujaran kebencian, atau perilaku diskriminatif</li>
+              <li>Mencoba untuk menghindari biaya atau sistem pembayaran kami</li>
+              <li>Menggunakan sistem otomatis untuk mengakses Platform</li>
+              <li>Membagikan informasi rahasia yang diperoleh melalui Platform</li>
             </ul>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              6. Order Process and Deliverables
+              6. Proses Pesanan dan Deliverables
             </h2>
-            <p className="text-gray-600 mb-4">
-              The standard order process involves:
-            </p>
+            <p className="text-gray-600 mb-4">Proses pesanan standar melibatkan:</p>
             <ol className="list-decimal list-inside text-gray-600 space-y-2">
-              <li>SME submits an order request with campaign details</li>
-              <li>Influencer reviews and accepts or declines the request within 24 hours</li>
-              <li>Upon acceptance, payment is processed and held in escrow</li>
-              <li>Influencer creates and delivers content by the agreed deadline</li>
-              <li>SME reviews and approves the content or requests revisions</li>
-              <li>Upon approval, payment is released to the influencer</li>
+              <li>UMKM mengirimkan permintaan pesanan dengan detail kampanye</li>
+              <li>Influencer meninjau dan menerima atau menolak permintaan dalam waktu 24 jam</li>
+              <li>Setelah diterima, pembayaran diproses dan ditahan dalam escrow</li>
+              <li>
+                Influencer membuat dan mengirimkan konten sesuai tenggat waktu yang disepakati
+              </li>
+              <li>UMKM meninjau dan menyetujui konten atau meminta revisi</li>
+              <li>Setelah disetujui, pembayaran dilepaskan ke influencer</li>
             </ol>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              7. Cancellation and Refund Policy
+              7. Kebijakan Pembatalan dan Pengembalian Dana
             </h2>
             <p className="text-gray-600 mb-4">
-              <strong>Cancellations by SMEs:</strong>
+              <strong>Pembatalan oleh UMKM:</strong>
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 mb-4">
-              <li>Before influencer acceptance: Full refund</li>
-              <li>After acceptance but before work begins: 90% refund (10% processing fee)</li>
-              <li>After work begins: Refund at influencer's discretion</li>
+              <li>Sebelum influencer menerima: Pengembalian dana penuh</li>
+              <li>
+                Setelah diterima tetapi sebelum pekerjaan dimulai: Pengembalian dana 90% (biaya
+                pemrosesan 10%)
+              </li>
+              <li>Setelah pekerjaan dimulai: Pengembalian dana sesuai kebijaksanaan influencer</li>
             </ul>
             <p className="text-gray-600 mb-4">
-              <strong>Cancellations by Influencers:</strong>
+              <strong>Pembatalan oleh Influencer:</strong>
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
-              <li>Full refund to SME if influencer cancels</li>
-              <li>Repeated cancellations may result in account suspension</li>
+              <li>Pengembalian dana penuh ke UMKM jika influencer membatalkan</li>
+              <li>Pembatalan berulang kali dapat mengakibatkan penangguhan akun</li>
             </ul>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              8. Intellectual Property
+              8. Kekayaan Intelektual
             </h2>
             <p className="text-gray-600 mb-4">
-              Upon full payment and order completion, SMEs receive a license to use the delivered 
-              content for marketing purposes. Influencers retain ownership of their content and 
-              grant SMEs usage rights as specified in the order agreement.
+              Setelah pembayaran penuh dan penyelesaian pesanan, UMKM menerima lisensi untuk
+              menggunakan konten yang dikirimkan untuk tujuan pemasaran. Influencer mempertahankan
+              kepemilikan konten mereka dan memberikan hak penggunaan kepada UMKM sebagaimana
+              ditentukan dalam perjanjian pesanan.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              9. Limitation of Liability
+              9. Batasan Tanggung Jawab
             </h2>
             <p className="text-gray-600">
-              NanoConnect acts as an intermediary platform and is not liable for the quality of 
-              services provided by influencers, or for the business decisions of SMEs. Our total 
-              liability shall not exceed the amount paid for the specific transaction in question.
+              NanoConnect bertindak sebagai platform perantara dan tidak bertanggung jawab atas
+              kualitas layanan yang diberikan oleh influencer, atau atas keputusan bisnis UMKM.
+              Total tanggung jawab kami tidak akan melebihi jumlah yang dibayarkan untuk transaksi
+              spesifik yang bersangkutan.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              10. Dispute Resolution
+              10. Penyelesaian Sengketa
             </h2>
             <p className="text-gray-600">
-              In case of disputes, parties agree to first attempt resolution through NanoConnect's 
-              mediation process. If mediation fails, disputes will be resolved through binding 
-              arbitration in accordance with the laws of the State of California.
+              Dalam hal terjadi sengketa, para pihak setuju untuk terlebih dahulu mencoba
+              penyelesaian melalui proses mediasi NanoConnect. Jika mediasi gagal, sengketa akan
+              diselesaikan melalui arbitrase yang mengikat sesuai dengan hukum yang berlaku di
+              Indonesia.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              11. Changes to Terms
+              11. Perubahan Syarat
             </h2>
             <p className="text-gray-600">
-              We reserve the right to modify these terms at any time. Changes will be effective 
-              immediately upon posting to the Platform. Continued use of the Platform after changes 
-              constitutes acceptance of the new terms.
+              Kami berhak untuk mengubah syarat-syarat ini kapan saja. Perubahan akan efektif segera
+              setelah diposting ke Platform. Penggunaan berkelanjutan pada Platform setelah
+              perubahan merupakan penerimaan dari syarat baru.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-              12. Contact Information
+              12. Informasi Kontak
             </h2>
             <p className="text-gray-600">
-              For questions about these Terms and Conditions, please contact us at:
+              Untuk pertanyaan tentang Syarat dan Ketentuan, silakan hubungi kami di:
             </p>
             <div className="mt-4 text-gray-600">
               <p>Email: legal@nanoconnect.com</p>
-              <p>Address: 123 Innovation Drive, San Francisco, CA 94105</p>
+              <p>Alamat: Jl. Sudirman No. 123, Jakarta Pusat, Indonesia</p>
             </div>
           </section>
         </div>

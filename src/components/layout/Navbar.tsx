@@ -28,13 +28,13 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/influencers" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">
-              Find Influencers
+              Cari Influencer
             </Link>
             <Link to="/ai-recommendations" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">
-              AI Match
+              Cocokan AI
             </Link>
             <Link to="/about" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">
-              About
+              Tentang
             </Link>
             
             {user ? (
@@ -46,7 +46,7 @@ export function Navbar() {
                 <button
                   onClick={handleLogout}
                   className="p-2 text-gray-600 hover:text-red-600 transition-colors"
-                  title="Logout"
+                  title="Keluar"
                 >
                   <LogOut className="w-5 h-5" />
                 </button>
@@ -54,10 +54,10 @@ export function Navbar() {
             ) : (
               <div className="flex items-center space-x-3">
                 <Link to="/login" className="btn-secondary">
-                  Sign In
+                  Masuk
                 </Link>
                 <Link to="/register" className="btn-primary">
-                  Get Started
+                  Mulai
                 </Link>
               </div>
             )}
@@ -80,21 +80,21 @@ export function Navbar() {
               className="block py-2 text-gray-600 hover:text-primary-600 font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
-              Find Influencers
+              Cari Influencer
             </Link>
             <Link 
               to="/ai-recommendations" 
               className="block py-2 text-gray-600 hover:text-primary-600 font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
-              AI Match
+              Cocokan AI
             </Link>
             <Link 
               to="/about" 
               className="block py-2 text-gray-600 hover:text-primary-600 font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
-              About
+              Tentang
             </Link>
             {user ? (
               <>
@@ -103,7 +103,7 @@ export function Navbar() {
                   className="block py-2 text-gray-600 hover:text-primary-600 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Profile
+                  Profil
                 </Link>
                 <button
                   onClick={() => {
@@ -112,7 +112,7 @@ export function Navbar() {
                   }}
                   className="block w-full text-left py-2 text-red-600 font-medium"
                 >
-                  Logout
+                  Keluar
                 </button>
               </>
             ) : (
@@ -122,14 +122,14 @@ export function Navbar() {
                   className="block w-full text-center py-2.5 border-2 border-gray-200 rounded-xl font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Sign In
+                  Masuk
                 </Link>
                 <Link 
                   to="/register" 
                   className="block w-full text-center py-2.5 bg-primary-600 text-white rounded-xl font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Get Started
+                  Mulai
                 </Link>
               </div>
             )}

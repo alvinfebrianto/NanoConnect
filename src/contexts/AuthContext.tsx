@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (!validateEmail(email)) {
-      throw new Error('Please enter a valid email address')
+      throw new Error('Masukkan alamat email yang valid')
     }
 
     const passwordValidation = validatePassword(password)
@@ -90,14 +90,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function register(name: string, email: string, password: string, userType: 'sme' | 'influencer') {
-    const nameValidation = validateRequired(name, 'Name')
+    const nameValidation = validateRequired(name, 'Nama')
     if (!nameValidation.valid) {
       throw new Error(nameValidation.error)
     }
 
     const sanitizedName = sanitizeInput(name.trim())
     if (sanitizedName.length < 2) {
-      throw new Error('Name must be at least 2 characters')
+      throw new Error('Nama minimal 2 karakter')
     }
 
     const emailValidation = validateRequired(email, 'Email')
@@ -106,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (!validateEmail(email)) {
-      throw new Error('Please enter a valid email address')
+      throw new Error('Masukkan alamat email yang valid')
     }
 
     const passwordValidation = validatePassword(password)
@@ -115,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (!validateUserType(userType)) {
-      throw new Error('Invalid user type')
+      throw new Error('Tipe pengguna tidak valid')
     }
 
     const { error: signUpError, data } = await supabase.auth.signUp({

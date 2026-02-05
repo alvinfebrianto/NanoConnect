@@ -3,23 +3,23 @@ import { Target, Users, Heart, Globe, Award } from 'lucide-react'
 const VALUES = [
   {
     icon: Heart,
-    title: 'Authentic Connections',
-    description: 'We believe in genuine partnerships between brands and creators that resonate with real audiences.'
+    title: 'Koneksi Autentik',
+    description: 'Kami percaya pada kemitraan yang tulus antara brand dan kreator yang resonan dengan audiens nyata.'
   },
   {
     icon: Target,
-    title: 'Precision Matching',
-    description: 'Our AI-powered platform ensures you connect with influencers who truly align with your brand values.'
+    title: 'Pencocokan Presisi',
+    description: 'Platform berbasis AI kami memastikan Anda terhubung dengan influencer yang benar-benar selaras dengan nilai brand Anda.'
   },
   {
     icon: Users,
-    title: 'Community First',
-    description: 'Building a supportive ecosystem where SMEs and nano influencers can grow together.'
+    title: 'Komunitas Prioritas',
+    description: 'Membangun ekosistem yang mendukung di mana UMKM dan nano influencer dapat tumbuh bersama.'
   },
   {
     icon: Award,
-    title: 'Quality Over Quantity',
-    description: 'We prioritize engaged, niche audiences over vanity metrics for better ROI.'
+    title: 'Kualitas di Atas Kuantitas',
+    description: 'Kami memprioritaskan audiens niche yang engaged dibandingkan metrik vanity untuk ROI yang lebih baik.'
   }
 ]
 
@@ -27,17 +27,17 @@ const TEAM = [
   {
     name: 'Sarah Chen',
     role: 'CEO & Co-Founder',
-    bio: 'Former marketing director with 10+ years in influencer marketing'
+    bio: 'Direktur pemasaran dengan pengalaman 10+ tahun di bidang influencer marketing'
   },
   {
     name: 'Michael Rodriguez',
     role: 'CTO & Co-Founder',
-    bio: 'AI specialist and full-stack developer passionate about creator economy'
+    bio: 'Spesialis AI dan full-stack developer yang bersemangat tentang creator economy'
   },
   {
     name: 'Emily Watson',
     role: 'Head of Partnerships',
-    bio: 'Expert in building relationships between brands and content creators'
+    bio: 'Ahli dalam membangun hubungan antara brand dan content creator'
   }
 ]
 
@@ -47,57 +47,57 @@ export function About() {
       <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-display text-5xl font-bold text-gray-900 mb-6">
-            About NanoConnect
+            Tentang NanoConnect
           </h1>
           <p className="text-xl text-gray-600 leading-relaxed">
-            We're on a mission to democratize influencer marketing by connecting 
-            small and medium enterprises with authentic nano influencers who can 
-            tell their brand story to highly engaged audiences.
+            Kami memiliki misi untuk mendemokratisasi pemasaran influencer dengan menghubungkan 
+            usaha kecil dan menengah dengan nano influencer yang autentik yang dapat 
+            menceritakan kisah brand mereka kepada audiens yang sangat engaged.
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
-          <div>
-            <h2 className="font-display text-3xl font-bold text-gray-900 mb-6">
-              Why We Started
-            </h2>
-            <div className="space-y-4 text-gray-600 leading-relaxed">
-              <p>
-                NanoConnect was born from a simple observation: small businesses were struggling 
-                to find authentic voices to promote their products, while talented nano influencers 
-                with engaged communities couldn't monetize their passion.
-              </p>
-              <p>
-                Traditional influencer marketing platforms focused on mega-influencers with millions 
-                of followers, leaving SMEs with limited options and nano creators without opportunities.
-              </p>
-              <p>
-                We built NanoConnect to bridge this gap, creating a platform where authentic 
-                connections flourish and both parties benefit from genuine partnerships.
-              </p>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+        <div>
+          <h2 className="font-display text-3xl font-bold text-gray-900 mb-6">
+            Mengapa Kami Memulai
+          </h2>
+          <div className="space-y-4 text-gray-600 leading-relaxed">
+            <p>
+              NanoConnect lahir dari observasi sederhana: bisnis kecil kesulitan 
+              menemukan suara autentik untuk mempromosikan produk mereka, sementara nano influencer berbakat 
+              dengan komunitas yang engaged tidak bisa memonetisasi passion mereka.
+            </p>
+            <p>
+              Platform pemasaran influencer tradisional fokus pada mega-influencer dengan jutaan 
+              pengikut, meninggalkan UMKM dengan opsi terbatas dan nano creator tanpa peluang.
+            </p>
+            <p>
+              Kami membangun NanoConnect untuk menjembatani kesenjangan ini, menciptakan platform di mana 
+              koneksi autentik berkembang dan kedua belah pihak mendapat manfaat dari kemitraan yang tulus.
+            </p>
           </div>
+        </div>
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-primary-200 to-accent-200 rounded-3xl transform rotate-3"></div>
             <div className="relative bg-white p-8 rounded-3xl shadow-xl">
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center p-4 bg-primary-50 rounded-2xl">
                   <div className="font-display text-4xl font-bold text-primary-600 mb-1">10K+</div>
-                  <div className="text-sm text-gray-600">Active Influencers</div>
+                  <div className="text-sm text-gray-600">Influencer Aktif</div>
                 </div>
                 <div className="text-center p-4 bg-accent-50 rounded-2xl">
                   <div className="font-display text-4xl font-bold text-accent-600 mb-1">500+</div>
-                  <div className="text-sm text-gray-600">Brand Partners</div>
+                  <div className="text-sm text-gray-600">Mitra Brand</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-2xl">
                   <div className="font-display text-4xl font-bold text-green-600 mb-1">50+</div>
-                  <div className="text-sm text-gray-600">Countries</div>
+                  <div className="text-sm text-gray-600">Negara</div>
                 </div>
                 <div className="text-center p-4 bg-purple-50 rounded-2xl">
                   <div className="font-display text-4xl font-bold text-purple-600 mb-1">98%</div>
-                  <div className="text-sm text-gray-600">Satisfaction Rate</div>
+                  <div className="text-sm text-gray-600">Tingkat Kepuasan</div>
                 </div>
               </div>
             </div>
@@ -107,10 +107,10 @@ export function About() {
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-bold text-gray-900 mb-4">
-              Our Values
+              Nilai-Nilai Kami
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              These core principles guide everything we do at NanoConnect
+              Prinsip-prinsip inti ini memandu segala sesuatu yang kami lakukan di NanoConnect
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -129,10 +129,10 @@ export function About() {
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-bold text-gray-900 mb-4">
-              Meet Our Team
+              Kenali Tim Kami
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Passionate individuals dedicated to transforming influencer marketing
+              Individu yang bersemangat dan berdedikasi untuk mengubah pemasaran influencer
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -154,18 +154,18 @@ export function About() {
         <div className="bg-gray-900 rounded-3xl p-12 text-center text-white">
           <Globe className="w-16 h-16 text-primary-400 mx-auto mb-6" />
           <h2 className="font-display text-3xl font-bold mb-4">
-            Join the Revolution
+            Bergabunglah dalam Revolusi
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto mb-8">
-            Whether you're a small business looking to grow or a nano influencer ready 
-            to monetize your passion, NanoConnect is here to help you succeed.
+            Baik Anda bisnis kecil yang ingin berkembang atau nano influencer yang siap 
+            memonetisasi passion Anda, NanoConnect siap membantu Anda sukses.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <a href="/register" className="bg-white text-gray-900 px-8 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors">
-              Get Started
+              Mulai Sekarang
             </a>
             <a href="/influencers" className="border-2 border-white text-white px-8 py-3 rounded-xl font-medium hover:bg-white/10 transition-colors">
-              Browse Influencers
+              Jelajahi Influencer
             </a>
           </div>
         </div>

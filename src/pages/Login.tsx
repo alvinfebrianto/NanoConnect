@@ -21,7 +21,7 @@ export function Login() {
       await login(email, password)
       navigate('/')
     } catch (err) {
-      setError('Invalid email or password. Please try again.')
+      setError('Email atau kata sandi tidak valid. Silakan coba lagi.')
     } finally {
       setIsLoading(false)
     }
@@ -31,17 +31,15 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 gradient-bg">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
         <div className="text-center">
-          <h2 className="font-display text-3xl font-bold text-gray-900">
-            Welcome Back
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Sign in to your NanoConnect account
-          </p>
+          <h2 className="font-display text-3xl font-bold text-gray-900">Selamat Datang Kembali</h2>
+          <p className="mt-2 text-gray-600">Masuk ke akun NanoConnect Anda</p>
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
-            {error}
+            {error === 'Invalid email or password. Please try again.'
+              ? 'Email atau kata sandi tidak valid. Silakan coba lagi.'
+              : error}
           </div>
         )}
 
@@ -49,7 +47,7 @@ export function Login() {
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
+                Alamat Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -61,14 +59,14 @@ export function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="input-field pl-10"
-                  placeholder="you@example.com"
+                  placeholder="anda@contoh.com"
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
+                Kata Sandi
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -80,7 +78,7 @@ export function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field pl-10 pr-10"
-                  placeholder="Enter your password"
+                  placeholder="Masukkan kata sandi Anda"
                 />
                 <button
                   type="button"
@@ -95,11 +93,14 @@ export function Login() {
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center">
-              <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
-              <span className="ml-2 text-gray-600">Remember me</span>
+              <input
+                type="checkbox"
+                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+              />
+              <span className="ml-2 text-gray-600">Ingat saya</span>
             </label>
             <a href="#" className="text-primary-600 hover:text-primary-700 font-medium">
-              Forgot password?
+              Lupa kata sandi?
             </a>
           </div>
 
@@ -111,18 +112,18 @@ export function Login() {
             {isLoading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Signing in...</span>
+                <span>Sedang masuk...</span>
               </>
             ) : (
-              <span>Sign In</span>
+              <span>Masuk</span>
             )}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600">
-          Don't have an account?{' '}
+          Belum punya akun?{' '}
           <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
-            Create one now
+            Buat sekarang
           </Link>
         </p>
       </div>

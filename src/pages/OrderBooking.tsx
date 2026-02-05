@@ -6,14 +6,14 @@ import { useAuth } from '@/contexts/AuthContext'
 import type { Influencer } from '@/types'
 
 const DELIVERABLES = [
-  'Instagram Post',
-  'Instagram Story',
-  'Instagram Reel',
-  'TikTok Video',
-  'YouTube Video',
-  'Twitter/X Post',
-  'Blog Post',
-  'Product Review'
+  'Postingan Instagram',
+  'Story Instagram',
+  'Reel Instagram',
+  'Video TikTok',
+  'Video YouTube',
+  'Postingan Twitter/X',
+  'Postingan Blog',
+  'Ulasan Produk'
 ]
 
 export function OrderBooking() {
@@ -24,7 +24,7 @@ export function OrderBooking() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -36,7 +36,7 @@ export function OrderBooking() {
   useEffect(() => {
     async function fetchInfluencer() {
       if (!influencerId) return
-      
+
       try {
         const { data, error } = await supabase
           .from('influencers')
@@ -66,15 +66,13 @@ export function OrderBooking() {
 
     const price = influencer.price_per_post
     if (typeof price !== 'number' || price < MIN_PRICE || price > MAX_PRICE) {
-      alert('Invalid price. Please contact support.')
+      alert('Harga tidak valid. Silakan hubungi dukungan.')
       return
     }
 
-    const invalidDeliverables = formData.deliverables.filter(
-      d => !DELIVERABLES.includes(d)
-    )
+    const invalidDeliverables = formData.deliverables.filter((d) => !DELIVERABLES.includes(d))
     if (invalidDeliverables.length > 0) {
-      alert('Invalid deliverables selected.')
+      alert('Deliverables yang dipilih tidak valid.')
       return
     }
 
@@ -82,12 +80,12 @@ export function OrderBooking() {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     if (deliveryDate < today) {
-      alert('Delivery date must be in the future.')
+      alert('Tanggal pengiriman harus di masa depan.')
       return
     }
 
     setIsSubmitting(true)
-    
+
     try {
       const platformFee = Math.round(price * PLATFORM_FEE_RATE * 100) / 100
       const totalPrice = Math.round((price + platformFee) * 100) / 100
@@ -120,17 +118,17 @@ export function OrderBooking() {
       setIsSuccess(true)
     } catch (error) {
       console.error('Error creating order:', error)
-      alert('Failed to create order. Please try again.')
+      alert('Gagal membuat pesanan. Silakan coba lagi.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
   const toggleDeliverable = (deliverable: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       deliverables: prev.deliverables.includes(deliverable)
-        ? prev.deliverables.filter(d => d !== deliverable)
+        ? prev.deliverables.filter((d) => d !== deliverable)
         : [...prev.deliverables, deliverable]
     }))
   }
@@ -147,7 +145,7 @@ export function OrderBooking() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-          Influencer not found
+          Influencer tidak ditemukan
         </h2>
       </div>
     )
@@ -161,17 +159,14 @@ export function OrderBooking() {
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
           <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-            Booking Request Sent!
+            Permintaan Pemesanan Terkirim!
           </h2>
           <p className="text-gray-600 mb-6">
-            Your collaboration request has been sent to {influencer.user?.name}. 
-            They will review your request and respond within 24 hours.
+            Permintaan kolaborasi Anda telah dikirim ke {influencer.user?.name}. Mereka akan
+            meninjau permintaan Anda dan merespons dalam waktu 24 jam.
           </p>
-          <button
-            onClick={() => navigate('/influencers')}
-            className="btn-primary w-full"
-          >
-            Browse More Influencers
+          <button onClick={() => navigate('/influencers')} className="btn-primary w-full">
+            Jelajahi Influencer Lainnya
           </button>
         </div>
       </div>
@@ -186,30 +181,29 @@ export function OrderBooking() {
           className="inline-flex items-center space-x-2 text-gray-600 hover:text-primary-600 mb-6"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span>Kembali</span>
         </button>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex items-center space-x-4 mb-8 pb-8 border-b border-gray-100">
             <img
-              src={influencer.user?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`}
+              src={
+                influencer.user?.avatar_url ||
+                `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
+              }
               alt={influencer.user?.name}
               className="w-16 h-16 rounded-xl object-cover"
             />
             <div>
-              <h1 className="font-display text-2xl font-bold text-gray-900">
-                Book Collaboration
-              </h1>
-              <p className="text-gray-600">
-                with {influencer.user?.name}
-              </p>
+              <h1 className="font-display text-2xl font-bold text-gray-900">Pesan Kolaborasi</h1>
+              <p className="text-gray-600">dengan {influencer.user?.name}</p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Campaign Title *
+                Judul Kampanye *
               </label>
               <input
                 type="text"
@@ -217,13 +211,13 @@ export function OrderBooking() {
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="input-field"
-                placeholder="e.g., Summer Collection Launch"
+                placeholder="Contoh: Peluncuran Koleksi Musim Panas"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Campaign Description *
+                Deskripsi Kampanye *
               </label>
               <textarea
                 required
@@ -231,27 +225,25 @@ export function OrderBooking() {
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="input-field resize-none"
-                placeholder="Describe your campaign, goals, and what you're looking for..."
+                placeholder="Jelaskan kampanye Anda, tujuan, dan apa yang Anda cari..."
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Specific Requirements
+                Persyaratan Spesifik
               </label>
               <textarea
                 rows={3}
                 value={formData.requirements}
                 onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                 className="input-field resize-none"
-                placeholder="Any specific requirements, hashtags, or guidelines..."
+                placeholder="Persyaratan spesifik, hashtag, atau panduan apa pun..."
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Deliverables *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Deliverables *</label>
               <div className="grid grid-cols-2 gap-3">
                 {DELIVERABLES.map((deliverable) => (
                   <button
@@ -265,11 +257,13 @@ export function OrderBooking() {
                     }`}
                   >
                     <div className="flex items-center space-x-2">
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                        formData.deliverables.includes(deliverable)
-                          ? 'border-primary-500 bg-primary-500'
-                          : 'border-gray-300'
-                      }`}>
+                      <div
+                        className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                          formData.deliverables.includes(deliverable)
+                            ? 'border-primary-500 bg-primary-500'
+                            : 'border-gray-300'
+                        }`}
+                      >
                         {formData.deliverables.includes(deliverable) && (
                           <CheckCircle className="w-3 h-3 text-white" />
                         )}
@@ -283,7 +277,7 @@ export function OrderBooking() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Delivery Date *
+                Tanggal Pengiriman *
               </label>
               <input
                 type="date"
@@ -297,17 +291,21 @@ export function OrderBooking() {
 
             <div className="bg-gray-50 rounded-xl p-6 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Service Fee</span>
-                <span className="font-medium">${influencer.price_per_post}</span>
+                <span className="text-gray-600">Biaya Layanan</span>
+                <span className="font-medium">
+                  Rp {(influencer.price_per_post * 15000).toLocaleString('id-ID')}
+                </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Platform Fee (10%)</span>
-                <span className="font-medium">${(influencer.price_per_post * 0.1).toFixed(2)}</span>
+                <span className="text-gray-600">Biaya Platform (10%)</span>
+                <span className="font-medium">
+                  Rp {(influencer.price_per_post * 15000 * 0.1).toLocaleString('id-ID')}
+                </span>
               </div>
               <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
                 <span className="font-semibold text-gray-900">Total</span>
                 <span className="font-display text-2xl font-bold text-primary-600">
-                  ${(influencer.price_per_post * 1.1).toFixed(2)}
+                  Rp {(influencer.price_per_post * 15000 * 1.1).toLocaleString('id-ID')}
                 </span>
               </div>
             </div>
@@ -320,19 +318,19 @@ export function OrderBooking() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Processing...</span>
+                  <span>Memproses...</span>
                 </>
               ) : (
                 <>
                   <DollarSign className="w-5 h-5" />
-                  <span>Send Booking Request</span>
+                  <span>Kirim Permintaan Pemesanan</span>
                 </>
               )}
             </button>
 
             <p className="text-xs text-gray-500 text-center">
-              By submitting this request, you agree to our Terms of Service. 
-              Payment will only be processed after the influencer accepts your request.
+              Dengan mengirimkan permintaan ini, Anda setuju dengan Syarat dan Ketentuan kami.
+              Pembayaran hanya akan diproses setelah influencer menerima permintaan Anda.
             </p>
           </form>
         </div>

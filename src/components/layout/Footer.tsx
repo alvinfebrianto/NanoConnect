@@ -16,7 +16,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Connecting SMEs with the perfect nano influencers to grow your brand authentically.
+              Menghubungkan UMKM dengan nano influencer terbaik untuk mengembangkan brand Anda secara autentik.
             </p>
           </div>
 
@@ -25,45 +25,45 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link to="/influencers" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Find Influencers
+                  Cari Influencer
                 </Link>
               </li>
               <li>
                 <Link to="/ai-recommendations" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  AI Matching
+                  Pencocokan AI
                 </Link>
               </li>
               <li>
                 <Link to="/register" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Join as Influencer
+                  Gabung sebagai Influencer
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-display font-semibold text-lg mb-4">Company</h3>
+            <h3 className="font-display font-semibold text-lg mb-4">Perusahaan</h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  About Us
+                  Tentang Kami
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Terms & Conditions
+                  Syarat & Ketentuan
                 </Link>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Privacy Policy
+                  Kebijakan Privasi
                 </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-display font-semibold text-lg mb-4">Contact</h3>
+            <h3 className="font-display font-semibold text-lg mb-4">Kontak</h3>
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <Mail className="w-4 h-4" />
@@ -71,11 +71,11 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <Phone className="w-4 h-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>+62 812 3456 7890</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <MapPin className="w-4 h-4" />
-                <span>San Francisco, CA</span>
+                <span>Jakarta, Indonesia</span>
               </li>
             </ul>
             <div className="flex items-center space-x-4 mt-4">
@@ -94,7 +94,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center">
           <p className="text-gray-500 text-sm">
-            2024 NanoConnect. All rights reserved.
+            2024 NanoConnect. Hak cipta dilindungi.
           </p>
         </div>
       </div>

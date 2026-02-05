@@ -20,12 +20,12 @@ export function Register() {
     setError('')
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
+      setError('Kata sandi tidak cocok')
       return
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+      setError('Kata sandi minimal 6 karakter')
       return
     }
 
@@ -35,7 +35,7 @@ export function Register() {
       await register(name, email, password, userType)
       navigate('/')
     } catch (err) {
-      setError('Failed to create account. Please try again.')
+      setError('Gagal membuat akun. Silakan coba lagi.')
     } finally {
       setIsLoading(false)
     }
@@ -45,12 +45,8 @@ export function Register() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 gradient-bg">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
         <div className="text-center">
-          <h2 className="font-display text-3xl font-bold text-gray-900">
-            Create Account
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Join NanoConnect and start collaborating
-          </p>
+          <h2 className="font-display text-3xl font-bold text-gray-900">Buat Akun</h2>
+          <p className="mt-2 text-gray-600">Bergabung dengan NanoConnect dan mulai berkolaborasi</p>
         </div>
 
         {error && (
@@ -70,9 +66,13 @@ export function Register() {
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <Building2 className={`w-8 h-8 ${userType === 'sme' ? 'text-primary-600' : 'text-gray-400'}`} />
-              <span className={`font-medium ${userType === 'sme' ? 'text-primary-700' : 'text-gray-600'}`}>
-                I'm a Business
+              <Building2
+                className={`w-8 h-8 ${userType === 'sme' ? 'text-primary-600' : 'text-gray-400'}`}
+              />
+              <span
+                className={`font-medium ${userType === 'sme' ? 'text-primary-700' : 'text-gray-600'}`}
+              >
+                Saya Pemilik Bisnis
               </span>
             </button>
             <button
@@ -84,9 +84,13 @@ export function Register() {
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <Star className={`w-8 h-8 ${userType === 'influencer' ? 'text-primary-600' : 'text-gray-400'}`} />
-              <span className={`font-medium ${userType === 'influencer' ? 'text-primary-700' : 'text-gray-600'}`}>
-                I'm an Influencer
+              <Star
+                className={`w-8 h-8 ${userType === 'influencer' ? 'text-primary-600' : 'text-gray-400'}`}
+              />
+              <span
+                className={`font-medium ${userType === 'influencer' ? 'text-primary-700' : 'text-gray-600'}`}
+              >
+                Saya Influencer
               </span>
             </button>
           </div>
@@ -94,7 +98,7 @@ export function Register() {
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
+                Nama Lengkap
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -106,14 +110,14 @@ export function Register() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="input-field pl-10"
-                  placeholder="John Doe"
+                  placeholder="Nama Lengkap"
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
+                Alamat Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -125,14 +129,14 @@ export function Register() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="input-field pl-10"
-                  placeholder="you@example.com"
+                  placeholder="anda@contoh.com"
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
+                Kata Sandi
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -144,7 +148,7 @@ export function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field pl-10 pr-10"
-                  placeholder="Create a password"
+                  placeholder="Buat kata sandi"
                 />
                 <button
                   type="button"
@@ -157,8 +161,11 @@ export function Register() {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Konfirmasi Kata Sandi
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -170,7 +177,7 @@ export function Register() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="input-field pl-10"
-                  placeholder="Confirm your password"
+                  placeholder="Konfirmasi kata sandi Anda"
                 />
               </div>
             </div>
@@ -185,9 +192,9 @@ export function Register() {
               className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
             />
             <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
-              I agree to the{' '}
+              Saya setuju dengan{' '}
               <Link to="/terms" className="text-primary-600 hover:text-primary-700 font-medium">
-                Terms and Conditions
+                Syarat dan Ketentuan
               </Link>
             </label>
           </div>
@@ -200,18 +207,18 @@ export function Register() {
             {isLoading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Creating account...</span>
+                <span>Membuat akun...</span>
               </>
             ) : (
-              <span>Create Account</span>
+              <span>Buat Akun</span>
             )}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600">
-          Already have an account?{' '}
+          Sudah punya akun?{' '}
           <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
-            Sign in
+            Masuk
           </Link>
         </p>
       </div>

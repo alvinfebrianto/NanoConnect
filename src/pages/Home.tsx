@@ -33,10 +33,10 @@ export function Home() {
   }, [])
 
   const stats = [
-    { icon: Users, value: '10,000+', label: 'Active Influencers' },
-    { icon: TrendingUp, value: '500+', label: 'SME Partners' },
-    { icon: Star, value: '98%', label: 'Satisfaction Rate' },
-    { icon: Zap, value: '24h', label: 'Avg. Response' },
+    { icon: Users, value: '10,000+', label: 'Influencer Aktif' },
+    { icon: TrendingUp, value: '500+', label: 'Mitra UMKM' },
+    { icon: Star, value: '98%', label: 'Tingkat Kepuasan' },
+    { icon: Zap, value: '24j', label: 'Respon Rata-rata' },
   ]
 
   return (
@@ -48,27 +48,27 @@ export function Home() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 mb-8 shadow-sm">
               <span className="flex h-2 w-2 rounded-full bg-primary-500"></span>
-              <span className="text-sm font-medium text-gray-700">Now with AI-powered matching</span>
+              <span className="text-sm font-medium text-gray-700">Kini dengan pencocokan berbasis AI</span>
             </div>
             
             <h1 className="font-display text-5xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Find Your Perfect
-              <span className="gradient-text block">Influencer Match</span>
+              Temukan Kreator
+              <span className="gradient-text block">Yang Sempurna</span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Connect with nano influencers who authentically represent your brand. 
-              Smart matching based on budget, niche, and target audience.
+              Terhubung dengan nano influencer yang secara autentik mewakili brand Anda. 
+              Pencocokan cerdas berdasarkan anggaran, niche, dan audiens target.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
               <Link to="/influencers" className="btn-primary text-lg px-8 py-4 flex items-center space-x-2">
                 <Search className="w-5 h-5" />
-                <span>Find Influencers</span>
+                <span>Cari Influencer</span>
               </Link>
               <Link to="/ai-recommendations" className="btn-secondary text-lg px-8 py-4 flex items-center space-x-2">
                 <Zap className="w-5 h-5" />
-                <span>AI Match</span>
+                <span>Cocokan AI</span>
               </Link>
             </div>
           </div>
@@ -85,10 +85,10 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose NanoConnect?
+              Mengapa Memilih NanoConnect?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We make influencer marketing simple, transparent, and effective for businesses of all sizes.
+              Kami membuat pemasaran influencer menjadi sederhana, transparan, dan efektif untuk bisnis dari semua ukuran.
             </p>
           </div>
 
@@ -97,9 +97,9 @@ export function Home() {
               <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors">
                 <Zap className="w-7 h-7 text-primary-600 group-hover:text-white transition-colors" />
               </div>
-              <h3 className="font-display text-xl font-semibold mb-3">AI-Powered Matching</h3>
+              <h3 className="font-display text-xl font-semibold mb-3">Pencocokan Berbasis AI</h3>
               <p className="text-gray-600 leading-relaxed">
-                Our intelligent algorithm analyzes your brand and matches you with influencers who truly resonate with your audience.
+                Algoritma cerdas kami menganalisis brand Anda dan mencocokkan dengan influencer yang benar-benar cocok dengan audiens Anda.
               </p>
             </div>
 
@@ -107,9 +107,9 @@ export function Home() {
               <div className="w-14 h-14 bg-accent-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent-600 transition-colors">
                 <Shield className="w-7 h-7 text-accent-600 group-hover:text-white transition-colors" />
               </div>
-              <h3 className="font-display text-xl font-semibold mb-3">Verified Creators</h3>
+              <h3 className="font-display text-xl font-semibold mb-3">Kreator Terverifikasi</h3>
               <p className="text-gray-600 leading-relaxed">
-                Every influencer is thoroughly vetted and verified to ensure authentic engagement and quality content delivery.
+                Setiap influencer telah melalui proses verifikasi menyeluruh untuk memastikan engagement yang autentik dan kualitas konten.
               </p>
             </div>
 
@@ -117,9 +117,9 @@ export function Home() {
               <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 transition-colors">
                 <TrendingUp className="w-7 h-7 text-green-600 group-hover:text-white transition-colors" />
               </div>
-              <h3 className="font-display text-xl font-semibold mb-3">Budget-Friendly</h3>
+              <h3 className="font-display text-xl font-semibold mb-3">Ramah Anggaran</h3>
               <p className="text-gray-600 leading-relaxed">
-                Access nano influencers with highly engaged audiences at a fraction of the cost of macro influencers.
+                Akses nano influencer dengan audiens yang sangat engaged dengan biaya jauh lebih terjangkau dibandingkan influencer makro.
               </p>
             </div>
           </div>
@@ -147,17 +147,17 @@ export function Home() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
             <div>
               <h2 className="font-display text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                Featured Influencers
+                Influencer Unggulan
               </h2>
               <p className="text-gray-600">
-                Top-rated creators ready to collaborate with your brand
+                Kreator terbaik siap berkolaborasi dengan brand Anda
               </p>
             </div>
             <Link 
               to="/influencers" 
               className="mt-4 md:mt-0 flex items-center space-x-2 text-primary-600 font-medium hover:text-primary-700"
             >
-              <span>View All</span>
+              <span>Lihat Semua</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -185,13 +185,13 @@ export function Home() {
       <section className="py-20 gradient-bg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Ready to Grow Your Brand?
+            Siap Mengembangkan Brand Anda?
           </h2>
           <p className="text-xl text-gray-600 mb-10">
-            Join thousands of SMEs who have successfully partnered with nano influencers to reach their target audience.
+            Bergabunglah dengan ribuan UMKM yang telah berhasil bermitra dengan nano influencer untuk menjangkau audiens target mereka.
           </p>
           <Link to="/register" className="btn-primary text-lg px-10 py-4 inline-flex items-center space-x-2">
-            <span>Get Started Today</span>
+            <span>Mulai Sekarang</span>
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

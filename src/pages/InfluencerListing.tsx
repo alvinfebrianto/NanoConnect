@@ -5,32 +5,32 @@ import { supabase } from '@/lib/supabase'
 import type { Influencer, FilterOptions } from '@/types'
 
 const NICHES = [
-  'All Niches',
-  'Fashion & Lifestyle',
-  'Technology',
-  'Beauty & Skincare',
-  'Food & Dining',
-  'Travel & Adventure',
-  'Fitness & Health',
+  'Semua Niche',
+  'Fashion & Gaya Hidup',
+  'Teknologi',
+  'Kecantikan & Perawatan Kulit',
+  'Kuliner & Makanan',
+  'Travel & Petualangan',
+  'Fitness & Kesehatan',
   'Gaming',
-  'Business & Finance',
-  'Education',
-  'Entertainment',
-  'Photography'
+  'Bisnis & Keuangan',
+  'Edukasi',
+  'Hiburan',
+  'Fotografi'
 ]
 
 const LOCATIONS = [
-  'All Locations',
-  'New York, USA',
-  'Los Angeles, USA',
-  'San Francisco, USA',
-  'Chicago, USA',
-  'Miami, USA',
-  'London, UK',
-  'Paris, France',
-  'Tokyo, Japan',
-  'Sydney, Australia',
-  'Toronto, Canada'
+  'Semua Lokasi',
+  'Jakarta',
+  'Surabaya',
+  'Bandung',
+  'Medan',
+  'Semarang',
+  'Makassar',
+  'Palembang',
+  'Yogyakarta',
+  'Bali',
+  'Malang'
 ]
 
 export function InfluencerListing() {
@@ -40,10 +40,10 @@ export function InfluencerListing() {
   const [searchQuery, setSearchQuery] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [filters, setFilters] = useState<FilterOptions>({
-    niche: 'All Niches',
-    location: 'All Locations',
+    niche: 'Semua Niche',
+    location: 'Semua Lokasi',
     minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: 150000000,
     verificationStatus: 'all'
   })
 
@@ -83,20 +83,20 @@ export function InfluencerListing() {
       )
     }
 
-    if (filters.niche && filters.niche !== 'All Niches') {
+    if (filters.niche && filters.niche !== 'Semua Niche') {
       result = result.filter(inf => inf.niche === filters.niche)
     }
 
-    if (filters.location && filters.location !== 'All Locations') {
-      result = result.filter(inf => inf.location?.includes(filters.location?.split(',')[0] || ''))
+    if (filters.location && filters.location !== 'Semua Lokasi') {
+      result = result.filter(inf => inf.location?.includes(filters.location || ''))
     }
 
     if (filters.minPrice !== undefined && filters.minPrice > 0) {
       result = result.filter(inf => inf.price_per_post >= (filters.minPrice || 0))
     }
 
-    if (filters.maxPrice !== undefined && filters.maxPrice < 10000) {
-      result = result.filter(inf => inf.price_per_post <= (filters.maxPrice || 10000))
+    if (filters.maxPrice !== undefined && filters.maxPrice < 150000000) {
+      result = result.filter(inf => inf.price_per_post <= (filters.maxPrice || 150000000))
     }
 
     if (filters.verificationStatus && filters.verificationStatus !== 'all') {
@@ -108,10 +108,10 @@ export function InfluencerListing() {
 
   const clearFilters = () => {
     setFilters({
-      niche: 'All Niches',
-      location: 'All Locations',
+      niche: 'Semua Niche',
+      location: 'Semua Lokasi',
       minPrice: 0,
-      maxPrice: 10000,
+      maxPrice: 150000000,
       verificationStatus: 'all'
     })
     setSearchQuery('')
@@ -122,10 +122,10 @@ export function InfluencerListing() {
       <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-display text-4xl font-bold text-gray-900 mb-4">
-            Find Your Perfect Influencer
+            Temukan Influencer yang Sempurna
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl">
-            Browse through our curated list of nano influencers and find the perfect match for your brand.
+            Jelajahi daftar nano influencer pilihan kami dan temukan kecocokan sempurna untuk brand Anda.
           </p>
         </div>
       </div>
@@ -137,7 +137,7 @@ export function InfluencerListing() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search by name, niche, or location..."
+                placeholder="Cari berdasarkan nama, niche, atau lokasi..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="input-field pl-12 w-full"
@@ -152,8 +152,8 @@ export function InfluencerListing() {
               }`}
             >
               <Filter className="w-5 h-5" />
-              <span>Filters</span>
-              {(filters.niche !== 'All Niches' || filters.location !== 'All Locations') && (
+              <span>Filter</span>
+              {(filters.niche !== 'Semua Niche' || filters.location !== 'Semua Lokasi') && (
                 <span className="bg-white text-primary-600 px-2 py-0.5 rounded-full text-xs font-bold">
                   !
                 </span>
@@ -177,7 +177,7 @@ export function InfluencerListing() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
                 <select
                   value={filters.location}
                   onChange={(e) => setFilters({ ...filters, location: e.target.value })}
@@ -190,12 +190,12 @@ export function InfluencerListing() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Max Price: ${filters.maxPrice}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Harga Maks: Rp {filters.maxPrice?.toLocaleString('id-ID')}</label>
                 <input
                   type="range"
                   min="0"
-                  max="10000"
-                  step="100"
+                  max="150000000"
+                  step="1000000"
                   value={filters.maxPrice}
                   onChange={(e) => setFilters({ ...filters, maxPrice: parseInt(e.target.value) })}
                   className="w-full"
@@ -203,15 +203,15 @@ export function InfluencerListing() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Verification</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Verifikasi</label>
                 <select
                   value={filters.verificationStatus}
                   onChange={(e) => setFilters({ ...filters, verificationStatus: e.target.value as FilterOptions['verificationStatus'] })}
                   className="input-field w-full"
                 >
-                  <option value="all">All</option>
-                  <option value="verified">Verified Only</option>
-                  <option value="pending">Pending</option>
+                  <option value="all">Semua</option>
+                  <option value="verified">Terverifikasi Saja</option>
+                  <option value="pending">Tertunda</option>
                 </select>
               </div>
 
@@ -221,7 +221,7 @@ export function InfluencerListing() {
                   className="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm"
                 >
                   <X className="w-4 h-4" />
-                  <span>Clear all filters</span>
+                  <span>Hapus semua filter</span>
                 </button>
               </div>
             </div>
@@ -232,7 +232,7 @@ export function InfluencerListing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <p className="text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{filteredInfluencers.length}</span> influencers
+            Menampilkan <span className="font-semibold text-gray-900">{filteredInfluencers.length}</span> influencer
           </p>
         </div>
 
@@ -250,16 +250,16 @@ export function InfluencerListing() {
           <div className="text-center py-20">
             <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="font-display text-xl font-semibold text-gray-900 mb-2">
-              No influencers found
+              Tidak ada influencer ditemukan
             </h3>
             <p className="text-gray-600 mb-4">
-              Try adjusting your filters or search criteria
+              Coba sesuaikan filter atau kriteria pencarian Anda
             </p>
             <button
               onClick={clearFilters}
               className="btn-primary"
             >
-              Clear Filters
+              Hapus Filter
             </button>
           </div>
         ) : (

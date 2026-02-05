@@ -4,33 +4,33 @@ import { InfluencerCard } from '@/components/influencer/InfluencerCard'
 import type { Influencer } from '@/types'
 
 const NICHES = [
-  'Fashion & Lifestyle',
-  'Technology',
-  'Beauty & Skincare',
-  'Food & Dining',
-  'Travel & Adventure',
-  'Fitness & Health',
+  'Fashion & Gaya Hidup',
+  'Teknologi',
+  'Kecantikan & Perawatan Kulit',
+  'Kuliner & Makanan',
+  'Travel & Petualangan',
+  'Fitness & Kesehatan',
   'Gaming',
-  'Business & Finance'
+  'Bisnis & Keuangan'
 ]
 
 const BUDGET_RANGES = [
-  { label: '$100 - $500', min: 100, max: 500 },
-  { label: '$500 - $1,000', min: 500, max: 1000 },
-  { label: '$1,000 - $2,500', min: 1000, max: 2500 },
-  { label: '$2,500 - $5,000', min: 2500, max: 5000 },
-  { label: '$5,000+', min: 5000, max: 50000 }
+  { label: 'Rp 1.500.000 - Rp 7.500.000', min: 100, max: 500 },
+  { label: 'Rp 7.500.000 - Rp 15.000.000', min: 500, max: 1000 },
+  { label: 'Rp 15.000.000 - Rp 37.500.000', min: 1000, max: 2500 },
+  { label: 'Rp 37.500.000 - Rp 75.000.000', min: 2500, max: 5000 },
+  { label: 'Rp 75.000.000+', min: 5000, max: 50000 }
 ]
 
 const LOCATIONS = [
-  'New York, USA',
-  'Los Angeles, USA',
-  'San Francisco, USA',
-  'Chicago, USA',
-  'Miami, USA',
-  'London, UK',
-  'Paris, France',
-  'Tokyo, Japan'
+  'Jakarta',
+  'Surabaya',
+  'Bandung',
+  'Medan',
+  'Semarang',
+  'Makassar',
+  'Palembang',
+  'Yogyakarta'
 ]
 
 export function AIRecommendations() {
@@ -45,7 +45,7 @@ export function AIRecommendations() {
 
   const handleFindMatches = () => {
     setStep('processing')
-    
+
     setTimeout(() => {
       const mockInfluencers: Influencer[] = [
         {
@@ -53,11 +53,11 @@ export function AIRecommendations() {
           user_id: 'user-1',
           followers_count: 85000,
           engagement_rate: 5.2,
-          niche: preferences.niche || 'Fashion & Lifestyle',
+          niche: preferences.niche || 'Fashion & Gaya Hidup',
           price_per_post: 450,
-          location: preferences.location || 'New York, USA',
-          languages: ['English'],
-          content_categories: ['Fashion', 'Beauty', 'Lifestyle'],
+          location: preferences.location || 'Jakarta, Indonesia',
+          languages: ['Indonesia'],
+          content_categories: ['Fashion', 'Kecantikan', 'Gaya Hidup'],
           is_available: true,
           avg_delivery_days: 5,
           verification_status: 'verified',
@@ -65,8 +65,8 @@ export function AIRecommendations() {
           updated_at: new Date().toISOString(),
           user: {
             id: 'user-1',
-            name: 'Emma Style',
-            email: 'emma@example.com',
+            name: 'Rina Fashion',
+            email: 'rina@example.com',
             user_type: 'influencer',
             email_verified: true,
             status: 'active',
@@ -79,11 +79,11 @@ export function AIRecommendations() {
           user_id: 'user-2',
           followers_count: 120000,
           engagement_rate: 4.8,
-          niche: preferences.niche || 'Technology',
+          niche: preferences.niche || 'Teknologi',
           price_per_post: 650,
-          location: preferences.location || 'San Francisco, USA',
-          languages: ['English'],
-          content_categories: ['Tech', 'Reviews', 'Gadgets'],
+          location: preferences.location || 'Surabaya, Indonesia',
+          languages: ['Indonesia'],
+          content_categories: ['Teknologi', 'Ulasan', 'Gadget'],
           is_available: true,
           avg_delivery_days: 3,
           verification_status: 'verified',
@@ -91,8 +91,8 @@ export function AIRecommendations() {
           updated_at: new Date().toISOString(),
           user: {
             id: 'user-2',
-            name: 'TechReviewer Pro',
-            email: 'tech@example.com',
+            name: 'Andi Tekno',
+            email: 'andi@example.com',
             user_type: 'influencer',
             email_verified: true,
             status: 'active',
@@ -105,11 +105,11 @@ export function AIRecommendations() {
           user_id: 'user-3',
           followers_count: 65000,
           engagement_rate: 6.5,
-          niche: preferences.niche || 'Beauty & Skincare',
+          niche: preferences.niche || 'Kecantikan & Perawatan Kulit',
           price_per_post: 350,
-          location: preferences.location || 'Los Angeles, USA',
-          languages: ['English', 'Spanish'],
-          content_categories: ['Beauty', 'Skincare', 'Makeup'],
+          location: preferences.location || 'Bandung, Indonesia',
+          languages: ['Indonesia', 'Inggris'],
+          content_categories: ['Kecantikan', 'Perawatan Kulit', 'Makeup'],
           is_available: true,
           avg_delivery_days: 4,
           verification_status: 'verified',
@@ -117,8 +117,8 @@ export function AIRecommendations() {
           updated_at: new Date().toISOString(),
           user: {
             id: 'user-3',
-            name: 'BeautyGlow',
-            email: 'beauty@example.com',
+            name: 'Dewi Cantik',
+            email: 'dewi@example.com',
             user_type: 'influencer',
             email_verified: true,
             status: 'active',
@@ -127,7 +127,7 @@ export function AIRecommendations() {
           }
         }
       ]
-      
+
       setMatches(mockInfluencers)
       setStep('results')
     }, 2000)
@@ -150,15 +150,21 @@ export function AIRecommendations() {
             </div>
           </div>
           <h2 className="font-display text-3xl font-bold text-gray-900 mb-4">
-            AI is Finding Your Matches
+            AI Sedang Mencari Kecocokan Anda
           </h2>
           <p className="text-gray-600 max-w-md mx-auto">
-            Analyzing thousands of influencers based on your preferences...
+            Menganalisis ribuan influencer berdasarkan preferensi Anda...
           </p>
           <div className="mt-8 flex justify-center space-x-2">
             <div className="w-3 h-3 bg-primary-600 rounded-full animate-bounce"></div>
-            <div className="w-3 h-3 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-            <div className="w-3 h-3 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            <div
+              className="w-3 h-3 bg-primary-600 rounded-full animate-bounce"
+              style={{ animationDelay: '0.1s' }}
+            ></div>
+            <div
+              className="w-3 h-3 bg-primary-600 rounded-full animate-bounce"
+              style={{ animationDelay: '0.2s' }}
+            ></div>
           </div>
         </div>
       </div>
@@ -173,10 +179,11 @@ export function AIRecommendations() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">
-                  Your AI Matches
+                  Kecocokan AI Anda
                 </h1>
                 <p className="text-gray-600">
-                  Based on your preferences, we found {matches.length} perfect influencers for your campaign
+                  Berdasarkan preferensi Anda, kami menemukan {matches.length} influencer sempurna
+                  untuk kampanye Anda
                 </p>
               </div>
               <button
@@ -184,7 +191,7 @@ export function AIRecommendations() {
                 className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium"
               >
                 <RefreshCw className="w-5 h-5" />
-                <span>New Search</span>
+                <span>Pencarian Baru</span>
               </button>
             </div>
 
@@ -193,17 +200,17 @@ export function AIRecommendations() {
                 <div className="flex items-center space-x-2">
                   <Target className="w-4 h-4 text-primary-600" />
                   <span className="text-gray-600">Niche:</span>
-                  <span className="font-medium">{preferences.niche || 'Any'}</span>
+                  <span className="font-medium">{preferences.niche || 'Semua'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <DollarSign className="w-4 h-4 text-primary-600" />
-                  <span className="text-gray-600">Budget:</span>
-                  <span className="font-medium">{preferences.budget || 'Flexible'}</span>
+                  <span className="text-gray-600">Anggaran:</span>
+                  <span className="font-medium">{preferences.budget || 'Fleksibel'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4 text-primary-600" />
-                  <span className="text-gray-600">Location:</span>
-                  <span className="font-medium">{preferences.location || 'Any'}</span>
+                  <span className="text-gray-600">Lokasi:</span>
+                  <span className="font-medium">{preferences.location || 'Semua'}</span>
                 </div>
               </div>
             </div>
@@ -217,7 +224,7 @@ export function AIRecommendations() {
                 {index === 0 && (
                   <div className="absolute -top-3 left-4 z-10">
                     <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                      Best Match
+                      Kecocokan Terbaik
                     </span>
                   </div>
                 )}
@@ -238,10 +245,11 @@ export function AIRecommendations() {
             <Sparkles className="w-10 h-10 text-white" />
           </div>
           <h1 className="font-display text-4xl font-bold text-gray-900 mb-4">
-            AI Influencer Matching
+            Pencocokan Influencer AI
           </h1>
           <p className="text-xl text-gray-600">
-            Tell us about your campaign, and our AI will find the perfect influencers for your brand.
+            Ceritakan tentang kampanye Anda, dan AI kami akan menemukan influencer sempurna untuk
+            brand Anda.
           </p>
         </div>
       </div>
@@ -252,16 +260,18 @@ export function AIRecommendations() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <Target className="w-4 h-4 inline mr-2" />
-                Industry/Niche *
+                Industri/Niche *
               </label>
               <select
                 value={preferences.niche}
                 onChange={(e) => setPreferences({ ...preferences, niche: e.target.value })}
                 className="input-field w-full"
               >
-                <option value="">Select your industry</option>
-                {NICHES.map(niche => (
-                  <option key={niche} value={niche}>{niche}</option>
+                <option value="">Pilih industri Anda</option>
+                {NICHES.map((niche) => (
+                  <option key={niche} value={niche}>
+                    {niche}
+                  </option>
                 ))}
               </select>
             </div>
@@ -269,16 +279,18 @@ export function AIRecommendations() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <DollarSign className="w-4 h-4 inline mr-2" />
-                Budget Range *
+                Rentang Anggaran *
               </label>
               <select
                 value={preferences.budget}
                 onChange={(e) => setPreferences({ ...preferences, budget: e.target.value })}
                 className="input-field w-full"
               >
-                <option value="">Select your budget</option>
-                {BUDGET_RANGES.map(range => (
-                  <option key={range.label} value={range.label}>{range.label}</option>
+                <option value="">Pilih anggaran Anda</option>
+                {BUDGET_RANGES.map((range) => (
+                  <option key={range.label} value={range.label}>
+                    {range.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -286,30 +298,32 @@ export function AIRecommendations() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline mr-2" />
-                Target Location
+                Lokasi Target
               </label>
               <select
                 value={preferences.location}
                 onChange={(e) => setPreferences({ ...preferences, location: e.target.value })}
                 className="input-field w-full"
               >
-                <option value="">Any location</option>
-                {LOCATIONS.map(location => (
-                  <option key={location} value={location}>{location}</option>
+                <option value="">Lokasi apa saja</option>
+                {LOCATIONS.map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Campaign Goals
+                Tujuan Kampanye
               </label>
               <textarea
                 rows={4}
                 value={preferences.goals}
                 onChange={(e) => setPreferences({ ...preferences, goals: e.target.value })}
                 className="input-field resize-none"
-                placeholder="Describe your campaign goals, target audience, and what you hope to achieve..."
+                placeholder="Jelaskan tujuan kampanye Anda, audiens target, dan apa yang Anda harapkan untuk dicapai..."
               />
             </div>
 
@@ -319,7 +333,7 @@ export function AIRecommendations() {
               className="w-full btn-primary py-4 flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               <Sparkles className="w-5 h-5" />
-              <span>Find My Matches</span>
+              <span>Temukan Kecocokan Saya</span>
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
@@ -330,22 +344,24 @@ export function AIRecommendations() {
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-3">
               <Target className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1">Smart Matching</h3>
-            <p className="text-sm text-gray-600">AI analyzes niche, audience, and engagement</p>
+            <h3 className="font-semibold text-gray-900 mb-1">Pencocokan Cerdas</h3>
+            <p className="text-sm text-gray-600">AI menganalisis niche, audiens, dan engagement</p>
           </div>
           <div className="text-center">
             <div className="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center mx-auto mb-3">
               <DollarSign className="w-6 h-6 text-accent-600" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1">Budget Optimized</h3>
-            <p className="text-sm text-gray-600">Find influencers within your price range</p>
+            <h3 className="font-semibold text-gray-900 mb-1">Optimasi Anggaran</h3>
+            <p className="text-sm text-gray-600">Temukan influencer dalam rentang harga Anda</p>
           </div>
           <div className="text-center">
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
               <Users className="w-6 h-6 text-green-600" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1">Quality Results</h3>
-            <p className="text-sm text-gray-600">Only verified, high-engagement creators</p>
+            <h3 className="font-semibold text-gray-900 mb-1">Hasil Berkualitas</h3>
+            <p className="text-sm text-gray-600">
+              Hanya kreator terverifikasi dengan engagement tinggi
+            </p>
           </div>
         </div>
       </div>

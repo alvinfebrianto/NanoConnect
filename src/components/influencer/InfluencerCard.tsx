@@ -64,14 +64,14 @@ export function InfluencerCard({ influencer }: InfluencerCardProps) {
 
         <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
           <div>
-            <span className="text-xs text-gray-500">Starting at</span>
-            <p className="font-semibold text-gray-900">${influencer.price_per_post}</p>
+            <span className="text-xs text-gray-500">Mulai dari</span>
+            <p className="font-semibold text-gray-900">Rp {(influencer.price_per_post * 15000).toLocaleString('id-ID')}</p>
           </div>
           <Link 
             to={`/influencers/${influencer.id}`}
             className="px-4 py-2 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium hover:bg-primary-100 transition-colors"
           >
-            View Profile
+            Lihat Profil
           </Link>
         </div>
       </div>

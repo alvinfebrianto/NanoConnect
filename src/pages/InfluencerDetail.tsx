@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { MapPin, Users, Star, Instagram, CheckCircle, ArrowLeft, Calendar, Globe, MessageCircle, Loader2 } from 'lucide-react'
+import {
+  MapPin,
+  Users,
+  Star,
+  Instagram,
+  CheckCircle,
+  ArrowLeft,
+  Calendar,
+  Globe,
+  MessageCircle,
+  Loader2
+} from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Influencer, Review } from '@/types'
 
@@ -62,10 +73,10 @@ export function InfluencerDetail() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <h2 className="font-display text-2xl font-bold text-gray-900 mb-4">
-          Influencer not found
+          Influencer tidak ditemukan
         </h2>
         <Link to="/influencers" className="btn-primary">
-          Browse Influencers
+          Jelajahi Influencer
         </Link>
       </div>
     )
@@ -75,12 +86,12 @@ export function InfluencerDetail() {
     <div className="animate-fade-in">
       <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
-            to="/influencers" 
+          <Link
+            to="/influencers"
             className="inline-flex items-center space-x-2 text-gray-600 hover:text-primary-600 mb-6"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Back to Influencers</span>
+            <span>Kembali ke Influencer</span>
           </Link>
         </div>
       </div>
@@ -91,7 +102,10 @@ export function InfluencerDetail() {
             <div className="card mb-6">
               <div className="flex flex-col md:flex-row gap-6">
                 <img
-                  src={influencer.user?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`}
+                  src={
+                    influencer.user?.avatar_url ||
+                    `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
+                  }
                   alt={influencer.user?.name}
                   className="w-32 h-32 rounded-2xl object-cover"
                 />
@@ -104,12 +118,14 @@ export function InfluencerDetail() {
                           <CheckCircle className="w-6 h-6 text-blue-500 ml-2" />
                         )}
                       </h1>
-                      <p className="text-lg text-primary-600 font-medium mb-3">{influencer.niche}</p>
+                      <p className="text-lg text-primary-600 font-medium mb-3">
+                        {influencer.niche}
+                      </p>
                     </div>
                   </div>
-                  
+
                   <p className="text-gray-600 mb-4">{influencer.user?.bio}</p>
-                  
+
                   <div className="flex flex-wrap gap-4 text-sm">
                     <div className="flex items-center space-x-1 text-gray-600">
                       <MapPin className="w-4 h-4" />
@@ -121,7 +137,7 @@ export function InfluencerDetail() {
                     </div>
                     <div className="flex items-center space-x-1 text-gray-600">
                       <Calendar className="w-4 h-4" />
-                      <span>{influencer.avg_delivery_days} days delivery</span>
+                      <span>{influencer.avg_delivery_days} hari pengiriman</span>
                     </div>
                   </div>
                 </div>
@@ -134,7 +150,7 @@ export function InfluencerDetail() {
                 <div className="font-display text-2xl font-bold text-gray-900">
                   {formatNumber(influencer.followers_count)}
                 </div>
-                <div className="text-sm text-gray-500">Followers</div>
+                <div className="text-sm text-gray-500">Pengikut</div>
               </div>
               <div className="card text-center">
                 <Star className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
@@ -148,7 +164,7 @@ export function InfluencerDetail() {
                 <div className="font-display text-2xl font-bold text-gray-900">
                   {reviews.length}
                 </div>
-                <div className="text-sm text-gray-500">Reviews</div>
+                <div className="text-sm text-gray-500">Ulasan</div>
               </div>
             </div>
 
@@ -162,7 +178,7 @@ export function InfluencerDetail() {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  Overview
+                  Ikhtisar
                 </button>
                 <button
                   onClick={() => setActiveTab('reviews')}
@@ -172,24 +188,24 @@ export function InfluencerDetail() {
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  Reviews ({reviews.length})
+                  Ulasan ({reviews.length})
                 </button>
               </div>
 
               {activeTab === 'overview' ? (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-display text-lg font-semibold mb-3">About</h3>
+                    <h3 className="font-display text-lg font-semibold mb-3">Tentang</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      {influencer.user?.bio || 'No bio available.'}
+                      {influencer.user?.bio || 'Belum ada bio.'}
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="font-display text-lg font-semibold mb-3">Content Categories</h3>
+                    <h3 className="font-display text-lg font-semibold mb-3">Kategori Konten</h3>
                     <div className="flex flex-wrap gap-2">
                       {influencer.content_categories?.map((category, idx) => (
-                        <span 
+                        <span
                           key={idx}
                           className="px-3 py-1.5 bg-primary-50 text-primary-700 rounded-lg text-sm font-medium"
                         >
@@ -200,10 +216,13 @@ export function InfluencerDetail() {
                   </div>
 
                   <div>
-                    <h3 className="font-display text-lg font-semibold mb-3">Social Media</h3>
+                    <h3 className="font-display text-lg font-semibold mb-3">Media Sosial</h3>
                     <div className="flex space-x-4">
                       {influencer.instagram_handle && (
-                        <a href="#" className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors">
+                        <a
+                          href="#"
+                          className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+                        >
                           <Instagram className="w-5 h-5" />
                           <span>{influencer.instagram_handle}</span>
                         </a>
@@ -214,16 +233,19 @@ export function InfluencerDetail() {
               ) : (
                 <div className="space-y-4">
                   {reviews.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">No reviews yet</p>
+                    <p className="text-gray-500 text-center py-8">Belum ada ulasan</p>
                   ) : (
                     reviews.map((review) => (
-                      <div key={review.id} className="border-b border-gray-100 last:border-0 pb-4 last:pb-0">
+                      <div
+                        key={review.id}
+                        className="border-b border-gray-100 last:border-0 pb-4 last:pb-0"
+                      >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center space-x-1">
                             {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} 
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
                               />
                             ))}
                           </div>
@@ -235,7 +257,7 @@ export function InfluencerDetail() {
                         {review.is_verified && (
                           <span className="inline-flex items-center text-xs text-green-600 mt-2">
                             <CheckCircle className="w-3 h-3 mr-1" />
-                            Verified Purchase
+                            Pembelian Terverifikasi
                           </span>
                         )}
                       </div>
@@ -248,22 +270,24 @@ export function InfluencerDetail() {
 
           <div className="lg:col-span-1">
             <div className="card sticky top-24">
-              <h3 className="font-display text-lg font-semibold mb-4">Book Collaboration</h3>
+              <h3 className="font-display text-lg font-semibold mb-4">Pesan Kolaborasi</h3>
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                  <span className="text-gray-600">Price per post</span>
+                  <span className="text-gray-600">Harga per postingan</span>
                   <span className="font-display text-2xl font-bold text-gray-900">
-                    ${influencer.price_per_post}
+                    Rp {(influencer.price_per_post * 15000).toLocaleString('id-ID')}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                  <span className="text-gray-600">Platform fee</span>
-                  <span className="text-gray-900">${(influencer.price_per_post * 0.1).toFixed(2)}</span>
+                  <span className="text-gray-600">Biaya platform (10%)</span>
+                  <span className="text-gray-900">
+                    Rp {(influencer.price_per_post * 15000 * 0.1).toLocaleString('id-ID')}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-3">
                   <span className="font-medium text-gray-900">Total</span>
                   <span className="font-display text-xl font-bold text-primary-600">
-                    ${(influencer.price_per_post * 1.1).toFixed(2)}
+                    Rp {(influencer.price_per_post * 15000 * 1.1).toLocaleString('id-ID')}
                   </span>
                 </div>
               </div>
@@ -271,10 +295,11 @@ export function InfluencerDetail() {
                 onClick={() => navigate(`/order/${influencer.id}`)}
                 className="w-full btn-primary py-3"
               >
-                Book Now
+                Pesan Sekarang
               </button>
               <p className="text-xs text-gray-500 text-center mt-4">
-                You won't be charged yet. The influencer will review your request first.
+                Anda belum akan dikenakan biaya. Influencer akan meninjau permintaan Anda terlebih
+                dahulu.
               </p>
             </div>
           </div>

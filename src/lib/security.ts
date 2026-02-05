@@ -20,18 +20,18 @@ export function sanitizeInput(input: string): string {
 
 export function validatePrice(price: number): { valid: boolean; error?: string } {
   const MIN_PRICE = 0
-  const MAX_PRICE = 100000 // $100k max
+  const MAX_PRICE = 100000 // Rp 1.5B max
 
   if (typeof price !== 'number' || isNaN(price)) {
-    return { valid: false, error: 'Price must be a valid number' }
+    return { valid: false, error: 'Harga harus berupa angka yang valid' }
   }
 
   if (price < MIN_PRICE) {
-    return { valid: false, error: `Price must be at least $${MIN_PRICE}` }
+    return { valid: false, error: `Harga minimal Rp ${MIN_PRICE}` }
   }
 
   if (price > MAX_PRICE) {
-    return { valid: false, error: `Price cannot exceed $${MAX_PRICE.toLocaleString()}` }
+    return { valid: false, error: `Harga maksimal Rp ${(MAX_PRICE * 15000).toLocaleString('id-ID')}` }
   }
 
   return { valid: true }
@@ -42,9 +42,17 @@ export function validateEmail(email: string): boolean {
   return emailRegex.test(email)
 }
 
+export function validateEmailWithMessage(email: string): { valid: boolean; error?: string } {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    return { valid: false, error: 'Masukkan alamat email yang valid' }
+  }
+  return { valid: true }
+}
+
 export function validatePassword(password: string): { valid: boolean; error?: string } {
   if (!password || password.length < 6) {
-    return { valid: false, error: 'Password must be at least 6 characters' }
+    return { valid: false, error: 'Kata sandi minimal 6 karakter' }
   }
 
   return { valid: true }
@@ -52,7 +60,7 @@ export function validatePassword(password: string): { valid: boolean; error?: st
 
 export function validateRequired(value: string, fieldName: string): { valid: boolean; error?: string } {
   if (!value || value.trim().length === 0) {
-    return { valid: false, error: `${fieldName} is required` }
+    return { valid: false, error: `${fieldName} wajib diisi` }
   }
 
   return { valid: true }
@@ -63,12 +71,12 @@ export function validateDeliverables(
   allowed: string[]
 ): { valid: boolean; error?: string } {
   if (!selected || selected.length === 0) {
-    return { valid: false, error: 'At least one deliverable must be selected' }
+    return { valid: false, error: 'Minimal satu deliverable harus dipilih' }
   }
 
   const invalid = selected.filter(d => !allowed.includes(d))
   if (invalid.length > 0) {
-    return { valid: false, error: 'Invalid deliverables selected' }
+    return { valid: false, error: 'Deliverable yang dipilih tidak valid' }
   }
 
   return { valid: true }
@@ -80,11 +88,11 @@ export function validateFutureDate(date: string | Date): { valid: boolean; error
   today.setHours(0, 0, 0, 0)
 
   if (isNaN(inputDate.getTime())) {
-    return { valid: false, error: 'Invalid date format' }
+    return { valid: false, error: 'Format tanggal tidak valid' }
   }
 
   if (inputDate < today) {
-    return { valid: false, error: 'Date must be in the future' }
+    return { valid: false, error: 'Tanggal harus di masa depan' }
   }
 
   return { valid: true }

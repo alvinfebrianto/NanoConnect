@@ -36,7 +36,8 @@ interface UserInsertData {
   name: string;
   email: string;
   user_type: "sme" | "influencer";
-  auth_provider: string;
+  status?: "active" | "inactive" | "suspended";
+  email_verified?: boolean;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -51,12 +52,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .eq("id", userId)
         .single();
 
-      if (error) {
-        throw error;
+      if (error?.code === "PGRST116") {
+        const { data: sessionData } = await supabase.auth.getSession();
+        const email = sessionData.session?.user?.email || "";
+        const { data: userMetadata } = await supabase.auth.getUser();
+        const name = userMetadata.user?.user_metadata?.name || "";
+        const userType = userMetadata.user?.user_metadata?.user_type || "sme";
+
+        const { error: insertError } = await supabase.from("users").insert({
+          id: userId,
+          name,
+          email,
+          user_type: userType,
+          status: "active" as const,
+          email_verified: false,
+        });
+
+        if (insertError) {
+          console.error("Error creating user profile:", insertError);
+        } else {
+          const { data: newUser } = await supabase
+            .from("users")
+            .select("*")
+            .eq("id", userId)
+            .single();
+          if (newUser) {
+            setUser(newUser as User);
+          }
+        }
+      } else if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        setUser(data as User);
       }
-      setUser(data as User);
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error in fetchUser:", error);
     } finally {
       setIsLoading(false);
     }
@@ -170,7 +200,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: sanitizedName,
         email,
         user_type: userType,
-        auth_provider: "supabase",
+        status: "active",
+        email_verified: false,
       };
 
       const { error: insertError } = await supabase
@@ -178,7 +209,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .insert(userData);
 
       if (insertError) {
-        throw insertError;
+        throw new Error("Gagal membuat profil pengguna. Silakan coba lagi.");
       }
     }
   }

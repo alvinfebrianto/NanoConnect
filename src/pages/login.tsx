@@ -20,8 +20,10 @@ export function Login() {
     try {
       await login(email, password);
       navigate("/");
-    } catch (_err) {
-      setError("Email atau kata sandi tidak valid. Silakan coba lagi.");
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

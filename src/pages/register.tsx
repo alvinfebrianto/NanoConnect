@@ -43,8 +43,10 @@ export function Register() {
     try {
       await register(name, email, password, userType);
       navigate("/");
-    } catch (_err) {
-      setError("Gagal membuat akun. Silakan coba lagi.");
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

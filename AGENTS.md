@@ -89,8 +89,8 @@ npm install
 npm run dev       # Start development server (Vite)
 npm run build     # Build for production
 npm run preview   # Preview production build
-npm run check     # Check for linting/formatting issues
-npm run fix       # Fix linting/formatting issues
+npm exec -- ultracite check  # Check for linting/formatting issues
+npm exec -- ultracite fix    # Fix linting/formatting issues
 ```
 
 ### Project Structure
@@ -116,14 +116,14 @@ Create `.env` file with:
 ### Tech Conventions
 
 - **TypeScript**: All new code must be TypeScript with strict types
-- **Linting/Formatting**: Run `npm run fix` before committing (uses Ultracite/Biome)
+- **Linting/Formatting**: Run `npm exec -- ultracite fix` before committing
 - **File naming**: PascalCase for components (e.g., `InfluencerCard.tsx`), camelCase for utilities
 - **Imports**: Use path aliases (`@/components`, `@/lib`, `@/pages`)
 
 ### Important
 
 1. Always check existing components in `src/components/` before creating new ones
-2. Run `npm run fix` after making changes to auto-fix linting/formatting issues
+2. Run `npm exec -- ultracite fix` after making changes to auto-fix linting/formatting issues
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
 

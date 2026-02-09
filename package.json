@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "check": "ultracite check",
-    "fix": "ultracite fix",
-    "prepare": "husky"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
@@ -25,17 +22,10 @@
     "@vitejs/plugin-react": "^4.2.1",
     "agentation": "^2.0.0",
     "autoprefixer": "^10.4.16",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.2.2",
     "ultracite": "^7.1.5",
     "vite": "^5.0.8"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-      "npx ultracite fix"
-    ]
   }
 }

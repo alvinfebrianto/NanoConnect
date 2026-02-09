@@ -1,0 +1,350 @@
+import { Filter, Search, Users, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { InfluencerCard } from "@/components/influencer/influencer-card";
+import { supabase } from "@/lib/supabase";
+import type { FilterOptions, Influencer } from "@/types";
+
+const NICHES = [
+  "Semua Niche",
+  "Fashion & Gaya Hidup",
+  "Teknologi",
+  "Kecantikan & Perawatan Kulit",
+  "Kuliner & Makanan",
+  "Travel & Petualangan",
+  "Fitness & Kesehatan",
+  "Gaming",
+  "Bisnis & Keuangan",
+  "Edukasi",
+  "Hiburan",
+  "Fotografi",
+];
+
+const LOCATIONS = [
+  "Semua Lokasi",
+  "Jakarta",
+  "Surabaya",
+  "Bandung",
+  "Medan",
+  "Semarang",
+  "Makassar",
+  "Palembang",
+  "Yogyakarta",
+  "Bali",
+  "Malang",
+];
+
+export function InfluencerListing() {
+  const [influencers, setInfluencers] = useState<Influencer[]>([]);
+  const [filteredInfluencers, setFilteredInfluencers] = useState<Influencer[]>(
+    []
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<FilterOptions>({
+    niche: "Semua Niche",
+    location: "Semua Lokasi",
+    minPrice: 0,
+    maxPrice: 150_000_000,
+    verificationStatus: "all",
+  });
+
+  useEffect(() => {
+    async function fetchInfluencers() {
+      try {
+        const { data, error } = await supabase
+          .from("influencers")
+          .select("*, user:users(*)")
+          .eq("is_available", true)
+          .order("followers_count", { ascending: false });
+
+        if (error) {
+          throw error;
+        }
+        setInfluencers(data || []);
+        setFilteredInfluencers(data || []);
+      } catch (error) {
+        console.error("Error fetching influencers:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchInfluencers();
+  }, []);
+
+  useEffect(() => {
+    let result = [...influencers];
+
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (inf) =>
+          inf.user?.name?.toLowerCase().includes(query) ||
+          inf.niche?.toLowerCase().includes(query) ||
+          inf.location?.toLowerCase().includes(query) ||
+          inf.content_categories?.some((cat) =>
+            cat.toLowerCase().includes(query)
+          )
+      );
+    }
+
+    if (filters.niche && filters.niche !== "Semua Niche") {
+      result = result.filter((inf) => inf.niche === filters.niche);
+    }
+
+    if (filters.location && filters.location !== "Semua Lokasi") {
+      result = result.filter((inf) =>
+        inf.location?.includes(filters.location || "")
+      );
+    }
+
+    if (filters.minPrice !== undefined && filters.minPrice > 0) {
+      result = result.filter(
+        (inf) => inf.price_per_post >= (filters.minPrice || 0)
+      );
+    }
+
+    if (filters.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+      result = result.filter(
+        (inf) => inf.price_per_post <= (filters.maxPrice || 150_000_000)
+      );
+    }
+
+    if (filters.verificationStatus && filters.verificationStatus !== "all") {
+      result = result.filter(
+        (inf) => inf.verification_status === filters.verificationStatus
+      );
+    }
+
+    setFilteredInfluencers(result);
+  }, [searchQuery, filters, influencers]);
+
+  const clearFilters = () => {
+    setFilters({
+      niche: "Semua Niche",
+      location: "Semua Lokasi",
+      minPrice: 0,
+      maxPrice: 150_000_000,
+      verificationStatus: "all",
+    });
+    setSearchQuery("");
+  };
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[...new Array(6)].map((_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: index is stable for skeleton placeholders
+            <div className="card animate-pulse" key={`skeleton-${i}`}>
+              <div className="mb-4 h-48 rounded-xl bg-gray-200" />
+              <div className="mb-2 h-6 w-3/4 rounded bg-gray-200" />
+              <div className="h-4 w-1/2 rounded bg-gray-200" />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (filteredInfluencers.length === 0) {
+      return (
+        <div className="py-20 text-center">
+          <Users className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+          <h3 className="mb-2 font-display font-semibold text-gray-900 text-xl">
+            Tidak ada influencer ditemukan
+          </h3>
+          <p className="mb-4 text-gray-600">
+            Coba sesuaikan filter atau kriteria pencarian Anda
+          </p>
+          <button className="btn-primary" onClick={clearFilters} type="button">
+            Hapus Filter
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {filteredInfluencers.map((influencer) => (
+          <InfluencerCard influencer={influencer} key={influencer.id} />
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="animate-fade-in">
+      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="mb-4 font-bold font-display text-4xl text-gray-900">
+            Temukan Influencer yang Sempurna
+          </h1>
+          <p className="max-w-2xl text-gray-600 text-lg">
+            Jelajahi daftar nano influencer pilihan kami dan temukan kecocokan
+            sempurna untuk brand Anda.
+          </p>
+        </div>
+      </div>
+
+      <div className="sticky top-16 z-40 border-gray-100 border-b bg-white shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
+              <input
+                className="input-field w-full pl-12"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari berdasarkan nama, niche, atau lokasi..."
+                type="text"
+                value={searchQuery}
+              />
+            </div>
+            <button
+              className={`flex items-center justify-center space-x-2 rounded-xl px-6 py-3 font-medium transition-all ${
+                showFilters
+                  ? "bg-primary-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+              onClick={() => setShowFilters(!showFilters)}
+              type="button"
+            >
+              <Filter className="h-5 w-5" />
+              <span>Filter</span>
+              {(filters.niche !== "Semua Niche" ||
+                filters.location !== "Semua Lokasi") && (
+                <span className="rounded-full bg-white px-2 py-0.5 font-bold text-primary-600 text-xs">
+                  !
+                </span>
+              )}
+            </button>
+          </div>
+
+          {showFilters && (
+            <div className="mt-4 grid animate-slide-up grid-cols-1 gap-4 border-gray-100 border-t pt-4 md:grid-cols-4">
+              <div>
+                <label
+                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  htmlFor="filter-niche"
+                >
+                  Niche
+                </label>
+                <select
+                  className="input-field w-full"
+                  id="filter-niche"
+                  onChange={(e) =>
+                    setFilters({ ...filters, niche: e.target.value })
+                  }
+                  value={filters.niche}
+                >
+                  {NICHES.map((niche) => (
+                    <option key={niche} value={niche}>
+                      {niche}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  htmlFor="filter-location"
+                >
+                  Lokasi
+                </label>
+                <select
+                  className="input-field w-full"
+                  id="filter-location"
+                  onChange={(e) =>
+                    setFilters({ ...filters, location: e.target.value })
+                  }
+                  value={filters.location}
+                >
+                  {LOCATIONS.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  htmlFor="filter-price"
+                >
+                  Harga Maks: Rp {filters.maxPrice?.toLocaleString("id-ID")}
+                </label>
+                <input
+                  className="w-full"
+                  id="filter-price"
+                  max="150000000"
+                  min="0"
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      maxPrice: Number.parseInt(e.target.value, 10),
+                    })
+                  }
+                  step="1000000"
+                  type="range"
+                  value={filters.maxPrice}
+                />
+              </div>
+
+              <div>
+                <label
+                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  htmlFor="filter-verification"
+                >
+                  Verifikasi
+                </label>
+                <select
+                  className="input-field w-full"
+                  id="filter-verification"
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      verificationStatus: e.target
+                        .value as FilterOptions["verificationStatus"],
+                    })
+                  }
+                  value={filters.verificationStatus}
+                >
+                  <option value="all">Semua</option>
+                  <option value="verified">Terverifikasi Saja</option>
+                  <option value="pending">Tertunda</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end md:col-span-4">
+                <button
+                  className="flex items-center space-x-1 text-gray-500 text-sm hover:text-gray-700"
+                  onClick={clearFilters}
+                  type="button"
+                >
+                  <X className="h-4 w-4" />
+                  <span>Hapus semua filter</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-gray-600">
+            Menampilkan{" "}
+            <span className="font-semibold text-gray-900">
+              {filteredInfluencers.length}
+            </span>{" "}
+            influencer
+          </p>
+        </div>
+
+        {renderContent()}
+      </div>
+    </div>
+  );
+}

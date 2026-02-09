@@ -1,13 +1,12 @@
-export function onRequest(context) {
+export function onRequest(_context) {
   const json = JSON.stringify({
-    "code": 0,
-    "message": "Hello World"
+    code: 0,
+    message: "Hello World",
   });
   return new Response(json, {
     headers: {
-      'content-type': 'application/json',
-      'x-edgefunctions': 'Welcome to use EdgeOne Pages Functions.',
+      "content-type": "application/json",
+      "x-edgefunctions": "Welcome to use EdgeOne Pages Functions.",
     },
   });
 }
-

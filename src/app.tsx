@@ -1,17 +1,17 @@
 import { Agentation } from "agentation";
 import { Route, Routes } from "react-router-dom";
-import { Footer } from "./components/layout/Footer";
-import { Navbar } from "./components/layout/Navbar";
-import { AuthProvider } from "./contexts/AuthContext";
-import { About } from "./pages/About";
-import { AIRecommendations } from "./pages/AIRecommendations";
-import { Home } from "./pages/Home";
-import { InfluencerDetail } from "./pages/InfluencerDetail";
-import { InfluencerListing } from "./pages/InfluencerListing";
-import { Login } from "./pages/Login";
-import { OrderBooking } from "./pages/OrderBooking";
-import { Register } from "./pages/Register";
-import { Terms } from "./pages/Terms";
+import { Footer } from "./components/layout/footer";
+import { Navbar } from "./components/layout/navbar";
+import { AuthProvider } from "./contexts/auth-context";
+import { About } from "./pages/about";
+import { AIRecommendations } from "./pages/ai-recommendations";
+import { Home } from "./pages/home";
+import { InfluencerDetail } from "./pages/influencer-detail";
+import { InfluencerListing } from "./pages/influencer-listing";
+import { Login } from "./pages/login";
+import { OrderBooking } from "./pages/order-booking";
+import { Register } from "./pages/register";
+import { Terms } from "./pages/terms";
 
 function App() {
   return (

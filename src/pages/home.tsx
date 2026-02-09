@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { InfluencerCard } from "@/components/influencer/InfluencerCard";
+import { InfluencerCard } from "@/components/influencer/influencer-card";
 import { supabase } from "@/lib/supabase";
 import type { Influencer } from "@/types";
 

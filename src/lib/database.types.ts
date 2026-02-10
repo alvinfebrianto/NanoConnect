@@ -29,7 +29,7 @@ export interface Database {
           id?: string;
           name: string;
           email: string;
-          password_hash: string;
+          password_hash?: string;
           user_type: "sme" | "influencer" | "admin";
           avatar_url?: string | null;
           bio?: string | null;

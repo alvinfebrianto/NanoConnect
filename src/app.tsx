@@ -10,6 +10,7 @@ import { InfluencerDetail } from "./pages/influencer-detail";
 import { InfluencerListing } from "./pages/influencer-listing";
 import { Login } from "./pages/login";
 import { OrderBooking } from "./pages/order-booking";
+import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { Terms } from "./pages/terms";
 
@@ -33,6 +34,7 @@ function App() {
               <Route element={<Terms />} path="/terms" />
               <Route element={<Login />} path="/login" />
               <Route element={<Register />} path="/register" />
+              <Route element={<Profile />} path="/profile" />
             </Routes>
           </main>
           <Footer />

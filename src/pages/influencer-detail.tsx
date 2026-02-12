@@ -12,12 +12,14 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@/contexts/auth-context";
 import { supabase } from "@/lib/supabase";
 import type { Influencer, Review } from "@/types";
 
 export function InfluencerDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [influencer, setInfluencer] = useState<Influencer | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -332,7 +334,15 @@ export function InfluencerDetail() {
               </div>
               <button
                 className="btn-primary w-full py-3"
-                onClick={() => navigate(`/order/${influencer.id}`)}
+                onClick={() => {
+                  if (user) {
+                    navigate(`/order/${influencer.id}`);
+                  } else {
+                    navigate("/login", {
+                      state: { from: `/order/${influencer.id}` },
+                    });
+                  }
+                }}
                 type="button"
               >
                 Pesan Sekarang

@@ -24,6 +24,7 @@ export function OrderBooking() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -36,22 +37,26 @@ export function OrderBooking() {
   useEffect(() => {
     async function fetchInfluencer() {
       if (!influencerId) {
+        setErrorMessage("Influencer tidak ditemukan.");
+        setIsLoading(false);
         return;
       }
 
       try {
-        const { data, error } = await supabase
-          .from("influencers")
-          .select("*, user:users(*)")
-          .eq("id", influencerId)
-          .single();
+        const response = await fetch(
+          `/api/influencers?id=${encodeURIComponent(influencerId)}`
+        );
 
-        if (error) {
-          throw error;
+        if (!response.ok) {
+          const payload = (await response.json()) as { message?: string };
+          throw new Error(payload.message || "Gagal memuat influencer.");
         }
-        setInfluencer(data);
+
+        const payload = (await response.json()) as { data: Influencer };
+        setInfluencer(payload.data);
       } catch (error) {
         console.error("Error fetching influencer:", error);
+        setErrorMessage("Gagal memuat data influencer.");
       } finally {
         setIsLoading(false);
       }
@@ -60,74 +65,47 @@ export function OrderBooking() {
     fetchInfluencer();
   }, [influencerId]);
 
-  const MIN_PRICE = 0;
-  const MAX_PRICE = 100_000;
-  const PLATFORM_FEE_RATE = 0.1;
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!(user && influencer)) {
       return;
     }
-
-    const price = influencer.price_per_post;
-    if (typeof price !== "number" || price < MIN_PRICE || price > MAX_PRICE) {
-      console.error("Harga tidak valid");
-      return;
-    }
-
-    const invalidDeliverables = formData.deliverables.filter(
-      (d) => !DELIVERABLES.includes(d)
-    );
-    if (invalidDeliverables.length > 0) {
-      console.error("Deliverables yang dipilih tidak valid");
-      return;
-    }
-
-    const deliveryDate = new Date(formData.deliveryDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (deliveryDate < today) {
-      console.error("Tanggal pengiriman harus di masa depan");
-      return;
-    }
-
     setIsSubmitting(true);
+    setErrorMessage(null);
 
     try {
-      const platformFee = Math.round(price * PLATFORM_FEE_RATE * 100) / 100;
-      const totalPrice = Math.round((price + platformFee) * 100) / 100;
-
-      const orderData: {
-        influencer_id: string;
-        sme_id: string;
-        title: string;
-        description: string | null;
-        requirements: string | null;
-        deliverables: string[];
-        delivery_date: string | null;
-        total_price: number;
-        platform_fee: number;
-      } = {
-        influencer_id: influencerId,
-        sme_id: user.id,
-        title: formData.title.trim(),
-        description: formData.description.trim() || null,
-        requirements: formData.requirements.trim() || null,
-        deliverables: formData.deliverables,
-        delivery_date: formData.deliveryDate || null,
-        total_price: totalPrice,
-        platform_fee: platformFee,
-      };
-
-      const { error } = await supabase.from("orders").insert(orderData);
-
-      if (error) {
-        throw error;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        setErrorMessage("Silakan masuk terlebih dahulu.");
+        return;
       }
+
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          influencerId,
+          title: formData.title,
+          description: formData.description,
+          requirements: formData.requirements,
+          deliverables: formData.deliverables,
+          deliveryDate: formData.deliveryDate,
+        }),
+      });
+
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "Gagal membuat pesanan.");
+      }
+
       setIsSuccess(true);
     } catch (error) {
       console.error("Error creating order:", error);
+      setErrorMessage("Gagal mengirim permintaan pemesanan.");
     } finally {
       setIsSubmitting(false);
     }
@@ -156,6 +134,9 @@ export function OrderBooking() {
         <h2 className="mb-4 font-bold font-display text-2xl text-gray-900">
           Influencer tidak ditemukan
         </h2>
+        {errorMessage && (
+          <p className="text-gray-600 text-sm">{errorMessage}</p>
+        )}
       </div>
     );
   }
@@ -220,6 +201,11 @@ export function OrderBooking() {
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {errorMessage && (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 text-sm">
+                {errorMessage}
+              </div>
+            )}
             <div>
               <label
                 className="mb-2 block font-medium text-gray-700 text-sm"

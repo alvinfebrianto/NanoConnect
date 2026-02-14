@@ -14,7 +14,7 @@ const DELIVERABLES = [
 
 const PLATFORM_FEE_RATE = 0.1;
 const MIN_PRICE = 0;
-const MAX_PRICE = 100_000;
+const MAX_PRICE = 150_000_000;
 
 type OrderInsert = Database["public"]["Tables"]["orders"]["Insert"];
 

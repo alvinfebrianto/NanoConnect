@@ -325,8 +325,10 @@ export function OrderBooking() {
             <div className="space-y-3 rounded-xl bg-gray-50 p-6">
               {(() => {
                 const basePrice = influencer.price_per_post;
-                const platformFee = basePrice * PLATFORM_FEE_RATE;
-                const totalPrice = basePrice + platformFee;
+                const platformFee =
+                  Math.round(basePrice * PLATFORM_FEE_RATE * 100) / 100;
+                const totalPrice =
+                  Math.round((basePrice + platformFee) * 100) / 100;
 
                 return (
                   <>

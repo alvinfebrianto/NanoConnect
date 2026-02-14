@@ -62,8 +62,8 @@ export const createInfluencersHandler = (
       }
 
       return jsonResponse({ data: influencer }, 200);
-    } catch (error) {
-      console.error("Gagal memuat influencer:", error);
+    } catch (_error) {
+      // Error caught by outer handler, will return 500 response.
       return jsonResponse(
         { message: "Terjadi kesalahan saat memuat influencer." },
         500

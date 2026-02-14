@@ -16,6 +16,8 @@ const DELIVERABLES = [
   "Ulasan Produk",
 ];
 
+const PLATFORM_FEE_RATE = 0.1;
+
 export function OrderBooking() {
   const { influencerId } = useParams<{ influencerId: string }>();
   const navigate = useNavigate();
@@ -54,8 +56,8 @@ export function OrderBooking() {
 
         const payload = (await response.json()) as { data: Influencer };
         setInfluencer(payload.data);
-      } catch (error) {
-        console.error("Error fetching influencer:", error);
+      } catch (_error) {
+        // Error state already set via setErrorMessage.
         setErrorMessage("Gagal memuat data influencer.");
       } finally {
         setIsLoading(false);
@@ -103,8 +105,8 @@ export function OrderBooking() {
       }
 
       setIsSuccess(true);
-    } catch (error) {
-      console.error("Error creating order:", error);
+    } catch (_error) {
+      // Error state already set via setErrorMessage.
       setErrorMessage("Gagal mengirim permintaan pemesanan.");
     } finally {
       setIsSubmitting(false);
@@ -321,31 +323,36 @@ export function OrderBooking() {
             </div>
 
             <div className="space-y-3 rounded-xl bg-gray-50 p-6">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600">Biaya Layanan</span>
-                <span className="font-medium">
-                  Rp{" "}
-                  {(influencer.price_per_post * 15_000).toLocaleString("id-ID")}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600">Biaya Platform (10%)</span>
-                <span className="font-medium">
-                  Rp{" "}
-                  {(influencer.price_per_post * 15_000 * 0.1).toLocaleString(
-                    "id-ID"
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-gray-200 border-t pt-3">
-                <span className="font-semibold text-gray-900">Total</span>
-                <span className="font-bold font-display text-2xl text-primary-600">
-                  Rp{" "}
-                  {(influencer.price_per_post * 15_000 * 1.1).toLocaleString(
-                    "id-ID"
-                  )}
-                </span>
-              </div>
+              {(() => {
+                const basePrice = influencer.price_per_post;
+                const platformFee = basePrice * PLATFORM_FEE_RATE;
+                const totalPrice = basePrice + platformFee;
+
+                return (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Biaya Layanan</span>
+                      <span className="font-medium">
+                        Rp {basePrice.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">
+                        Biaya Platform (10%)
+                      </span>
+                      <span className="font-medium">
+                        Rp {platformFee.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between border-gray-200 border-t pt-3">
+                      <span className="font-semibold text-gray-900">Total</span>
+                      <span className="font-bold font-display text-2xl text-primary-600">
+                        Rp {totalPrice.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
 
             <button

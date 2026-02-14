@@ -102,9 +102,11 @@ const parseBearerToken = (
   return token;
 };
 
+const validDeliverables = new Set<string>(DELIVERABLES);
+
 const isValidDeliverables = (deliverables: string[]) =>
   deliverables.length > 0 &&
-  deliverables.every((deliverable) => DELIVERABLES.includes(deliverable));
+  deliverables.every((deliverable) => validDeliverables.has(deliverable));
 
 const isValidDeliveryDate = (deliveryDate: string) => {
   if (!deliveryDate) {
@@ -125,8 +127,8 @@ const isValidDeliveryDate = (deliveryDate: string) => {
 const parseOrderPayload = async (request: Request) => {
   try {
     return (await request.json()) as OrderPayload;
-  } catch (error) {
-    console.error("Payload tidak valid:", error);
+  } catch (_error) {
+    // Invalid payloads should return a 400 without logging.
     return null;
   }
 };
@@ -244,8 +246,8 @@ export const createOrdersHandler = (
 
       const orderId = await dependencies.insertOrder(order);
       return jsonResponse({ data: { orderId } }, 201);
-    } catch (error) {
-      console.error("Gagal membuat pesanan:", error);
+    } catch (_error) {
+      // Error caught by outer handler, will return 500 response.
       return jsonResponse(
         { message: "Terjadi kesalahan saat membuat pesanan." },
         500

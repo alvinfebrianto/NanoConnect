@@ -1,5 +1,12 @@
 import type { Database } from "../../src/lib/database.types";
+import type { Influencer } from "../../src/types";
 import { createSupabaseClient } from "../lib/supabase-client";
+import {
+  type AiRecommendationResult,
+  createOpenRouterClient,
+  generateRecommendations,
+  type OpenRouterClient,
+} from "./ai-service";
 
 type UserRow = Database["public"]["Tables"]["users"]["Row"];
 
@@ -15,6 +22,8 @@ interface RecommendationPayload {
 interface AiRecommendationsDependencies {
   getAuthUser: () => Promise<{ id: string } | null>;
   getUserProfile: (userId: string) => Promise<UserRow | null>;
+  getAvailableInfluencers: () => Promise<Influencer[]>;
+  getOpenRouterClient: () => OpenRouterClient;
 }
 
 type AiRecommendationsDependenciesFactory = (
@@ -33,6 +42,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
         }
         return data.user;
       },
+
       async getUserProfile(userId: string) {
         const { data, error } = await supabase
           .from("users")
@@ -49,6 +59,38 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
         }
 
         return data as UserRow;
+      },
+
+      async getAvailableInfluencers() {
+        const { data, error } = await supabase
+          .from("influencers")
+          .select(`
+            *,
+            user:users (*)
+          `)
+          .eq("is_available", true)
+          .eq("verification_status", "verified")
+          .order("followers_count", { ascending: false })
+          .limit(20);
+
+        if (error) {
+          throw error;
+        }
+
+        return (data as Influencer[]) ?? [];
+      },
+
+      getOpenRouterClient() {
+        const apiKey = process.env.OPENROUTER_API_KEY;
+        const model = process.env.OPENROUTER_MODEL ?? "gpt-oss-20b";
+        if (!apiKey) {
+          throw new Error("Konfigurasi API AI tidak lengkap.");
+        }
+
+        return createOpenRouterClient({
+          apiKey,
+          model,
+        });
       },
     };
   };
@@ -119,17 +161,6 @@ const validatePayload = (payload: ReturnType<typeof parsePayload>) => {
   return null;
 };
 
-const buildProfileSummary = (payload: RecommendationPayload) =>
-  [
-    "Ringkasan kebutuhan kampanye:",
-    `- Niche: ${payload.niche}`,
-    `- Ukuran bisnis: ${payload.company_size}`,
-    `- Budget: Rp ${payload.budget.toLocaleString("id-ID")}`,
-    `- Target audiens: ${payload.target_audience}`,
-    `- Lokasi: ${payload.location}`,
-    `- Jenis kampanye: ${payload.campaign_type}`,
-  ].join("\n");
-
 const parseBearerToken = (
   authorizationHeader: string | null
 ): string | null => {
@@ -145,11 +176,144 @@ const parseBearerToken = (
   return token;
 };
 
+const formatErrorResponse = (error: unknown): Response => {
+  console.error("AI Recommendations Error:", error);
+
+  const errorMessage =
+    error instanceof Error ? error.message : "Terjadi kesalahan.";
+
+  if (errorMessage.includes("Rate limit")) {
+    return jsonResponse(
+      { message: "Terlalu banyak permintaan. Silakan coba lagi nanti." },
+      429
+    );
+  }
+
+  if (errorMessage.includes("API key")) {
+    return jsonResponse(
+      { message: "Konfigurasi AI tidak valid. Hubungi administrator." },
+      500
+    );
+  }
+
+  return jsonResponse(
+    {
+      message: `Gagal membuat rekomendasi AI: ${errorMessage}`,
+    },
+    500
+  );
+};
+
+const enrichRecommendationsWithInfluencers = (
+  aiResult: AiRecommendationResult,
+  influencers: Influencer[]
+): Array<
+  AiRecommendationResult["recommendations"][number] & {
+    influencer: Influencer;
+  }
+> => {
+  const influencerMap = new Map(influencers.map((inf) => [inf.id, inf]));
+
+  return aiResult.recommendations
+    .map((rec) => {
+      const influencer = influencerMap.get(rec.influencerId);
+      if (!influencer) {
+        return null;
+      }
+
+      return {
+        ...rec,
+        influencer,
+      };
+    })
+    .filter(
+      (
+        item
+      ): item is AiRecommendationResult["recommendations"][number] & {
+        influencer: Influencer;
+      } => item !== null
+    );
+};
+
+const processRecommendationRequest = async (
+  request: Request,
+  dependencies: AiRecommendationsDependencies
+): Promise<Response> => {
+  const authUser = await dependencies.getAuthUser();
+  if (!authUser) {
+    return jsonResponse({ message: "Autentikasi tidak valid." }, 401);
+  }
+
+  const payload = await parsePayload(request);
+  const validationError = validatePayload(payload);
+  if (validationError) {
+    return jsonResponse({ message: validationError }, 400);
+  }
+
+  const userProfile = await dependencies.getUserProfile(authUser.id);
+  if (!userProfile) {
+    return jsonResponse({ message: "Profil pengguna tidak ditemukan." }, 404);
+  }
+
+  if (userProfile.user_type !== "sme") {
+    return jsonResponse(
+      { message: "Hanya akun SME yang dapat meminta rekomendasi." },
+      403
+    );
+  }
+
+  const [influencers, openRouterClient] = await Promise.all([
+    dependencies.getAvailableInfluencers(),
+    dependencies.getOpenRouterClient(),
+  ]);
+
+  if (influencers.length === 0) {
+    return jsonResponse({
+      message: "Data kampanye diterima.",
+      data: {
+        user: {
+          id: userProfile.id,
+          name: userProfile.name,
+          email: userProfile.email,
+        },
+        summary:
+          "Saat ini tidak ada influencer yang tersedia untuk direkomendasikan.",
+        recommendations: [],
+      },
+    });
+  }
+
+  const aiResult = await generateRecommendations(
+    payload as RecommendationPayload,
+    influencers,
+    openRouterClient
+  );
+
+  const enrichedRecommendations = enrichRecommendationsWithInfluencers(
+    aiResult,
+    influencers
+  );
+
+  return jsonResponse({
+    message: "Rekomendasi AI berhasil dibuat.",
+    data: {
+      user: {
+        id: userProfile.id,
+        name: userProfile.name,
+        email: userProfile.email,
+      },
+      summary: aiResult.summary,
+      recommendations: enrichedRecommendations,
+    },
+  });
+};
+
 export const createAiRecommendationsHandler = (
   dependenciesFactory: AiRecommendationsDependenciesFactory = createAiRecommendationsDependencies
 ) =>
   async function onRequest(context: { request: Request }) {
     const { request } = context;
+
     if (request.method !== "POST") {
       return jsonResponse({ message: "Metode tidak diizinkan." }, 405);
     }
@@ -160,49 +324,11 @@ export const createAiRecommendationsHandler = (
     }
 
     const dependencies = dependenciesFactory(accessToken);
-    const authUser = await dependencies.getAuthUser();
-    if (!authUser) {
-      return jsonResponse({ message: "Autentikasi tidak valid." }, 401);
-    }
-
-    const payload = await parsePayload(request);
-    const validationError = validatePayload(payload);
-    if (validationError) {
-      return jsonResponse({ message: validationError }, 400);
-    }
 
     try {
-      const userProfile = await dependencies.getUserProfile(authUser.id);
-      if (!userProfile) {
-        return jsonResponse(
-          { message: "Profil pengguna tidak ditemukan." },
-          404
-        );
-      }
-
-      if (userProfile.user_type !== "sme") {
-        return jsonResponse(
-          { message: "Hanya akun SME yang dapat meminta rekomendasi." },
-          403
-        );
-      }
-
-      return jsonResponse({
-        message: "Data kampanye diterima.",
-        data: {
-          user: {
-            id: userProfile.id,
-            name: userProfile.name,
-            email: userProfile.email,
-          },
-          summary: buildProfileSummary(payload as RecommendationPayload),
-        },
-      });
-    } catch (_error) {
-      return jsonResponse(
-        { message: "Terjadi kesalahan saat memproses rekomendasi." },
-        500
-      );
+      return await processRecommendationRequest(request, dependencies);
+    } catch (error) {
+      return formatErrorResponse(error);
     }
   };
 

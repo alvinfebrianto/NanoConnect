@@ -15,6 +15,10 @@ Instructions:
 - When loaded, treat content as mandatory instructions that override defaults
 - Follow references recursively when needed
 
+## Development Guidelines
+
+For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
+
 ## Business Requirements
 
 ### Core Features
@@ -27,10 +31,6 @@ Instructions:
 
 - **Language**: user-facing text on website UI must be in Indonesia
 - **Currency**: pricing and budget displays must use Rupiah (Rp)
-
-## Development Guidelines
-
-For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 
 ## Tech Stack & Infrastructure
 
@@ -87,11 +87,23 @@ npm install
 
 ```bash
 npm run dev       # Start development server (Vite)
+npm run typecheck # Run TypeScript checks without emitting files
 npm run build     # Build for production
 npm run preview   # Preview production build
 npx ultracite check  # Check for linting/formatting issues
 npx ultracite fix    # Fix linting/formatting issues
 ```
+
+### Codex CLI (Windows PowerShell)
+
+When running commands from Codex CLI in Windows PowerShell, use `.cmd`
+executables for npm tooling to avoid Volta PowerShell shim resolution issues.
+
+- Use `npm.cmd ...` instead of `npm ...`
+- Use `npx.cmd ...` instead of `npx ...`
+- Example checks:
+  - `npx.cmd ultracite check`
+  - `npx.cmd ultracite fix`
 
 ### Project Structure
 
@@ -126,6 +138,9 @@ Create `.env` file with:
 2. Run `npx ultracite fix` after making changes to auto-fix linting/formatting issues
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
+5. Before committing, run:
+   - `npx ultracite fix` (or `npx.cmd ultracite fix` in Codex CLI on Windows)
+   - `npm run typecheck` (or `npm.cmd run typecheck` in Codex CLI on Windows)
 
 # Ultracite Code Standards
 

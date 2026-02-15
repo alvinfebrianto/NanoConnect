@@ -82,6 +82,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
 
       getOpenRouterClient() {
         const apiKey = process.env.OPENROUTER_API_KEY;
+        const model = process.env.OPENROUTER_MODEL ?? "gpt-oss-20b";
         if (!apiKey) {
           throw new Error("Konfigurasi API AI tidak lengkap.");
         }
@@ -89,6 +90,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
         return createOpenRouterClient({
           apiKey,
           baseUrl: "https://openrouter.ai",
+          model,
         });
       },
     };

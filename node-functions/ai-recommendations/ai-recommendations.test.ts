@@ -240,7 +240,9 @@ describe("ai recommendations handler with OpenRouter integration", () => {
 
       const mockOpenRouterClient: OpenRouterClient = {
         complete: vi.fn().mockResolvedValue({
-          content: JSON.stringify(mockAiResponse),
+          content: `Berikut rekomendasinya:\n${JSON.stringify(
+            mockAiResponse
+          )}\nSelesai.`,
           usage: { prompt_tokens: 1500, completion_tokens: 500 },
         }),
       };
@@ -620,6 +622,10 @@ describe("OpenRouter client", () => {
 
     await client.complete("Test prompt");
 
+    const requestPayload = JSON.parse(mockFetch.mock.calls[0][1].body) as {
+      model: string;
+    };
+
     expect(mockFetch).toHaveBeenCalledWith(
       "https://api.test.com/api/v1/chat/completions",
       expect.objectContaining({
@@ -630,6 +636,40 @@ describe("OpenRouter client", () => {
         }),
       })
     );
+    expect(requestPayload.model).toBe("gpt-oss-20b");
+  });
+
+  it("menggunakan model OpenRouter yang disediakan", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          choices: [
+            {
+              message: {
+                content: "Test response",
+              },
+            },
+          ],
+          usage: { prompt_tokens: 100, completion_tokens: 50 },
+        }),
+    });
+
+    global.fetch = mockFetch;
+
+    const client = createOpenRouterClient({
+      apiKey: "test-key",
+      baseUrl: "https://api.test.com",
+      model: "custom-model",
+    });
+
+    await client.complete("Test prompt");
+
+    const requestPayload = JSON.parse(mockFetch.mock.calls[0][1].body) as {
+      model: string;
+    };
+
+    expect(requestPayload.model).toBe("custom-model");
   });
 
   it("melempar error saat API mengembalikan error", async () => {

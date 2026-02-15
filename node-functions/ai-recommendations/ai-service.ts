@@ -56,12 +56,14 @@ interface CampaignPayload {
 }
 
 const OPENROUTER_BASE_URL = "https://openrouter.ai";
+const DEFAULT_OPENROUTER_MODEL = "gpt-oss-20b";
 
 export const createOpenRouterClient = (
   config: OpenRouterConfig
 ): OpenRouterClient => {
   const apiKey = config.apiKey;
   const baseUrl = config.baseUrl ?? OPENROUTER_BASE_URL;
+  const model = config.model ?? DEFAULT_OPENROUTER_MODEL;
 
   if (!apiKey) {
     throw new Error("OpenRouter API key diperlukan.");
@@ -80,7 +82,7 @@ export const createOpenRouterClient = (
         "X-Title": "NanoConnect AI Recommendations",
       },
       body: JSON.stringify({
-        model: config.model,
+        model,
         messages: [
           {
             role: "user",
@@ -186,16 +188,76 @@ FORMAT OUTPUT (JSON):
 Hanya kembalikan JSON, tanpa penjelasan tambahan.`;
 };
 
-const JSON_EXTRACT_REGEX = /\{[\s\S]*\}/;
+interface JsonScanState {
+  startIndex: number;
+  depth: number;
+  inString: boolean;
+  isEscaped: boolean;
+}
+
+const updateStringState = (
+  character: string,
+  state: Pick<JsonScanState, "inString" | "isEscaped">
+): void => {
+  if (state.isEscaped) {
+    state.isEscaped = false;
+    return;
+  }
+
+  if (character === "\\") {
+    state.isEscaped = true;
+    return;
+  }
+
+  if (character === '"') {
+    state.inString = !state.inString;
+  }
+};
+
+const updateBraceState = (
+  character: string,
+  index: number,
+  state: Pick<JsonScanState, "startIndex" | "depth">
+): void => {
+  if (character === "{") {
+    if (state.startIndex === -1) {
+      state.startIndex = index;
+    }
+    state.depth += 1;
+    return;
+  }
+
+  if (character === "}" && state.depth > 0) {
+    state.depth -= 1;
+  }
+};
+
+const extractFirstJsonObject = (content: string): string => {
+  const state: JsonScanState = {
+    startIndex: -1,
+    depth: 0,
+    inString: false,
+    isEscaped: false,
+  };
+
+  for (let index = 0; index < content.length; index++) {
+    const character = content[index];
+    updateStringState(character, state);
+
+    if (!(state.inString || state.isEscaped)) {
+      updateBraceState(character, index, state);
+      if (state.depth === 0 && state.startIndex !== -1) {
+        return content.slice(state.startIndex, index + 1);
+      }
+    }
+  }
+
+  throw new Error("Tidak dapat menemukan JSON dalam respons.");
+};
 
 const parseAiResponse = (content: string): AiRecommendationResult => {
   try {
-    const jsonMatch = content.match(JSON_EXTRACT_REGEX);
-    if (!jsonMatch) {
-      throw new Error("Tidak dapat menemukan JSON dalam respons.");
-    }
-
-    const parsed = JSON.parse(jsonMatch[0]) as unknown;
+    const parsed = JSON.parse(extractFirstJsonObject(content)) as unknown;
 
     if (
       typeof parsed !== "object" ||

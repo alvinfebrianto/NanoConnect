@@ -95,8 +95,11 @@ export function AIRecommendations() {
   const [recommendation, setRecommendation] =
     useState<RecommendationData | null>(null);
 
-  const budgetValue = Number.parseInt(formData.budget, 10);
-  const isBudgetValid = Number.isFinite(budgetValue) && budgetValue > 0;
+  const budgetValue = Number(formData.budget);
+  const isBudgetValid =
+    formData.budget.trim() !== "" &&
+    Number.isFinite(budgetValue) &&
+    budgetValue > 0;
   const isFormComplete = Boolean(
     formData.niche.trim() &&
       formData.company_size.trim() &&
@@ -612,7 +615,7 @@ export function AIRecommendations() {
                     disabled={!isSme}
                     id="budget"
                     inputMode="numeric"
-                    min={0}
+                    min={1}
                     onChange={handleChange("budget")}
                     placeholder="Contoh: 10000000"
                     type="number"

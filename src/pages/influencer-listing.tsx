@@ -51,7 +51,7 @@ export function InfluencerListing() {
   useEffect(() => {
     async function fetchInfluencers() {
       try {
-        const response = await fetch("/influencers/list");
+        const response = await fetch("/api/influencers/list");
         if (!response.ok) {
           throw new Error("Failed to fetch influencers");
         }

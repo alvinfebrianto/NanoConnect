@@ -34,7 +34,7 @@ export function InfluencerDetail() {
 
       try {
         const response = await fetch(
-          `/influencers?id=${encodeURIComponent(id)}`
+          `/api/influencers?id=${encodeURIComponent(id)}`
         );
 
         if (!response.ok) {
@@ -46,7 +46,7 @@ export function InfluencerDetail() {
         setInfluencer(payload.data);
 
         const reviewsResponse = await fetch(
-          `/reviews?influencer_id=${encodeURIComponent(id)}`
+          `/api/reviews?influencer_id=${encodeURIComponent(id)}`
         );
         if (reviewsResponse.ok) {
           const reviewsPayload = (await reviewsResponse.json()) as {

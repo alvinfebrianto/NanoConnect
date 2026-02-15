@@ -15,7 +15,7 @@ const createReviewsDependencies: ReviewsDependenciesFactory = () => {
       const { data, error } = await supabase
         .from("reviews")
         .select("*, order:orders(*)")
-        .eq("order.influencer_id", influencerId)
+        .eq("orders.influencer_id", influencerId)
         .order("created_at", { ascending: false });
 
       if (error) {

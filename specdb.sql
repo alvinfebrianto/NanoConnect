@@ -91,6 +91,18 @@ CREATE INDEX IF NOT EXISTS idx_influencers_user_id ON influencers(user_id);
 CREATE INDEX IF NOT EXISTS idx_influencers_niche ON influencers(niche);
 CREATE INDEX IF NOT EXISTS idx_influencers_verification ON influencers(verification_status);
 CREATE INDEX IF NOT EXISTS idx_influencers_available ON influencers(is_available) WHERE is_available = TRUE;
+
+-- Composite index for AI recommendations query (availability + verification)
+CREATE INDEX IF NOT EXISTS idx_influencers_available_verified ON influencers(is_available, verification_status) WHERE is_available = TRUE AND verification_status = 'verified';
+
+-- Index for location-based queries
+CREATE INDEX IF NOT EXISTS idx_influencers_location ON influencers(location);
+
+-- Index for price range queries
+CREATE INDEX IF NOT EXISTS idx_influencers_price ON influencers(price_per_post);
+
+-- Composite index for followers count sorting with availability filter
+CREATE INDEX IF NOT EXISTS idx_influencers_available_followers ON influencers(is_available, followers_count DESC) WHERE is_available = TRUE;
 CREATE INDEX IF NOT EXISTS idx_orders_influencer ON orders(influencer_id);
 CREATE INDEX IF NOT EXISTS idx_orders_sme ON orders(sme_id);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(order_status);

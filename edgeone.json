@@ -15,8 +15,20 @@
   },
   "routes": [
     {
-      "src": "/api/.*",
-      "dest": "/node-functions/$1"
+      "src": "/api/influencers/list",
+      "dest": "/node-functions/influencers/list"
+    },
+    {
+      "src": "/api/influencers",
+      "dest": "/node-functions/influencers/index"
+    },
+    {
+      "src": "/api/reviews",
+      "dest": "/node-functions/reviews/index"
+    },
+    {
+      "src": "/api/orders",
+      "dest": "/node-functions/orders/index"
     },
     {
       "src": "/edge/.*",

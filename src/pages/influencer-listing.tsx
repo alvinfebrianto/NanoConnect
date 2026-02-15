@@ -1,7 +1,6 @@
 import { Filter, Search, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { InfluencerCard } from "@/components/influencer/influencer-card";
-import { supabase } from "@/lib/supabase";
 import type { FilterOptions, Influencer } from "@/types";
 
 const NICHES = [
@@ -52,17 +51,13 @@ export function InfluencerListing() {
   useEffect(() => {
     async function fetchInfluencers() {
       try {
-        const { data, error } = await supabase
-          .from("influencers")
-          .select("*, user:users(*)")
-          .eq("is_available", true)
-          .order("followers_count", { ascending: false });
-
-        if (error) {
-          throw error;
+        const response = await fetch("/influencers/list");
+        if (!response.ok) {
+          throw new Error("Failed to fetch influencers");
         }
-        setInfluencers(data || []);
-        setFilteredInfluencers(data || []);
+        const payload = (await response.json()) as { data: Influencer[] };
+        setInfluencers(payload.data || []);
+        setFilteredInfluencers(payload.data || []);
       } catch (error) {
         console.error("Error fetching influencers:", error);
       } finally {

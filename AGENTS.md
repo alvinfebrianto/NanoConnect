@@ -5,19 +5,6 @@
 **Concept**: "Tinder for UMKM & Nano Influencers"
 A platform that matches SMEs (UMKM) with local nano influencers based on budget, niche, and target audience.
 
-## Business Requirements
-
-### Core Features
-
-- **Matching Algorithm**: Budget-based, niche-specific, location-aware matching
-- **Target Users**: SMEs and local nano influencers
-- **Low Latency**: Real-time data using edge computing
-
-### Localization Requirements
-
-- **Language**: All user-facing text must be in Indonesian
-- **Currency**: All pricing and budget displays must use Rupiah (Rp)
-
 ## External File Loading
 
 CRITICAL: When you encounter a file reference (e.g., @rules/pages-llms.mdc), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
@@ -27,6 +14,19 @@ Instructions:
 - Do NOT preemptively load all references - use lazy loading based on actual need
 - When loaded, treat content as mandatory instructions that override defaults
 - Follow references recursively when needed
+
+## Business Requirements
+
+### Core Features
+
+- **Matching Algorithm**: Budget-based, niche-specific, location-aware matching
+- **Target Users**: SMEs and local nano influencers
+- **Low Latency**: Real-time data using edge computing
+
+### Website Localization
+
+- **Language**: user-facing text on website UI must be in Indonesia
+- **Currency**: pricing and budget displays must use Rupiah (Rp)
 
 ## Development Guidelines
 
@@ -89,8 +89,8 @@ npm install
 npm run dev       # Start development server (Vite)
 npm run build     # Build for production
 npm run preview   # Preview production build
-npm exec -- ultracite check  # Check for linting/formatting issues
-npm exec -- ultracite fix    # Fix linting/formatting issues
+npx ultracite check  # Check for linting/formatting issues
+npx ultracite fix    # Fix linting/formatting issues
 ```
 
 ### Project Structure
@@ -116,14 +116,14 @@ Create `.env` file with:
 ### Tech Conventions
 
 - **TypeScript**: All new code must be TypeScript with strict types
-- **Linting/Formatting**: Run `npm exec -- ultracite fix` before committing
+- **Linting/Formatting**: Run `npx ultracite fix` before committing
 - **File naming**: PascalCase for components (e.g., `InfluencerCard.tsx`), camelCase for utilities
 - **Imports**: Use path aliases (`@/components`, `@/lib`, `@/pages`)
 
 ### Important
 
 1. Always check existing components in `src/components/` before creating new ones
-2. Run `npm exec -- ultracite fix` after making changes to auto-fix linting/formatting issues
+2. Run `npx ultracite fix` after making changes to auto-fix linting/formatting issues
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
 
@@ -133,9 +133,9 @@ This project uses **Ultracite**, a zero-config preset that enforces strict code 
 
 ## Quick Reference
 
-- **Format code**: `npm exec -- ultracite fix`
-- **Check for issues**: `npm exec -- ultracite check`
-- **Diagnose setup**: `npm exec -- ultracite doctor`
+- **Format code**: `npx ultracite fix`
+- **Check for issues**: `npx ultracite check`
+- **Diagnose setup**: `npx ultracite doctor`
 
 Biome (the underlying engine) provides robust linting and formatting. Most issues are automatically fixable.
 
@@ -252,4 +252,4 @@ Biome's linter will catch most issues automatically. Focus your attention on:
 
 ---
 
-Most formatting and common issues are automatically fixed by Biome. Run `npm exec -- ultracite fix` before committing to ensure compliance.
+Most formatting and common issues are automatically fixed by Biome. Run `npx ultracite fix` before committing to ensure compliance.

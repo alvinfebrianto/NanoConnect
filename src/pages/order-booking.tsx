@@ -46,7 +46,7 @@ export function OrderBooking() {
 
       try {
         const response = await fetch(
-          `/api/influencers?id=${encodeURIComponent(influencerId)}`
+          `/influencers?id=${encodeURIComponent(influencerId)}`
         );
 
         if (!response.ok) {
@@ -83,7 +83,7 @@ export function OrderBooking() {
         return;
       }
 
-      const response = await fetch("/api/orders", {
+      const response = await fetch("/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

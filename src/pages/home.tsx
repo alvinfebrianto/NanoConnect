@@ -10,7 +10,6 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { InfluencerCard } from "@/components/influencer/influencer-card";
-import { supabase } from "@/lib/supabase";
 import type { Influencer } from "@/types";
 
 export function Home() {
@@ -22,18 +21,12 @@ export function Home() {
   useEffect(() => {
     async function fetchFeaturedInfluencers() {
       try {
-        const { data, error } = await supabase
-          .from("influencers")
-          .select("*, user:users(*)")
-          .eq("verification_status", "verified")
-          .eq("is_available", true)
-          .order("followers_count", { ascending: false })
-          .limit(6);
-
-        if (error) {
-          throw error;
+        const response = await fetch("/influencers/featured");
+        if (!response.ok) {
+          throw new Error("Failed to fetch influencers");
         }
-        setFeaturedInfluencers(data || []);
+        const payload = (await response.json()) as { data: Influencer[] };
+        setFeaturedInfluencers(payload.data || []);
       } catch (error) {
         console.error("Error fetching influencers:", error);
       } finally {

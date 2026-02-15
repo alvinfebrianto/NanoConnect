@@ -15,20 +15,28 @@
   },
   "routes": [
     {
-      "src": "/api/influencers/list",
+      "src": "/influencers/featured",
+      "dest": "/node-functions/influencers/featured"
+    },
+    {
+      "src": "/influencers/list",
       "dest": "/node-functions/influencers/list"
     },
     {
-      "src": "/api/influencers",
+      "src": "/influencers",
       "dest": "/node-functions/influencers/index"
     },
     {
-      "src": "/api/reviews",
+      "src": "/reviews",
       "dest": "/node-functions/reviews/index"
     },
     {
-      "src": "/api/orders",
+      "src": "/orders",
       "dest": "/node-functions/orders/index"
+    },
+    {
+      "src": "/profile",
+      "dest": "/node-functions/profile/index"
     },
     {
       "src": "/edge/.*",

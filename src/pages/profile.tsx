@@ -6,14 +6,14 @@ import {
   Pencil,
   Sparkles,
   Star,
-  User,
+  User as UserIcon,
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
 import { supabase } from "@/lib/supabase";
-import type { Influencer } from "@/types";
+import type { Influencer, User as UserType } from "@/types";
 
 function getUserTypeLabel(type: string): string {
   switch (type) {
@@ -85,24 +85,36 @@ export function Profile() {
     null
   );
 
-  const fetchInfluencerProfile = useCallback(async () => {
+  const fetchProfile = useCallback(async () => {
     if (!user) {
       return;
     }
     try {
-      const { data, error } = await supabase
-        .from("influencers")
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
-
-      if (error && error.code !== "PGRST116") {
-        console.error("Error fetching influencer profile:", error);
-      } else if (data) {
-        setInfluencerProfile(data);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        throw new Error("Sesi tidak valid. Silakan masuk kembali.");
       }
+      const response = await fetch("/profile", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
+      }
+      const payload = (await response.json()) as {
+        data: { user: UserType; influencerProfile: Influencer | null };
+      };
+      setFormData({
+        name: payload.data.user.name || "",
+        phone: payload.data.user.phone || "",
+        bio: payload.data.user.bio || "",
+        avatar_url: payload.data.user.avatar_url || "",
+      });
+      setInfluencerProfile(payload.data.influencerProfile);
     } catch (err) {
-      console.error("Error fetching influencer profile:", err);
+      console.error("Error fetching profile:", err);
     }
   }, [user]);
 
@@ -114,18 +126,9 @@ export function Profile() {
 
   useEffect(() => {
     if (user) {
-      setFormData({
-        name: user.name || "",
-        phone: user.phone || "",
-        bio: user.bio || "",
-        avatar_url: user.avatar_url || "",
-      });
-
-      if (user.user_type === "influencer") {
-        fetchInfluencerProfile();
-      }
+      fetchProfile();
     }
-  }, [user, fetchInfluencerProfile]);
+  }, [user, fetchProfile]);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -133,18 +136,31 @@ export function Profile() {
     setSuccess("");
 
     try {
-      const { error } = await supabase
-        .from("users")
-        .update({
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        setError("Sesi tidak valid. Silakan masuk kembali.");
+        return;
+      }
+      const response = await fetch("/profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
           name: formData.name,
           phone: formData.phone,
           bio: formData.bio,
           avatar_url: formData.avatar_url,
-        })
-        .eq("id", user?.id);
+        }),
+      });
 
-      if (error) {
-        setError("Gagal menyimpan perubahan. Silakan coba lagi.");
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        setError(
+          payload.message || "Gagal menyimpan perubahan. Silakan coba lagi."
+        );
         return;
       }
 
@@ -200,7 +216,7 @@ export function Profile() {
                       />
                     ) : (
                       <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-gray-200 shadow-md">
-                        <User className="h-16 w-16 text-gray-400" />
+                        <UserIcon className="h-16 w-16 text-gray-400" />
                       </div>
                     )}
                     {isEditing && (

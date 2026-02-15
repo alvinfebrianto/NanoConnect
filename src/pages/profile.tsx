@@ -12,6 +12,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
+import { supabase } from "@/lib/supabase";
 import type { Influencer, User as UserType } from "@/types";
 
 function getUserTypeLabel(type: string): string {
@@ -89,7 +90,16 @@ export function Profile() {
       return;
     }
     try {
-      const response = await fetch("/profile");
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        throw new Error("Sesi tidak valid. Silakan masuk kembali.");
+      }
+      const response = await fetch("/profile", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch profile");
       }
@@ -126,10 +136,17 @@ export function Profile() {
     setSuccess("");
 
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+      if (!accessToken) {
+        setError("Sesi tidak valid. Silakan masuk kembali.");
+        return;
+      }
       const response = await fetch("/profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           name: formData.name,

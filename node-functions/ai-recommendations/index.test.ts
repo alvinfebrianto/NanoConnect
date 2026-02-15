@@ -203,6 +203,10 @@ describe("ai recommendations handler", () => {
         body: { ...payload, budget: 0 },
         message: "Budget harus lebih besar dari 0.",
       },
+      {
+        body: { ...payload, budget: -1 },
+        message: "Budget harus lebih besar dari 0.",
+      },
     ];
 
     const handler = createHandler();

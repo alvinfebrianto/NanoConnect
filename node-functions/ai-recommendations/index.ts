@@ -89,7 +89,6 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
 
         return createOpenRouterClient({
           apiKey,
-          baseUrl: "https://openrouter.ai",
           model,
         });
       },
@@ -265,7 +264,7 @@ const processRecommendationRequest = async (
 
   const [influencers, openRouterClient] = await Promise.all([
     dependencies.getAvailableInfluencers(),
-    Promise.resolve(dependencies.getOpenRouterClient()),
+    dependencies.getOpenRouterClient(),
   ]);
 
   if (influencers.length === 0) {

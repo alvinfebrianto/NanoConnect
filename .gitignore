@@ -1,7 +1,7 @@
--# Tencent Cloud EdgeOne
--.edgeone/*
--!.edgeone/project.json
--.tef_dist/*
+# Tencent Cloud EdgeOne
+.edgeone/*
+!.edgeone/project.json
+.tef_dist/*
 
 # Dependencies
 node_modules

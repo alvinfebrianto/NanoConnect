@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
-import { supabase } from "@/lib/supabase";
 import type { Influencer, Review } from "@/types";
 
 export function InfluencerDetail() {
@@ -34,27 +33,27 @@ export function InfluencerDetail() {
       }
 
       try {
-        const { data: influencerData, error: influencerError } = await supabase
-          .from("influencers")
-          .select("*, user:users(*)")
-          .eq("id", id)
-          .single();
+        const response = await fetch(
+          `/influencers?id=${encodeURIComponent(id)}`
+        );
 
-        if (influencerError) {
-          throw influencerError;
+        if (!response.ok) {
+          const payload = (await response.json()) as { message?: string };
+          throw new Error(payload.message || "Gagal memuat influencer.");
         }
-        setInfluencer(influencerData);
 
-        const { data: reviewsData, error: reviewsError } = await supabase
-          .from("reviews")
-          .select("*, order:orders(*)")
-          .eq("order.influencer_id", id)
-          .order("created_at", { ascending: false });
+        const payload = (await response.json()) as { data: Influencer };
+        setInfluencer(payload.data);
 
-        if (reviewsError) {
-          throw reviewsError;
+        const reviewsResponse = await fetch(
+          `/reviews?influencer_id=${encodeURIComponent(id)}`
+        );
+        if (reviewsResponse.ok) {
+          const reviewsPayload = (await reviewsResponse.json()) as {
+            data: Review[];
+          };
+          setReviews(reviewsPayload.data || []);
         }
-        setReviews(reviewsData || []);
       } catch (error) {
         console.error("Error fetching influencer data:", error);
       } finally {

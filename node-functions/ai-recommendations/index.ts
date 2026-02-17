@@ -1,29 +1,21 @@
 import type { Database } from "../../src/lib/database.types";
 import type { Influencer } from "../../src/types";
 import { createSupabaseClient } from "../lib/supabase-client";
+import { getAiConfig } from "./ai-config";
+import type { RecommendationOutput } from "./ai-recommendation-schema";
 import {
-  type AiRecommendationResult,
-  createOpenRouterClient,
-  generateRecommendations,
-  type OpenRouterClient,
-} from "./ai-service";
+  type AiRecommendationService,
+  type CampaignPayload,
+  createAiRecommendationService,
+} from "./ai-recommendation-service";
 
 type UserRow = Database["public"]["Tables"]["users"]["Row"];
-
-interface RecommendationPayload {
-  niche: string;
-  company_size: string;
-  budget: number;
-  target_audience: string;
-  location: string;
-  campaign_type: string;
-}
 
 interface AiRecommendationsDependencies {
   getAuthUser: () => Promise<{ id: string } | null>;
   getUserProfile: (userId: string) => Promise<UserRow | null>;
   getAvailableInfluencers: () => Promise<Influencer[]>;
-  getOpenRouterClient: () => OpenRouterClient;
+  getAiService: () => AiRecommendationService;
 }
 
 type AiRecommendationsDependenciesFactory = (
@@ -64,10 +56,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
       async getAvailableInfluencers() {
         const { data, error } = await supabase
           .from("influencers")
-          .select(`
-            *,
-            user:users (*)
-          `)
+          .select("*, user:users (*)")
           .eq("is_available", true)
           .eq("verification_status", "verified")
           .order("followers_count", { ascending: false })
@@ -80,17 +69,9 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
         return (data as Influencer[]) ?? [];
       },
 
-      getOpenRouterClient() {
-        const apiKey = process.env.OPENROUTER_API_KEY;
-        const model = process.env.OPENROUTER_MODEL ?? "gpt-oss-20b";
-        if (!apiKey) {
-          throw new Error("Konfigurasi API AI tidak lengkap.");
-        }
-
-        return createOpenRouterClient({
-          apiKey,
-          model,
-        });
+      getAiService() {
+        const config = getAiConfig();
+        return createAiRecommendationService(config);
       },
     };
   };
@@ -103,7 +84,7 @@ const jsonResponse = (body: unknown, status = 200) =>
 
 const parsePayload = async (request: Request) => {
   try {
-    return (await request.json()) as Partial<RecommendationPayload>;
+    return (await request.json()) as Partial<CampaignPayload>;
   } catch {
     return null;
   }
@@ -114,7 +95,7 @@ const validatePayload = (payload: ReturnType<typeof parsePayload>) => {
     return "Payload tidak valid.";
   }
 
-  const requiredFields: (keyof RecommendationPayload)[] = [
+  const requiredFields: (keyof CampaignPayload)[] = [
     "niche",
     "company_size",
     "budget",
@@ -182,7 +163,10 @@ const formatErrorResponse = (error: unknown): Response => {
   const errorMessage =
     error instanceof Error ? error.message : "Terjadi kesalahan.";
 
-  if (errorMessage.includes("Rate limit")) {
+  if (
+    errorMessage.includes("rate limit") ||
+    errorMessage.includes("Rate limit")
+  ) {
     return jsonResponse(
       { message: "Terlalu banyak permintaan. Silakan coba lagi nanti." },
       429
@@ -204,14 +188,18 @@ const formatErrorResponse = (error: unknown): Response => {
   );
 };
 
+interface EnrichedRecommendation {
+  influencerId: string;
+  matchScore: number;
+  reasons: string[];
+  contentStrategy: string;
+  influencer: Influencer;
+}
+
 const enrichRecommendationsWithInfluencers = (
-  aiResult: AiRecommendationResult,
+  aiResult: RecommendationOutput,
   influencers: Influencer[]
-): Array<
-  AiRecommendationResult["recommendations"][number] & {
-    influencer: Influencer;
-  }
-> => {
+): EnrichedRecommendation[] => {
   const influencerMap = new Map(influencers.map((inf) => [inf.id, inf]));
 
   return aiResult.recommendations
@@ -226,13 +214,7 @@ const enrichRecommendationsWithInfluencers = (
         influencer,
       };
     })
-    .filter(
-      (
-        item
-      ): item is AiRecommendationResult["recommendations"][number] & {
-        influencer: Influencer;
-      } => item !== null
-    );
+    .filter((item): item is EnrichedRecommendation => item !== null);
 };
 
 const processRecommendationRequest = async (
@@ -262,9 +244,9 @@ const processRecommendationRequest = async (
     );
   }
 
-  const [influencers, openRouterClient] = await Promise.all([
+  const [influencers, aiService] = await Promise.all([
     dependencies.getAvailableInfluencers(),
-    dependencies.getOpenRouterClient(),
+    Promise.resolve(dependencies.getAiService()),
   ]);
 
   if (influencers.length === 0) {
@@ -283,10 +265,9 @@ const processRecommendationRequest = async (
     });
   }
 
-  const aiResult = await generateRecommendations(
-    payload as RecommendationPayload,
-    influencers,
-    openRouterClient
+  const aiResult = await aiService.generateRecommendations(
+    payload as CampaignPayload,
+    influencers
   );
 
   const enrichedRecommendations = enrichRecommendationsWithInfluencers(

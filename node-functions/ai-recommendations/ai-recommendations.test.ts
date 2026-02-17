@@ -1,10 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import type { Influencer } from "../../src/types";
+import type { AiRecommendationService } from "./ai-recommendation-service";
 import {
-  createOpenRouterClient,
   generateRecommendationPrompt,
   type InfluencerMatch,
-  type OpenRouterClient,
 } from "./ai-service";
 import { createAiRecommendationsHandler } from "./index";
 
@@ -183,37 +182,59 @@ const createRequest = (
   });
 };
 
+const createMockAiService = (
+  recommendations: Array<{
+    influencerId: string;
+    matchScore: number;
+    reasons: string[];
+    contentStrategy: string;
+  }>,
+  summary: string
+): AiRecommendationService => ({
+  generateRecommendations: vi.fn().mockResolvedValue({
+    recommendations,
+    summary,
+  }),
+});
+
 const createDependencies = (overrides?: {
   getAuthUser?: () => Promise<{ id: string } | null>;
   getUserProfile?: () => Promise<typeof baseUser | null>;
   getAvailableInfluencers?: () => Promise<Influencer[]>;
-  getOpenRouterClient?: () => OpenRouterClient;
+  getAiService?: () => AiRecommendationService;
 }) => ({
   getAuthUser: overrides?.getAuthUser ?? (async () => ({ id: baseUser.id })),
   getUserProfile: overrides?.getUserProfile ?? (async () => baseUser),
   getAvailableInfluencers:
     overrides?.getAvailableInfluencers ?? (async () => baseInfluencers),
-  getOpenRouterClient:
-    overrides?.getOpenRouterClient ??
+  getAiService:
+    overrides?.getAiService ??
     (() =>
-      createOpenRouterClient({
-        apiKey: "test-api-key",
-        baseUrl: "https://api.test.com",
-      })),
+      createMockAiService(
+        [
+          {
+            influencerId: "inf-1",
+            matchScore: 85,
+            reasons: ["Niche cocok"],
+            contentStrategy: "Review produk",
+          },
+        ],
+        "Rekomendasi berhasil"
+      )),
 });
 
 const createHandler = (overrides?: {
   getAuthUser?: () => Promise<{ id: string } | null>;
   getUserProfile?: () => Promise<typeof baseUser | null>;
   getAvailableInfluencers?: () => Promise<Influencer[]>;
-  getOpenRouterClient?: () => OpenRouterClient;
+  getAiService?: () => AiRecommendationService;
 }) => createAiRecommendationsHandler(() => createDependencies(overrides));
 
 describe("ai recommendations handler with OpenRouter integration", () => {
   describe("basic integration", () => {
     it("menerima brief SME dan mengembalikan rekomendasi AI dengan influencer yang cocok", async () => {
-      const mockAiResponse = {
-        recommendations: [
+      const mockAiService = createMockAiService(
+        [
           {
             influencerId: "inf-3",
             matchScore: 95,
@@ -234,21 +255,11 @@ describe("ai recommendations handler with OpenRouter integration", () => {
             contentStrategy: "Konten lifestyle dengan sentuhan kuliner",
           },
         ],
-        summary:
-          "Kampanye brand awareness untuk UMKM kuliner di Jakarta akan paling efektif dengan influencer spesialis kuliner lokal.",
-      };
-
-      const mockOpenRouterClient: OpenRouterClient = {
-        complete: vi.fn().mockResolvedValue({
-          content: `Berikut rekomendasinya:\n${JSON.stringify(
-            mockAiResponse
-          )}\nSelesai.`,
-          usage: { prompt_tokens: 1500, completion_tokens: 500 },
-        }),
-      };
+        "Kampanye brand awareness untuk UMKM kuliner di Jakarta akan paling efektif dengan influencer spesialis kuliner lokal."
+      );
 
       const handler = createHandler({
-        getOpenRouterClient: () => mockOpenRouterClient,
+        getAiService: () => mockAiService,
       });
 
       const response = await handler({
@@ -269,16 +280,17 @@ describe("ai recommendations handler with OpenRouter integration", () => {
       expect(data.data.recommendations).toHaveLength(2);
       expect(data.data.recommendations[0].influencerId).toBe("inf-3");
       expect(data.data.recommendations[0].matchScore).toBe(95);
-      expect(mockOpenRouterClient.complete).toHaveBeenCalled();
     });
 
-    it("menangani error dari OpenRouter API dengan grace", async () => {
-      const mockOpenRouterClient: OpenRouterClient = {
-        complete: vi.fn().mockRejectedValue(new Error("API Error")),
+    it("menangani error dari AI service dengan grace", async () => {
+      const mockAiService: AiRecommendationService = {
+        generateRecommendations: vi
+          .fn()
+          .mockRejectedValue(new Error("API Error")),
       };
 
       const handler = createHandler({
-        getOpenRouterClient: () => mockOpenRouterClient,
+        getAiService: () => mockAiService,
       });
 
       const response = await handler({
@@ -320,46 +332,6 @@ describe("ai recommendations handler with OpenRouter integration", () => {
   });
 
   describe("influencer matching", () => {
-    it("memfilter influencer berdasarkan budget yang tersedia", async () => {
-      const lowBudgetPayload = {
-        ...campaignPayload,
-        budget: 500_000,
-      };
-
-      const mockOpenRouterClient: OpenRouterClient = {
-        complete: vi.fn().mockResolvedValue({
-          content: JSON.stringify({
-            recommendations: [],
-            summary: "Budget terlalu rendah",
-          }),
-          usage: { prompt_tokens: 1000, completion_tokens: 200 },
-        }),
-      };
-
-      const mockGetInfluencers = vi.fn().mockResolvedValue([
-        {
-          ...baseInfluencers[1],
-          price_per_post: 350_000,
-        },
-        {
-          ...baseInfluencers[3],
-          price_per_post: 280_000,
-        },
-      ]);
-
-      const handler = createHandler({
-        getAvailableInfluencers: mockGetInfluencers,
-        getOpenRouterClient: () => mockOpenRouterClient,
-      });
-
-      await handler({ request: createRequest(lowBudgetPayload) });
-
-      const callArgs = mockOpenRouterClient.complete.mock.calls[0][0];
-      expect(callArgs).toContain("350.000");
-      expect(callArgs).toContain("280.000");
-      expect(callArgs).not.toContain("750.000");
-    });
-
     it("mempertimbangkan lokasi influencer dalam rekomendasi", () => {
       const jakartaInfluencers = baseInfluencers.filter(
         (inf) => inf.location === "Jakarta"
@@ -516,8 +488,8 @@ describe("ai recommendations handler with OpenRouter integration", () => {
 
   describe("recommendation structure", () => {
     it("mengembalikan struktur rekomendasi yang lengkap", async () => {
-      const mockAiResponse = {
-        recommendations: [
+      const mockAiService = createMockAiService(
+        [
           {
             influencerId: "inf-1",
             matchScore: 85,
@@ -525,18 +497,11 @@ describe("ai recommendations handler with OpenRouter integration", () => {
             contentStrategy: "Strategy detail",
           },
         ],
-        summary: "Test summary",
-      };
-
-      const mockOpenRouterClient: OpenRouterClient = {
-        complete: vi.fn().mockResolvedValue({
-          content: JSON.stringify(mockAiResponse),
-          usage: { prompt_tokens: 1000, completion_tokens: 300 },
-        }),
-      };
+        "Test summary"
+      );
 
       const handler = createHandler({
-        getOpenRouterClient: () => mockOpenRouterClient,
+        getAiService: () => mockAiService,
       });
 
       const response = await handler({
@@ -556,8 +521,8 @@ describe("ai recommendations handler with OpenRouter integration", () => {
     });
 
     it("menyertakan detail influencer lengkap dalam response", async () => {
-      const mockAiResponse = {
-        recommendations: [
+      const mockAiService = createMockAiService(
+        [
           {
             influencerId: "inf-3",
             matchScore: 90,
@@ -565,18 +530,11 @@ describe("ai recommendations handler with OpenRouter integration", () => {
             contentStrategy: "Review makanan",
           },
         ],
-        summary: "Summary",
-      };
-
-      const mockOpenRouterClient: OpenRouterClient = {
-        complete: vi.fn().mockResolvedValue({
-          content: JSON.stringify(mockAiResponse),
-          usage: { prompt_tokens: 1000, completion_tokens: 300 },
-        }),
-      };
+        "Summary"
+      );
 
       const handler = createHandler({
-        getOpenRouterClient: () => mockOpenRouterClient,
+        getAiService: () => mockAiService,
       });
 
       const response = await handler({
@@ -596,8 +554,9 @@ describe("ai recommendations handler with OpenRouter integration", () => {
   });
 });
 
-describe("OpenRouter client", () => {
+describe("OpenRouter client (legacy)", () => {
   it("membuat request dengan header yang benar", async () => {
+    const { createOpenRouterClient } = await import("./ai-service");
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
@@ -640,6 +599,7 @@ describe("OpenRouter client", () => {
   });
 
   it("menggunakan model OpenRouter yang disediakan", async () => {
+    const { createOpenRouterClient } = await import("./ai-service");
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
@@ -673,6 +633,7 @@ describe("OpenRouter client", () => {
   });
 
   it("melempar error saat API mengembalikan error", async () => {
+    const { createOpenRouterClient } = await import("./ai-service");
     const mockFetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 429,

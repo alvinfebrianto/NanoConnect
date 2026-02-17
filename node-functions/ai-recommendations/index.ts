@@ -173,7 +173,7 @@ const formatErrorResponse = (error: unknown): Response => {
     );
   }
 
-  if (errorMessage.includes("API key") || errorMessage.includes("API key AI")) {
+  if (errorMessage.includes("API key")) {
     return jsonResponse(
       { message: "Konfigurasi AI tidak valid. Hubungi administrator." },
       500

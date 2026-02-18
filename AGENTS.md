@@ -7,7 +7,7 @@ A platform that matches SMEs (UMKM) with local nano influencers based on budget,
 
 ## External File Loading
 
-CRITICAL: When you encounter a file reference (e.g., @rules/pages-llms.mdc), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
+CRITICAL: When you encounter a file reference (e.g. @rules/pages-llms.mdc), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
 
 Instructions:
 
@@ -29,8 +29,8 @@ For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 
 ### Website Localization
 
-- **Language**: user-facing text on website UI must be in Indonesia
-- **Currency**: pricing and budget displays must use Rupiah (Rp)
+- **Language**: User-facing text on website UI must be in Indonesia
+- **Currency**: Pricing and budget displays must use Rupiah (Rp)
 
 ## Tech Stack & Infrastructure
 
@@ -86,18 +86,15 @@ npm install
 ### Run Commands
 
 ```bash
-npm run dev       # Start development server (Vite)
-npm run typecheck # Run TypeScript checks without emitting files
-npm run build     # Build for production
-npm run preview   # Preview production build
-npx ultracite check  # Check for linting/formatting issues
-npx ultracite fix    # Fix linting/formatting issues
+npm run dev
+npm run typecheck
+npx ultracite check
+npx ultracite fix
 ```
 
 ### Codex CLI (Windows PowerShell)
 
-When running commands from Codex CLI in Windows PowerShell, use `.cmd`
-executables for npm tooling to avoid Volta PowerShell shim resolution issues.
+When running commands from Codex CLI in Windows PowerShell, use `.cmd` executables for npm tooling to avoid Volta PowerShell shim resolution issues.
 
 - Use `npm.cmd ...` instead of `npm ...`
 - Use `npx.cmd ...` instead of `npx ...`
@@ -117,30 +114,12 @@ executables for npm tooling to avoid Volta PowerShell shim resolution issues.
 └── public/          # Static assets
 ```
 
-### Environment Variables
-
-Create `.env` file with:
-
-- `VITE_SUPABASE_URL` - Supabase project URL
-- `VITE_SUPABASE_ANON_KEY` - Supabase anonymous key
-- `VITE_OPENROUTER_API_KEY` - OpenRouter API key
-
-### Tech Conventions
-
-- **TypeScript**: All new code must be TypeScript with strict types
-- **Linting/Formatting**: Run `npx ultracite fix` before committing
-- **File naming**: PascalCase for components (e.g., `InfluencerCard.tsx`), camelCase for utilities
-- **Imports**: Use path aliases (`@/components`, `@/lib`, `@/pages`)
-
 ### Important
 
-1. Always check existing components in `src/components/` before creating new ones
-2. Run `npx ultracite fix` after making changes to auto-fix linting/formatting issues
+1. Invoke skill react-doctor then run `npm run typecheck` then `npx ultracite fix` after making changes to auto-fix linting/formatting issues
+2. Always check existing components in `src/components/` before creating new ones
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
-5. Before committing, run:
-   - `npx ultracite fix` (or `npx.cmd ultracite fix` in Codex CLI on Windows)
-   - `npm run typecheck` (or `npm.cmd run typecheck` in Codex CLI on Windows)
 
 # Ultracite Code Standards
 

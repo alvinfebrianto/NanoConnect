@@ -1,5 +1,11 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { generateText, Output } from "ai";
+import {
+  extractJsonMiddleware,
+  generateText,
+  NoObjectGeneratedError,
+  Output,
+  wrapLanguageModel,
+} from "ai";
 import type { Influencer } from "../../src/types";
 import type { AiConfig } from "./ai-config";
 import {
@@ -29,9 +35,9 @@ export type GenerateTextFn = (options: {
   system: string;
   prompt: string;
   output: unknown;
-}) => Promise<{ output: RecommendationOutput }>;
+}) => Promise<{ output: unknown }>;
 
-export interface AiServiceDependencies {
+interface AiServiceDependencies {
   generateText: GenerateTextFn;
   createProvider: (apiKey: string) => { model: (id: string) => unknown };
 }
@@ -114,12 +120,29 @@ const RATE_LIMIT_ERROR_MSG =
 const defaultDependencies: AiServiceDependencies = {
   generateText: (options) =>
     generateText(options as Parameters<typeof generateText>[0]) as Promise<{
-      output: RecommendationOutput;
+      output: unknown;
     }>,
   createProvider: (apiKey: string) => {
     const openrouter = createOpenRouter({ apiKey });
-    return { model: (id: string) => openrouter(id) };
+    return {
+      model: (id: string) =>
+        wrapLanguageModel({
+          model: openrouter(id, {
+            reasoning: { exclude: true, effort: "none" },
+            plugins: [{ id: "response-healing" }],
+          }),
+          middleware: extractJsonMiddleware(),
+        }),
+    };
   },
+};
+
+const parseRecommendationOutput = (value: unknown): RecommendationOutput => {
+  const parsed = recommendationSchema.safeParse(value);
+  if (!parsed.success) {
+    throw new Error("Output AI tidak valid terhadap schema rekomendasi.");
+  }
+  return parsed.data;
 };
 
 export function createAiRecommendationService(
@@ -145,8 +168,24 @@ export function createAiRecommendationService(
         output: Output.object({ schema: recommendationSchema }),
       });
 
-      return result.output;
+      return parseRecommendationOutput(result.output);
     } catch (error) {
+      if (NoObjectGeneratedError.isInstance(error)) {
+        const provider = dependencies.createProvider(currentKey);
+        const fallbackModel = provider.model(config.model);
+
+        const fallbackResult = await dependencies.generateText({
+          model: fallbackModel,
+          system: `${buildSystemPrompt()}
+
+Balas hanya JSON valid yang sesuai schema. Jangan tambahkan markdown/code fence.`,
+          prompt: buildUserPrompt(campaign, influencers),
+          output: Output.json(),
+        });
+
+        return parseRecommendationOutput(fallbackResult.output);
+      }
+
       if (isRateLimitError(error)) {
         keyRotator.markKeyFailed(currentKey);
         if (!keyRotator.hasAvailableKeys()) {

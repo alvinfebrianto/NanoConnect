@@ -12,7 +12,6 @@ export function BentoFeatures() {
         </p>
 
         <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-          {/* Card 1: AI Matching (Large) */}
           <div className="relative lg:col-span-2 lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
@@ -50,7 +49,6 @@ export function BentoFeatures() {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem]" />
           </div>
 
-          {/* Card 2: Secure Payment */}
           <div className="relative lg:col-start-3 lg:row-start-1">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-tr-[2rem]" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-tr-[calc(2rem+1px)]">
@@ -73,7 +71,6 @@ export function BentoFeatures() {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-tr-[2rem]" />
           </div>
 
-          {/* Card 3: Analytics */}
           <div className="relative lg:col-start-3 lg:row-start-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-br-[2rem]" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-br-[calc(2rem+1px)]">
@@ -98,10 +95,7 @@ export function BentoFeatures() {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-br-[2rem]" />
           </div>
 
-          {/* Card 4: Zero Fees (Full Width Bottom) */}
-          <div className="relative lg:col-span-3 lg:row-start-3">
-            {/* Not needed if grid is 2 rows. Let's stick to 2 rows 3 cols for simplicity. */}
-          </div>
+          <div className="relative lg:col-span-3 lg:row-start-3" />
         </div>
       </div>
     </section>

@@ -87,8 +87,9 @@ npm install
 
 ```bash
 npm run dev
+npx -y react-doctor . --verbose
 npm run typecheck
-npx ultracite check
+npx knip
 npx ultracite fix
 ```
 
@@ -99,7 +100,7 @@ When running commands from Codex CLI in Windows PowerShell, use `.cmd` executabl
 - Use `npm.cmd ...` instead of `npm ...`
 - Use `npx.cmd ...` instead of `npx ...`
 - Example checks:
-  - `npx.cmd ultracite check`
+  - `npx.cmd knip`
   - `npx.cmd ultracite fix`
 
 ### Project Structure
@@ -116,7 +117,7 @@ When running commands from Codex CLI in Windows PowerShell, use `.cmd` executabl
 
 ### Important
 
-1. Invoke skill react-doctor then run `npm run typecheck` then `npx ultracite fix` after making changes to auto-fix linting/formatting issues
+1. Do this one at a time, invoke skill react-doctor then run `npm run typecheck` then `npx knip` then `npx ultracite fix` after making changes to auto-fix linting/formatting issues
 2. Always check existing components in `src/components/` before creating new ones
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)

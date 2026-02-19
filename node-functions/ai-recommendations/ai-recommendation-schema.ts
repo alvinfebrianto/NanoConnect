@@ -13,6 +13,3 @@ export const recommendationSchema = z.object({
 });
 
 export type RecommendationOutput = z.infer<typeof recommendationSchema>;
-
-export const influencerMatchOutputSchema = influencerMatchSchema;
-export type InfluencerMatchOutput = z.infer<typeof influencerMatchOutputSchema>;

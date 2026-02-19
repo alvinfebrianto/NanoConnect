@@ -10,59 +10,22 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
-import type { Influencer, Review } from "@/types";
+import { useInfluencer } from "@/hooks/use-influencer";
 
 export function InfluencerDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [influencer, setInfluencer] = useState<Influencer | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, error } = useInfluencer(id);
   const [activeTab, setActiveTab] = useState<"overview" | "reviews">(
     "overview"
   );
 
-  useEffect(() => {
-    async function fetchInfluencerData() {
-      if (!id) {
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `/influencers?id=${encodeURIComponent(id)}`
-        );
-
-        if (!response.ok) {
-          const payload = (await response.json()) as { message?: string };
-          throw new Error(payload.message || "Gagal memuat influencer.");
-        }
-
-        const payload = (await response.json()) as { data: Influencer };
-        setInfluencer(payload.data);
-
-        const reviewsResponse = await fetch(
-          `/reviews?influencer_id=${encodeURIComponent(id)}`
-        );
-        if (reviewsResponse.ok) {
-          const reviewsPayload = (await reviewsResponse.json()) as {
-            data: Review[];
-          };
-          setReviews(reviewsPayload.data || []);
-        }
-      } catch (error) {
-        console.error("Error fetching influencer data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchInfluencerData();
-  }, [id]);
+  const influencer = data?.influencer ?? null;
+  const reviews = data?.reviews ?? [];
 
   const formatNumber = (num: number): string => {
     if (num >= 1_000_000) {
@@ -82,7 +45,7 @@ export function InfluencerDetail() {
     );
   }
 
-  if (!influencer) {
+  if (error || !influencer) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
         <h2 className="mb-4 font-bold font-display text-2xl text-gray-900">

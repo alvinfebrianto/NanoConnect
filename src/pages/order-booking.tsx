@@ -1,32 +1,23 @@
-import { ArrowLeft, CheckCircle, DollarSign, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, DollarSign, Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { DeliverablesSelector } from "@/components/order/deliverables-selector";
+import { OrderSuccess } from "@/components/order/order-success";
+import { PriceBreakdown } from "@/components/order/price-breakdown";
 import { useAuth } from "@/contexts/auth-context";
+import { useInfluencer } from "@/hooks/use-influencer";
 import { supabase } from "@/lib/supabase";
-import type { Influencer } from "@/types";
-
-const DELIVERABLES = [
-  "Postingan Instagram",
-  "Story Instagram",
-  "Reel Instagram",
-  "Video TikTok",
-  "Video YouTube",
-  "Postingan Twitter/X",
-  "Postingan Blog",
-  "Ulasan Produk",
-];
-
-const PLATFORM_FEE_RATE = 0.1;
 
 export function OrderBooking() {
   const { influencerId } = useParams<{ influencerId: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [influencer, setInfluencer] = useState<Influencer | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, error } = useInfluencer(influencerId);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const influencer = data?.influencer ?? null;
 
   const [formData, setFormData] = useState({
     title: "",
@@ -35,37 +26,6 @@ export function OrderBooking() {
     deliverables: [] as string[],
     deliveryDate: "",
   });
-
-  useEffect(() => {
-    async function fetchInfluencer() {
-      if (!influencerId) {
-        setErrorMessage("Influencer tidak ditemukan.");
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `/influencers?id=${encodeURIComponent(influencerId)}`
-        );
-
-        if (!response.ok) {
-          const payload = (await response.json()) as { message?: string };
-          throw new Error(payload.message || "Gagal memuat influencer.");
-        }
-
-        const payload = (await response.json()) as { data: Influencer };
-        setInfluencer(payload.data);
-      } catch (_error) {
-        // Error state already set via setErrorMessage.
-        setErrorMessage("Gagal memuat data influencer.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchInfluencer();
-  }, [influencerId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,8 +65,7 @@ export function OrderBooking() {
       }
 
       setIsSuccess(true);
-    } catch (_error) {
-      // Error state already set via setErrorMessage.
+    } catch {
       setErrorMessage("Gagal mengirim permintaan pemesanan.");
     } finally {
       setIsSubmitting(false);
@@ -130,7 +89,7 @@ export function OrderBooking() {
     );
   }
 
-  if (!influencer) {
+  if (error || !influencer) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
         <h2 className="mb-4 font-bold font-display text-2xl text-gray-900">
@@ -144,30 +103,7 @@ export function OrderBooking() {
   }
 
   if (isSuccess) {
-    return (
-      <div className="gradient-bg flex min-h-screen items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-8 w-8 text-green-600" />
-          </div>
-          <h2 className="mb-4 font-bold font-display text-2xl text-gray-900">
-            Permintaan Pemesanan Terkirim!
-          </h2>
-          <p className="mb-6 text-gray-600">
-            Permintaan kolaborasi Anda telah dikirim ke {influencer.user?.name}.
-            Mereka akan meninjau permintaan Anda dan merespons dalam waktu 24
-            jam.
-          </p>
-          <button
-            className="btn-primary w-full"
-            onClick={() => navigate("/influencers")}
-            type="button"
-          >
-            Jelajahi Influencer Lainnya
-          </button>
-        </div>
-      </div>
-    );
+    return <OrderSuccess influencerName={influencer.user?.name ?? ""} />;
   }
 
   return (
@@ -267,40 +203,10 @@ export function OrderBooking() {
               />
             </div>
 
-            <fieldset className="space-y-3">
-              <legend className="font-medium text-gray-700 text-sm">
-                Deliverables *
-              </legend>
-              <div className="grid grid-cols-2 gap-3">
-                {DELIVERABLES.map((deliverable) => (
-                  <button
-                    className={`rounded-xl border-2 p-3 text-left transition-all ${
-                      formData.deliverables.includes(deliverable)
-                        ? "border-primary-500 bg-primary-50 text-primary-700"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    key={deliverable}
-                    onClick={() => toggleDeliverable(deliverable)}
-                    type="button"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <div
-                        className={`flex h-4 w-4 items-center justify-center rounded border-2 ${
-                          formData.deliverables.includes(deliverable)
-                            ? "border-primary-500 bg-primary-500"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        {formData.deliverables.includes(deliverable) && (
-                          <CheckCircle className="h-3 w-3 text-white" />
-                        )}
-                      </div>
-                      <span className="font-medium text-sm">{deliverable}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+            <DeliverablesSelector
+              onToggle={toggleDeliverable}
+              selected={formData.deliverables}
+            />
 
             <div>
               <label
@@ -322,40 +228,7 @@ export function OrderBooking() {
               />
             </div>
 
-            <div className="space-y-3 rounded-xl bg-gray-50 p-6">
-              {(() => {
-                const basePrice = influencer.price_per_post;
-                const platformFee =
-                  Math.round(basePrice * PLATFORM_FEE_RATE * 100) / 100;
-                const totalPrice =
-                  Math.round((basePrice + platformFee) * 100) / 100;
-
-                return (
-                  <>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">Biaya Layanan</span>
-                      <span className="font-medium">
-                        Rp {basePrice.toLocaleString("id-ID")}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600">
-                        Biaya Platform (10%)
-                      </span>
-                      <span className="font-medium">
-                        Rp {platformFee.toLocaleString("id-ID")}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between border-gray-200 border-t pt-3">
-                      <span className="font-semibold text-gray-900">Total</span>
-                      <span className="font-bold font-display text-2xl text-primary-600">
-                        Rp {totalPrice.toLocaleString("id-ID")}
-                      </span>
-                    </div>
-                  </>
-                );
-              })()}
-            </div>
+            <PriceBreakdown basePrice={influencer.price_per_post} />
 
             <button
               className="btn-primary flex w-full items-center justify-center space-x-2 py-4 disabled:opacity-50"

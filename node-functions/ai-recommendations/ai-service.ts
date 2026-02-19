@@ -41,7 +41,7 @@ export interface InfluencerMatch {
   contentStrategy: string;
 }
 
-export interface AiRecommendationResult {
+interface AiRecommendationResult {
   recommendations: InfluencerMatch[];
   summary: string;
 }
@@ -319,7 +319,7 @@ const parseAiResponse = (content: string): AiRecommendationResult => {
   }
 };
 
-export const generateRecommendations = async (
+const _generateRecommendations = async (
   campaign: CampaignPayload,
   influencers: Influencer[],
   openRouterClient: OpenRouterClient

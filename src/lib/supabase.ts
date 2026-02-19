@@ -4,7 +4,6 @@ import type { Database } from "./database.types";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Create a dummy client if env vars are missing (for development)
 const createDummyClient = () => {
   console.warn("Supabase environment variables not set. Using dummy client.");
   return {
@@ -14,7 +13,7 @@ const createDummyClient = () => {
         data: {
           subscription: {
             unsubscribe: () => {
-              /* no-op */
+              return;
             },
           },
         },
@@ -49,8 +48,3 @@ export const supabase =
   supabaseUrl && supabaseAnonKey
     ? createClient<Database>(supabaseUrl, supabaseAnonKey)
     : createDummyClient();
-
-export type Tables<T extends keyof Database["public"]["Tables"]> =
-  Database["public"]["Tables"][T]["Row"];
-export type Enums<T extends keyof Database["public"]["Enums"]> =
-  Database["public"]["Enums"][T];

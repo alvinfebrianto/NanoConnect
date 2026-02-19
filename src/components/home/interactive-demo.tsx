@@ -127,32 +127,36 @@ export function InteractiveDemo() {
 
                 {/* Chat Area */}
                 <div className="scrollbar-hide flex h-[calc(100%-8.5rem)] flex-col gap-3 overflow-y-auto bg-stone-50 p-4">
-                  {messages.map((msg, i) => (
-                    <div
-                      className={`flex w-max max-w-[85%] flex-col gap-1 rounded-2xl px-4 py-2.5 text-sm shadow-sm transition-all ${
-                        msg.type === "brand"
-                          ? "self-end rounded-br-sm bg-gradient-to-br from-amber-500 to-orange-500 text-white"
-                          : msg.type === "system"
-                            ? "my-2 w-full max-w-[90%] self-center rounded-full border border-stone-200 bg-stone-100/80 py-1.5 text-center text-[10px] text-stone-500 shadow-none backdrop-blur-sm"
-                            : "self-start rounded-bl-sm border border-stone-100 bg-white text-stone-800"
-                      } animate-fade-in`}
-                      key={i}
-                      style={{
-                        animationDelay: `${i * 800}ms`,
-                        opacity: 0,
-                        animationFillMode: "forwards",
-                      }}
-                    >
-                      {msg.text}
-                      {msg.type !== "system" && (
-                        <span
-                          className={`text-[10px] ${msg.type === "brand" ? "text-amber-100/80" : "text-stone-400"} mt-1 self-end leading-none`}
-                        >
-                          {msg.time}
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                  {messages.map((msg, i) => {
+                    const messageStyles: Record<string, string> = {
+                      brand:
+                        "self-end rounded-br-sm bg-gradient-to-br from-amber-500 to-orange-500 text-white",
+                      system:
+                        "my-2 w-full max-w-[90%] self-center rounded-full border border-stone-200 bg-stone-100/80 py-1.5 text-center text-[10px] text-stone-500 shadow-none backdrop-blur-sm",
+                      influencer:
+                        "self-start rounded-bl-sm border border-stone-100 bg-white text-stone-800",
+                    };
+                    return (
+                      <div
+                        className={`flex w-max max-w-[85%] flex-col gap-1 rounded-2xl px-4 py-2.5 text-sm shadow-sm transition-all ${messageStyles[msg.type]} animate-fade-in`}
+                        key={`msg-${msg.time}`}
+                        style={{
+                          animationDelay: `${i * 800}ms`,
+                          opacity: 0,
+                          animationFillMode: "forwards",
+                        }}
+                      >
+                        {msg.text}
+                        {msg.type !== "system" && (
+                          <span
+                            className={`text-[10px] ${msg.type === "brand" ? "text-amber-100/80" : "text-stone-400"} mt-1 self-end leading-none`}
+                          >
+                            {msg.time}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
 
                   {/* Typing indicator */}
                   <div className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-stone-100 bg-white px-3 py-3 opacity-0 shadow-sm [animation-delay:5000ms] [animation-fill-mode:forwards]">

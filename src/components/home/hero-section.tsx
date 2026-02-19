@@ -27,10 +27,12 @@ export function HeroSection() {
             <span className="relative z-10 inline-block bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
               Lebih Autentik
               <svg
+                aria-hidden="true"
                 className="absolute -bottom-2 left-0 -z-10 h-2 w-full text-amber-200"
                 preserveAspectRatio="none"
                 viewBox="0 0 100 10"
               >
+                <title>Decorative underline</title>
                 <path
                   d="M0 5 Q 50 10 100 5"
                   fill="none"

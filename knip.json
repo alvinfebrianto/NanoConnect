@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "node-functions/*/index.ts",
+    "node-functions/influencers/list.ts",
+    "node-functions/influencers/featured.ts"
+  ],
+  "project": ["src/**/*", "node-functions/**/*"],
+  "ignoreDependencies": ["ultracite"],
+  "ignoreExportsUsedInFile": true
+}

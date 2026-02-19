@@ -1,7 +1,61 @@
 import { Filter, Search, Users, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { InfluencerCard } from "@/components/influencer/influencer-card";
+import { useInfluencers } from "@/hooks/use-influencers";
 import type { FilterOptions, Influencer } from "@/types";
+
+const SKELETON_IDS = ["sk-1", "sk-2", "sk-3", "sk-4", "sk-5", "sk-6"] as const;
+
+interface InfluencerListContentProps {
+  isLoading: boolean;
+  influencers: Influencer[];
+  onClearFilters: () => void;
+}
+
+function InfluencerListContent({
+  isLoading,
+  influencers,
+  onClearFilters,
+}: InfluencerListContentProps) {
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {SKELETON_IDS.map((id) => (
+          <div className="card animate-pulse" key={id}>
+            <div className="mb-4 h-48 rounded-xl bg-gray-200" />
+            <div className="mb-2 h-6 w-3/4 rounded bg-gray-200" />
+            <div className="h-4 w-1/2 rounded bg-gray-200" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (influencers.length === 0) {
+    return (
+      <div className="py-20 text-center">
+        <Users className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+        <h3 className="mb-2 font-display font-semibold text-gray-900 text-xl">
+          Tidak ada influencer ditemukan
+        </h3>
+        <p className="mb-4 text-gray-600">
+          Coba sesuaikan filter atau kriteria pencarian Anda
+        </p>
+        <button className="btn-primary" onClick={onClearFilters} type="button">
+          Hapus Filter
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {influencers.map((influencer) => (
+        <InfluencerCard influencer={influencer} key={influencer.id} />
+      ))}
+    </div>
+  );
+}
 
 const NICHES = [
   "Semua Niche",
@@ -33,11 +87,7 @@ const LOCATIONS = [
 ];
 
 export function InfluencerListing() {
-  const [influencers, setInfluencers] = useState<Influencer[]>([]);
-  const [filteredInfluencers, setFilteredInfluencers] = useState<Influencer[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: influencers = [], isLoading } = useInfluencers();
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>({
@@ -48,27 +98,7 @@ export function InfluencerListing() {
     verificationStatus: "all",
   });
 
-  useEffect(() => {
-    async function fetchInfluencers() {
-      try {
-        const response = await fetch("/influencers/list");
-        if (!response.ok) {
-          throw new Error("Failed to fetch influencers");
-        }
-        const payload = (await response.json()) as { data: Influencer[] };
-        setInfluencers(payload.data || []);
-        setFilteredInfluencers(payload.data || []);
-      } catch (error) {
-        console.error("Error fetching influencers:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchInfluencers();
-  }, []);
-
-  useEffect(() => {
+  const filteredInfluencers = useMemo(() => {
     let result = [...influencers];
 
     if (searchQuery) {
@@ -112,7 +142,7 @@ export function InfluencerListing() {
       );
     }
 
-    setFilteredInfluencers(result);
+    return result;
   }, [searchQuery, filters, influencers]);
 
   const clearFilters = () => {
@@ -124,48 +154,6 @@ export function InfluencerListing() {
       verificationStatus: "all",
     });
     setSearchQuery("");
-  };
-
-  const renderContent = () => {
-    if (isLoading) {
-      return (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[...new Array(6)].map((_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: index is stable for skeleton placeholders
-            <div className="card animate-pulse" key={`skeleton-${i}`}>
-              <div className="mb-4 h-48 rounded-xl bg-gray-200" />
-              <div className="mb-2 h-6 w-3/4 rounded bg-gray-200" />
-              <div className="h-4 w-1/2 rounded bg-gray-200" />
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    if (filteredInfluencers.length === 0) {
-      return (
-        <div className="py-20 text-center">
-          <Users className="mx-auto mb-4 h-16 w-16 text-gray-300" />
-          <h3 className="mb-2 font-display font-semibold text-gray-900 text-xl">
-            Tidak ada influencer ditemukan
-          </h3>
-          <p className="mb-4 text-gray-600">
-            Coba sesuaikan filter atau kriteria pencarian Anda
-          </p>
-          <button className="btn-primary" onClick={clearFilters} type="button">
-            Hapus Filter
-          </button>
-        </div>
-      );
-    }
-
-    return (
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredInfluencers.map((influencer) => (
-          <InfluencerCard influencer={influencer} key={influencer.id} />
-        ))}
-      </div>
-    );
   };
 
   return (
@@ -338,7 +326,11 @@ export function InfluencerListing() {
           </p>
         </div>
 
-        {renderContent()}
+        <InfluencerListContent
+          influencers={filteredInfluencers}
+          isLoading={isLoading}
+          onClearFilters={clearFilters}
+        />
       </div>
     </div>
   );

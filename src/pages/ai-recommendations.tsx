@@ -9,11 +9,11 @@ import {
   Users,
 } from "lucide-react";
 import type { ChangeEvent, FormEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
+import { useProfile } from "@/hooks/use-profile";
 import { supabase } from "@/lib/supabase";
-import type { User } from "@/types";
 
 const NICHES = [
   "Fashion & Gaya Hidup",
@@ -79,10 +79,11 @@ const formatRupiah = (value: number) => `Rp ${value.toLocaleString("id-ID")}`;
 export function AIRecommendations() {
   const { user, isLoading: authLoading } = useAuth();
   const [step, setStep] = useState<"input" | "processing" | "results">("input");
-  const [profile, setProfile] = useState<User | null>(null);
-  const [profileError, setProfileError] = useState("");
-  const [profileLoading, setProfileLoading] = useState(true);
-  const isMountedRef = useRef(true);
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    error: profileError,
+  } = useProfile(!!user, authLoading);
   const [formData, setFormData] = useState<FormState>({
     niche: "",
     company_size: "",
@@ -116,84 +117,6 @@ export function AIRecommendations() {
   } else if (isSme) {
     accountStatusLabel = "Akun SME";
   }
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    const fetchProfile = async () => {
-      const setProfileState = (next: {
-        loading?: boolean;
-        error?: string;
-        profile?: User | null;
-      }) => {
-        if (!isMountedRef.current) {
-          return;
-        }
-
-        if (next.loading !== undefined) {
-          setProfileLoading(next.loading);
-        }
-        if (next.error !== undefined) {
-          setProfileError(next.error);
-        }
-        if (next.profile !== undefined) {
-          setProfile(next.profile);
-        }
-      };
-
-      if (!user) {
-        setProfileState({ profile: null, loading: false });
-        return;
-      }
-
-      setProfileState({ loading: true, error: "" });
-
-      try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        const accessToken = sessionData.session?.access_token;
-        if (!accessToken) {
-          setProfileState({
-            error: "Sesi tidak valid. Silakan masuk kembali.",
-            profile: null,
-          });
-          return;
-        }
-
-        const response = await fetch("/profile", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          setProfileState({
-            error: "Gagal memuat profil SME.",
-            profile: null,
-          });
-          return;
-        }
-
-        const payload = (await response.json()) as {
-          data: { user: User };
-        };
-        setProfileState({ profile: payload.data.user });
-      } catch {
-        setProfileState({
-          error: "Terjadi kesalahan saat memuat profil SME.",
-          profile: null,
-        });
-      } finally {
-        setProfileState({ loading: false });
-      }
-    };
-
-    if (!authLoading) {
-      fetchProfile().catch(() => undefined);
-    }
-
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, [authLoading, user]);
 
   const handleChange =
     (field: keyof FormState) =>
@@ -523,7 +446,9 @@ export function AIRecommendations() {
                   </div>
                 </div>
                 {profileError && (
-                  <p className="mt-4 text-red-600 text-sm">{profileError}</p>
+                  <p className="mt-4 text-red-600 text-sm">
+                    {profileError.message}
+                  </p>
                 )}
                 {!(user || profileLoading) && (
                   <Link

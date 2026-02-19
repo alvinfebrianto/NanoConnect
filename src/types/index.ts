@@ -88,9 +88,3 @@ export interface FilterOptions {
   languages?: string[];
   verificationStatus?: "all" | "verified" | "pending";
 }
-
-export interface MatchScore {
-  influencer_id: string;
-  score: number;
-  reasons: string[];
-}

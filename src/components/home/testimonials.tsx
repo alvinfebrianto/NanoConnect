@@ -49,22 +49,23 @@ export function Testimonials() {
                 <figure className="flex h-full flex-col justify-between rounded-2xl bg-stone-50 p-8 text-sm leading-6 transition-all hover:bg-amber-50 hover:shadow-lg">
                   <div>
                     <div className="mb-4 flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          className="h-4 w-4 fill-amber-400 text-amber-400"
-                          key={i}
-                        />
-                      ))}
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                     </div>
                     <blockquote className="text-stone-900">
-                      <p>“{testimonial.body}”</p>
+                      <p>"{testimonial.body}"</p>
                     </blockquote>
                   </div>
                   <figcaption className="mt-6 flex items-center gap-x-4">
                     <img
                       alt=""
                       className="h-10 w-10 rounded-full bg-stone-50"
+                      height={40}
                       src={testimonial.author.imageUrl}
+                      width={40}
                     />
                     <div>
                       <div className="font-semibold text-stone-900">

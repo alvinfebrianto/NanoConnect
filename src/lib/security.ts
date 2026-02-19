@@ -22,46 +22,11 @@ export function sanitizeInput(input: string): string {
   );
 }
 
-export function validatePrice(price: number): {
-  valid: boolean;
-  error?: string;
-} {
-  const MIN_PRICE = 0;
-  const MAX_PRICE = 100_000; // Rp 1.5B max
-
-  if (typeof price !== "number" || Number.isNaN(price)) {
-    return { valid: false, error: "Harga harus berupa angka yang valid" };
-  }
-
-  if (price < MIN_PRICE) {
-    return { valid: false, error: `Harga minimal Rp ${MIN_PRICE}` };
-  }
-
-  if (price > MAX_PRICE) {
-    return {
-      valid: false,
-      error: `Harga maksimal Rp ${(MAX_PRICE * 15_000).toLocaleString("id-ID")}`,
-    };
-  }
-
-  return { valid: true };
-}
-
 // Top-level regex for email validation
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function validateEmail(email: string): boolean {
   return EMAIL_REGEX.test(email);
-}
-
-export function validateEmailWithMessage(email: string): {
-  valid: boolean;
-  error?: string;
-} {
-  if (!EMAIL_REGEX.test(email)) {
-    return { valid: false, error: "Masukkan alamat email yang valid" };
-  }
-  return { valid: true };
 }
 
 export function validatePassword(password: string): {
@@ -84,50 +49,6 @@ export function validateRequired(
   }
 
   return { valid: true };
-}
-
-export function validateDeliverables(
-  selected: string[],
-  allowed: string[]
-): { valid: boolean; error?: string } {
-  if (!selected || selected.length === 0) {
-    return { valid: false, error: "Minimal satu deliverable harus dipilih" };
-  }
-
-  const invalid = selected.filter((d) => !allowed.includes(d));
-  if (invalid.length > 0) {
-    return { valid: false, error: "Deliverable yang dipilih tidak valid" };
-  }
-
-  return { valid: true };
-}
-
-export function validateFutureDate(date: string | Date): {
-  valid: boolean;
-  error?: string;
-} {
-  const inputDate = new Date(date);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  if (Number.isNaN(inputDate.getTime())) {
-    return { valid: false, error: "Format tanggal tidak valid" };
-  }
-
-  if (inputDate < today) {
-    return { valid: false, error: "Tanggal harus di masa depan" };
-  }
-
-  return { valid: true };
-}
-
-export function escapeHtml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
 
 export function validateUserType(type: string): type is "sme" | "influencer" {

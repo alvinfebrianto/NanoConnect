@@ -16,7 +16,6 @@ async function fetchInfluencer(id: string): Promise<InfluencerDetailData> {
   const payload = (await response.json()) as { data: Influencer };
   const influencer = payload.data;
 
-  // Fetch reviews
   const reviewsResponse = await fetch(
     `/reviews?influencer_id=${encodeURIComponent(id)}`
   );

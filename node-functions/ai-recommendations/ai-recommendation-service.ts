@@ -128,9 +128,7 @@ const defaultDependencies: AiServiceDependencies = {
       model: (id: string) =>
         wrapLanguageModel({
           model: openrouter(id, {
-            // Avoid reasoning-only output which can produce empty text bodies.
             reasoning: { exclude: true, effort: "none" },
-            // Ask OpenRouter to auto-heal malformed JSON in non-streaming mode.
             plugins: [{ id: "response-healing" }],
           }),
           middleware: extractJsonMiddleware(),

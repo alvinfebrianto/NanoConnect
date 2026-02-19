@@ -128,7 +128,6 @@ const parseOrderPayload = async (request: Request) => {
   try {
     return (await request.json()) as OrderPayload;
   } catch (_error) {
-    // Invalid payloads should return a 400 without logging.
     return null;
   }
 };
@@ -247,7 +246,6 @@ export const createOrdersHandler = (
       const orderId = await dependencies.insertOrder(order);
       return jsonResponse({ data: { orderId } }, 201);
     } catch (_error) {
-      // Error caught by outer handler, will return 500 response.
       return jsonResponse(
         { message: "Terjadi kesalahan saat membuat pesanan." },
         500

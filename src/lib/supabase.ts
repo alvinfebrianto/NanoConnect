@@ -4,7 +4,6 @@ import type { Database } from "./database.types";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Create a dummy client if env vars are missing (for development)
 const createDummyClient = () => {
   console.warn("Supabase environment variables not set. Using dummy client.");
   return {
@@ -14,7 +13,7 @@ const createDummyClient = () => {
         data: {
           subscription: {
             unsubscribe: () => {
-              /* no-op */
+              return;
             },
           },
         },

@@ -3,26 +3,16 @@ export function sanitizeInput(input: string): string {
     return "";
   }
 
-  return (
-    input
-      // Remove script tags and their contents
-      .replace(/<script[^>]*>.*?<\/script>/gi, "")
-      // Remove event handlers
-      .replace(/\s*on\w+\s*=\s*["']?[^"'>]*["']?/gi, "")
-      // Remove javascript: protocol
-      .replace(/javascript:/gi, "")
-      // Remove data: protocol
-      .replace(/data:/gi, "")
-      // Remove vbscript: protocol
-      .replace(/vbscript:/gi, "")
-      // Remove expression: (IE)
-      .replace(/expression\s*\(/gi, "")
-      // Trim whitespace
-      .trim()
-  );
+  return input
+    .replace(/<script[^>]*>.*?<\/script>/gi, "")
+    .replace(/\s*on\w+\s*=\s*["']?[^"'>]*["']?/gi, "")
+    .replace(/javascript:/gi, "")
+    .replace(/data:/gi, "")
+    .replace(/vbscript:/gi, "")
+    .replace(/expression\s*\(/gi, "")
+    .trim();
 }
 
-// Top-level regex for email validation
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function validateEmail(email: string): boolean {

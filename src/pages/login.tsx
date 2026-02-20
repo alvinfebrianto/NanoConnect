@@ -4,8 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
 
 export function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +20,7 @@ export function Login() {
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      await login(form.email, form.password);
       navigate(from);
     } catch (err) {
       const errorMessage =
@@ -65,11 +64,13 @@ export function Login() {
                   className="input-field pl-10"
                   id="email"
                   name="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, email: e.target.value }))
+                  }
                   placeholder="anda@contoh.com"
                   required
                   type="email"
-                  value={email}
+                  value={form.email}
                 />
               </div>
             </div>
@@ -87,11 +88,13 @@ export function Login() {
                   className="input-field pr-10 pl-10"
                   id="password"
                   name="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, password: e.target.value }))
+                  }
                   placeholder="Masukkan kata sandi Anda"
                   required
                   type={showPassword ? "text" : "password"}
-                  value={password}
+                  value={form.password}
                 />
                 <button
                   className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-600"

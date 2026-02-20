@@ -14,6 +14,159 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
 import { useInfluencer } from "@/hooks/use-influencer";
+import type { Influencer } from "@/types";
+
+const formatNumber = (num: number): string => {
+  if (num >= 1_000_000) {
+    return `${(num / 1_000_000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}K`;
+  }
+  return num.toString();
+};
+
+function InfluencerSummaryCard({ influencer }: { influencer: Influencer }) {
+  return (
+    <div className="card mb-6">
+      <div className="flex flex-col gap-6 md:flex-row">
+        <img
+          alt={influencer.user?.name}
+          className="h-32 w-32 rounded-2xl object-cover"
+          height={128}
+          src={
+            influencer.user?.avatar_url ||
+            `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
+          }
+          width={128}
+        />
+        <div className="flex-1">
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="mb-2 flex items-center font-bold font-display text-3xl text-gray-900">
+                {influencer.user?.name}
+                {influencer.verification_status === "verified" && (
+                  <CheckCircle className="ml-2 h-6 w-6 text-blue-500" />
+                )}
+              </h1>
+              <p className="mb-3 font-medium text-lg text-primary-600">
+                {influencer.niche}
+              </p>
+            </div>
+          </div>
+
+          <p className="mb-4 text-gray-600">{influencer.user?.bio}</p>
+
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex items-center space-x-1 text-gray-600">
+              <MapPin className="h-4 w-4" />
+              <span>{influencer.location}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-gray-600">
+              <Globe className="h-4 w-4" />
+              <span>{influencer.languages?.join(", ")}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-gray-600">
+              <Calendar className="h-4 w-4" />
+              <span>{influencer.avg_delivery_days} hari pengiriman</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfluencerStatsGrid({
+  followersCount,
+  engagementRate,
+  reviewsCount,
+}: {
+  followersCount: number;
+  engagementRate: number;
+  reviewsCount: number;
+}) {
+  return (
+    <div className="mb-6 grid grid-cols-3 gap-4">
+      <div className="card text-center">
+        <Users className="mx-auto mb-2 h-6 w-6 text-primary-600" />
+        <div className="font-bold font-display text-2xl text-gray-900">
+          {formatNumber(followersCount)}
+        </div>
+        <div className="text-gray-500 text-sm">Pengikut</div>
+      </div>
+      <div className="card text-center">
+        <Star className="mx-auto mb-2 h-6 w-6 text-yellow-500" />
+        <div className="font-bold font-display text-2xl text-gray-900">
+          {engagementRate}%
+        </div>
+        <div className="text-gray-500 text-sm">Engagement</div>
+      </div>
+      <div className="card text-center">
+        <MessageCircle className="mx-auto mb-2 h-6 w-6 text-green-500" />
+        <div className="font-bold font-display text-2xl text-gray-900">
+          {reviewsCount}
+        </div>
+        <div className="text-gray-500 text-sm">Ulasan</div>
+      </div>
+    </div>
+  );
+}
+
+function OrderCard({
+  influencer,
+  onOrder,
+}: {
+  influencer: Influencer;
+  onOrder: () => void;
+}) {
+  return (
+    <div className="lg:col-span-1">
+      <div className="card sticky top-24">
+        <h3 className="mb-4 font-display font-semibold text-lg">
+          Pesan Kolaborasi
+        </h3>
+        <div className="mb-6 space-y-4">
+          <div className="flex items-center justify-between border-gray-100 border-b py-3">
+            <span className="text-gray-600">Harga per postingan</span>
+            <span className="font-bold font-display text-2xl text-gray-900">
+              Rp {(influencer.price_per_post * 15_000).toLocaleString("id-ID")}
+            </span>
+          </div>
+          <div className="flex items-center justify-between border-gray-100 border-b py-3">
+            <span className="text-gray-600">Biaya platform (10%)</span>
+            <span className="text-gray-900">
+              Rp{" "}
+              {(influencer.price_per_post * 15_000 * 0.1).toLocaleString(
+                "id-ID"
+              )}
+            </span>
+          </div>
+          <div className="flex items-center justify-between py-3">
+            <span className="font-medium text-gray-900">Total</span>
+            <span className="font-bold font-display text-primary-600 text-xl">
+              Rp{" "}
+              {(influencer.price_per_post * 15_000 * 1.1).toLocaleString(
+                "id-ID"
+              )}
+            </span>
+          </div>
+        </div>
+        <button
+          className="btn-primary w-full py-3"
+          onClick={onOrder}
+          type="button"
+        >
+          Pesan Sekarang
+        </button>
+        <p className="mt-4 text-center text-gray-500 text-xs">
+          Anda belum akan dikenakan biaya. Influencer akan meninjau permintaan
+          Anda terlebih dahulu.
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export function InfluencerDetail() {
   const { id } = useParams<{ id: string }>();
@@ -26,16 +179,6 @@ export function InfluencerDetail() {
 
   const influencer = data?.influencer ?? null;
   const reviews = data?.reviews ?? [];
-
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000) {
-      return `${(num / 1_000_000).toFixed(1)}M`;
-    }
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
-    return num.toString();
-  };
 
   if (isLoading) {
     return (
@@ -75,78 +218,13 @@ export function InfluencerDetail() {
       <div className="mx-auto -mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <div className="card mb-6">
-              <div className="flex flex-col gap-6 md:flex-row">
-                <img
-                  alt={influencer.user?.name}
-                  className="h-32 w-32 rounded-2xl object-cover"
-                  height={128}
-                  src={
-                    influencer.user?.avatar_url ||
-                    `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
-                  }
-                  width={128}
-                />
-                <div className="flex-1">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h1 className="mb-2 flex items-center font-bold font-display text-3xl text-gray-900">
-                        {influencer.user?.name}
-                        {influencer.verification_status === "verified" && (
-                          <CheckCircle className="ml-2 h-6 w-6 text-blue-500" />
-                        )}
-                      </h1>
-                      <p className="mb-3 font-medium text-lg text-primary-600">
-                        {influencer.niche}
-                      </p>
-                    </div>
-                  </div>
+            <InfluencerSummaryCard influencer={influencer} />
 
-                  <p className="mb-4 text-gray-600">{influencer.user?.bio}</p>
-
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <div className="flex items-center space-x-1 text-gray-600">
-                      <MapPin className="h-4 w-4" />
-                      <span>{influencer.location}</span>
-                    </div>
-                    <div className="flex items-center space-x-1 text-gray-600">
-                      <Globe className="h-4 w-4" />
-                      <span>{influencer.languages?.join(", ")}</span>
-                    </div>
-                    <div className="flex items-center space-x-1 text-gray-600">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {influencer.avg_delivery_days} hari pengiriman
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-6 grid grid-cols-3 gap-4">
-              <div className="card text-center">
-                <Users className="mx-auto mb-2 h-6 w-6 text-primary-600" />
-                <div className="font-bold font-display text-2xl text-gray-900">
-                  {formatNumber(influencer.followers_count)}
-                </div>
-                <div className="text-gray-500 text-sm">Pengikut</div>
-              </div>
-              <div className="card text-center">
-                <Star className="mx-auto mb-2 h-6 w-6 text-yellow-500" />
-                <div className="font-bold font-display text-2xl text-gray-900">
-                  {influencer.engagement_rate}%
-                </div>
-                <div className="text-gray-500 text-sm">Engagement</div>
-              </div>
-              <div className="card text-center">
-                <MessageCircle className="mx-auto mb-2 h-6 w-6 text-green-500" />
-                <div className="font-bold font-display text-2xl text-gray-900">
-                  {reviews.length}
-                </div>
-                <div className="text-gray-500 text-sm">Ulasan</div>
-              </div>
-            </div>
+            <InfluencerStatsGrid
+              engagementRate={influencer.engagement_rate}
+              followersCount={influencer.followers_count}
+              reviewsCount={reviews.length}
+            />
 
             <div className="card">
               <div className="mb-6 flex space-x-6 border-gray-100 border-b">
@@ -260,61 +338,18 @@ export function InfluencerDetail() {
             </div>
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="card sticky top-24">
-              <h3 className="mb-4 font-display font-semibold text-lg">
-                Pesan Kolaborasi
-              </h3>
-              <div className="mb-6 space-y-4">
-                <div className="flex items-center justify-between border-gray-100 border-b py-3">
-                  <span className="text-gray-600">Harga per postingan</span>
-                  <span className="font-bold font-display text-2xl text-gray-900">
-                    Rp{" "}
-                    {(influencer.price_per_post * 15_000).toLocaleString(
-                      "id-ID"
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between border-gray-100 border-b py-3">
-                  <span className="text-gray-600">Biaya platform (10%)</span>
-                  <span className="text-gray-900">
-                    Rp{" "}
-                    {(influencer.price_per_post * 15_000 * 0.1).toLocaleString(
-                      "id-ID"
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between py-3">
-                  <span className="font-medium text-gray-900">Total</span>
-                  <span className="font-bold font-display text-primary-600 text-xl">
-                    Rp{" "}
-                    {(influencer.price_per_post * 15_000 * 1.1).toLocaleString(
-                      "id-ID"
-                    )}
-                  </span>
-                </div>
-              </div>
-              <button
-                className="btn-primary w-full py-3"
-                onClick={() => {
-                  if (user) {
-                    navigate(`/order/${influencer.id}`);
-                  } else {
-                    navigate("/login", {
-                      state: { from: `/order/${influencer.id}` },
-                    });
-                  }
-                }}
-                type="button"
-              >
-                Pesan Sekarang
-              </button>
-              <p className="mt-4 text-center text-gray-500 text-xs">
-                Anda belum akan dikenakan biaya. Influencer akan meninjau
-                permintaan Anda terlebih dahulu.
-              </p>
-            </div>
-          </div>
+          <OrderCard
+            influencer={influencer}
+            onOrder={() => {
+              if (user) {
+                navigate(`/order/${influencer.id}`);
+              } else {
+                navigate("/login", {
+                  state: { from: `/order/${influencer.id}` },
+                });
+              }
+            }}
+          />
         </div>
       </div>
     </div>

@@ -12,15 +12,30 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
 
+interface RegisterForm {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  userType: "sme" | "influencer";
+}
+
 export function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState<"sme" | "influencer">("sme");
+  const [form, setForm] = useState<RegisterForm>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    userType: "sme",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const setField = <K extends keyof RegisterForm>(
+    key: K,
+    value: RegisterForm[K]
+  ) => setForm((prev) => ({ ...prev, [key]: value }));
   const navigate = useNavigate();
   const { register } = useAuth();
 
@@ -28,12 +43,12 @@ export function Register() {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
+    if (form.password !== form.confirmPassword) {
       setError("Kata sandi tidak cocok");
       return;
     }
 
-    if (password.length < 6) {
+    if (form.password.length < 6) {
       setError("Kata sandi minimal 6 karakter");
       return;
     }
@@ -41,7 +56,7 @@ export function Register() {
     setIsLoading(true);
 
     try {
-      await register(name, email, password, userType);
+      await register(form.name, form.email, form.password, form.userType);
       navigate("/");
     } catch (err) {
       const errorMessage =
@@ -74,36 +89,36 @@ export function Register() {
           <div className="grid grid-cols-2 gap-4">
             <button
               className={`flex flex-col items-center space-y-2 rounded-xl border-2 p-4 transition-all duration-200 ${
-                userType === "sme"
+                form.userType === "sme"
                   ? "border-primary-500 bg-primary-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
-              onClick={() => setUserType("sme")}
+              onClick={() => setField("userType", "sme")}
               type="button"
             >
               <Building2
-                className={`h-8 w-8 ${userType === "sme" ? "text-primary-600" : "text-gray-400"}`}
+                className={`h-8 w-8 ${form.userType === "sme" ? "text-primary-600" : "text-gray-400"}`}
               />
               <span
-                className={`font-medium ${userType === "sme" ? "text-primary-700" : "text-gray-600"}`}
+                className={`font-medium ${form.userType === "sme" ? "text-primary-700" : "text-gray-600"}`}
               >
                 Saya Pemilik Bisnis
               </span>
             </button>
             <button
               className={`flex flex-col items-center space-y-2 rounded-xl border-2 p-4 transition-all duration-200 ${
-                userType === "influencer"
+                form.userType === "influencer"
                   ? "border-primary-500 bg-primary-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
-              onClick={() => setUserType("influencer")}
+              onClick={() => setField("userType", "influencer")}
               type="button"
             >
               <Star
-                className={`h-8 w-8 ${userType === "influencer" ? "text-primary-600" : "text-gray-400"}`}
+                className={`h-8 w-8 ${form.userType === "influencer" ? "text-primary-600" : "text-gray-400"}`}
               />
               <span
-                className={`font-medium ${userType === "influencer" ? "text-primary-700" : "text-gray-600"}`}
+                className={`font-medium ${form.userType === "influencer" ? "text-primary-700" : "text-gray-600"}`}
               >
                 Saya Influencer
               </span>
@@ -124,11 +139,11 @@ export function Register() {
                   className="input-field pl-10"
                   id="name"
                   name="name"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setField("name", e.target.value)}
                   placeholder="Nama Lengkap"
                   required
                   type="text"
-                  value={name}
+                  value={form.name}
                 />
               </div>
             </div>
@@ -146,11 +161,11 @@ export function Register() {
                   className="input-field pl-10"
                   id="email"
                   name="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setField("email", e.target.value)}
                   placeholder="anda@contoh.com"
                   required
                   type="email"
-                  value={email}
+                  value={form.email}
                 />
               </div>
             </div>
@@ -168,11 +183,11 @@ export function Register() {
                   className="input-field pr-10 pl-10"
                   id="password"
                   name="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setField("password", e.target.value)}
                   placeholder="Buat kata sandi"
                   required
                   type={showPassword ? "text" : "password"}
-                  value={password}
+                  value={form.password}
                 />
                 <button
                   className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-600"
@@ -201,11 +216,11 @@ export function Register() {
                   className="input-field pl-10"
                   id="confirmPassword"
                   name="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => setField("confirmPassword", e.target.value)}
                   placeholder="Konfirmasi kata sandi Anda"
                   required
                   type={showPassword ? "text" : "password"}
-                  value={confirmPassword}
+                  value={form.confirmPassword}
                 />
               </div>
             </div>

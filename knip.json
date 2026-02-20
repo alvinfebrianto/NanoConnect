@@ -6,6 +6,5 @@
     "node-functions/influencers/featured.ts"
   ],
   "project": ["src/**/*", "node-functions/**/*"],
-  "ignoreDependencies": ["ultracite"],
   "ignoreExportsUsedInFile": true
 }

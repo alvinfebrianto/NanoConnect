@@ -373,7 +373,7 @@ function UserTypeMenu({ userType }: { userType: string }) {
 }
 
 export function Profile() {
-  const { user, isLoading: authLoading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [editState, setEditState] = useState({
     isEditing: false,
@@ -425,15 +425,8 @@ export function Profile() {
   }, [user]);
 
   useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-    if (!user) {
-      navigate("/login");
-      return;
-    }
     fetchProfile();
-  }, [authLoading, user, navigate, fetchProfile]);
+  }, [fetchProfile]);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -496,14 +489,6 @@ export function Profile() {
       console.error("Error logging out");
     }
   };
-
-  if (authLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-500 border-t-transparent" />
-      </div>
-    );
-  }
 
   if (!user) {
     return null;

@@ -37,22 +37,26 @@ For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 ### Frontend
 
 - **Framework**: React.js + Vite
+- **Routing**: React Router DOM (`react-router-dom`)
+- **Server State**: TanStack React Query (`@tanstack/react-query`)
 - **Deployment**: Tencent EdgeOne Pages
 - **Development**: EdgeOne CLI
-- **Icons**: FontAwesome for icons
-- **CSS Framework**: Tailwind CSS v3
+- **Icons**: Lucide (`lucide-react`)
+- **CSS Framework**: Tailwind CSS v3 (custom theme in `tailwind.config.js` with primary/accent palettes, custom fonts, animations)
+- **Validation**: Zod (`zod`)
 
 ### Backend & Storage
 
 - **Database**: Supabase
-- **Edge Storage**: KV Storage (Cache)
-- **Serverless**: Node Functions for business logic
-- **AI Integration**: OpenRouter for smart matching
+- **Caching**: EdgeOne CDN caching (configured in `edgeone.json`)
+- **Serverless**: Node Functions for business logic (`node-functions/`)
+- **AI Integration**: Vercel AI SDK (`ai`) with OpenRouter provider (`@openrouter/ai-sdk-provider`)
 
 ### Authentication
 
-- **Auth Service**: Supabase Auth
-- **Method**: Third-party login integration
+- **Auth Service**: Supabase Auth (email/password)
+- **Auth Context**: `AuthProvider` in `src/contexts/auth-context.tsx`
+- **Pages**: Login (`/login`) and Register (`/register`)
 
 ## Application Architecture
 
@@ -66,7 +70,9 @@ For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 ├── Order/Booking System
 ├── AI Recommendations
 ├── Terms & Conditions
-└── Authentication Pages
+├── Login
+├── Register
+└── Profile
 ```
 
 ## Data Models
@@ -74,6 +80,15 @@ For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 - **Influencer Profile**: Niche, rates, location, portfolio
 - **SME Profile**: Budget, target audience, campaign requirements
 - **Matching Score**: AI-calculated compatibility rating
+
+### TypeScript Types (`src/types/index.ts`)
+
+- `User`, `Influencer`, `Order`, `Review`, `FilterOptions`
+
+### Database Schema (`specdb.sql`)
+
+- Tables: `users`, `influencers`, `orders`, `reviews`
+- Includes RLS policies, triggers, indexes, and sample data
 
 ## Development
 
@@ -91,6 +106,7 @@ npm run doctor
 npm run typecheck
 npm run knip
 npm run lint:fix
+npm run test
 ```
 
 ### Full Check (all quality gates)
@@ -112,19 +128,30 @@ When running commands from Codex CLI in Windows PowerShell, use `.cmd` executabl
 ```
 ├── src/
 │   ├── components/  # React components
+│   ├── contexts/    # React contexts (auth-context)
+│   ├── hooks/       # Custom hooks (use-influencer, use-influencers, use-profile)
 │   ├── pages/       # Page components
 │   ├── lib/         # Utilities and helpers
+│   ├── types/       # TypeScript type definitions
 │   └── styles/      # CSS/styling
-├── supabase/        # Database migrations
-└── public/          # Static assets
+├── node-functions/  # Serverless backend functions
+│   ├── ai-recommendations/  # AI matching logic
+│   ├── influencers/         # Influencer CRUD + listing
+│   ├── orders/              # Order management
+│   ├── profile/             # User profile
+│   ├── reviews/             # Review management
+│   └── lib/                 # Shared backend utilities (supabase-client)
+├── rules/           # Development guidelines
+└── specdb.sql       # Database schema
 ```
 
 ### Important
 
-1. Do this one at a time, invoke skill react-doctor then run `npm run typecheck` then `npm run knip` then `npm run lint:fix` after making changes to auto-fix linting/formatting issues
+1. Run `npm.cmd run check` after making changes to auto-fix linting/formatting issues
 2. Always check existing components in `src/components/` before creating new ones
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
+
 
 # Ultracite Code Standards
 

@@ -1,5 +1,6 @@
 import { Agentation } from "agentation";
 import { Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./components/auth/protected-route";
 import { Footer } from "./components/layout/footer";
 import { Navbar } from "./components/layout/navbar";
 import { AuthProvider } from "./contexts/auth-context";
@@ -26,7 +27,14 @@ function App() {
               <Route element={<About />} path="/about" />
               <Route element={<InfluencerListing />} path="/influencers" />
               <Route element={<InfluencerDetail />} path="/influencers/:id" />
-              <Route element={<OrderBooking />} path="/order/:influencerId" />
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <OrderBooking />
+                  </ProtectedRoute>
+                }
+                path="/order/:influencerId"
+              />
               <Route
                 element={<AIRecommendations />}
                 path="/ai-recommendations"

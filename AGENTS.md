@@ -92,62 +92,37 @@ For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 
 ## Development
 
-### Setup
+### Full Check
 
 ```bash
-npm install
+npm.cmd run check
 ```
-
-### Run Commands
-
-```bash
-npm run dev
-npm run doctor
-npm run typecheck
-npm run knip
-npm run lint:fix
-npm run test
-```
-
-### Full Check (all quality gates)
-
-```bash
-npm run check
-```
-
-### Codex CLI (Windows PowerShell)
-
-When running commands from Codex CLI in Windows PowerShell, use `.cmd` executables for npm tooling to avoid Volta PowerShell shim resolution issues.
-
-- Use `npm.cmd run ...` instead of `npm run ...`
-- Example checks:
-  - `npm.cmd run lint:fix`
 
 ### Project Structure
 
 ```
 ├── src/
-│   ├── components/  # React components
-│   ├── contexts/    # React contexts (auth-context)
-│   ├── hooks/       # Custom hooks (use-influencer, use-influencers, use-profile)
-│   ├── pages/       # Page components
-│   ├── lib/         # Utilities and helpers
-│   ├── types/       # TypeScript type definitions
-│   └── styles/      # CSS/styling
-├── node-functions/  # Serverless backend functions
+│   ├── components/          # React components
+│   ├── contexts/            # React contexts (auth-context)
+│   ├── hooks/               # Custom hooks (use-influencer, use-influencers, use-profile)
+│   ├── pages/               # Page components
+│   ├── lib/                 # Utilities and helpers
+│   ├── types/               # TypeScript type definitions
+│   └── styles/              # CSS/styling
+├── node-functions/          # Serverless backend functions
 │   ├── ai-recommendations/  # AI matching logic
 │   ├── influencers/         # Influencer CRUD + listing
 │   ├── orders/              # Order management
 │   ├── profile/             # User profile
 │   ├── reviews/             # Review management
 │   └── lib/                 # Shared backend utilities (supabase-client)
-├── rules/           # Development guidelines
-└── specdb.sql       # Database schema
+├── rules/                   # Development guidelines
+└── specdb.sql               # Database schema
 ```
 
 ### Important
 
-1. Run `npm.cmd run check` after making changes to auto-fix linting/formatting issues
+1. Always run `npm.cmd run check` after making changes to auto-fix linting/formatting issues
 2. Always check existing components in `src/components/` before creating new ones
 3. Prefer existing utility functions in `src/lib/` over creating new ones
 4. Use the project's existing UI patterns (check `src/components/ui/`)
@@ -160,8 +135,6 @@ This project uses **Ultracite**, a zero-config preset that enforces strict code 
 ## Quick Reference
 
 - **Format code**: `npx ultracite fix`
-- **Check for issues**: `npx ultracite check`
-- **Diagnose setup**: `npx ultracite doctor`
 
 Biome (the underlying engine) provides robust linting and formatting. Most issues are automatically fixable.
 

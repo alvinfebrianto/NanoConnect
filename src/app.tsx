@@ -42,7 +42,14 @@ function App() {
               <Route element={<Terms />} path="/terms" />
               <Route element={<Login />} path="/login" />
               <Route element={<Register />} path="/register" />
-              <Route element={<Profile />} path="/profile" />
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+                path="/profile"
+              />
             </Routes>
           </main>
           <Footer />

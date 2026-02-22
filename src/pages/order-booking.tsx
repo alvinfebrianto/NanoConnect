@@ -43,7 +43,7 @@ export function OrderBooking() {
         return;
       }
 
-      const response = await fetch("/orders", {
+      const response = await fetch("/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

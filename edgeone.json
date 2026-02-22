@@ -15,31 +15,31 @@
   },
   "routes": [
     {
-      "src": "/influencers/featured",
+      "src": "/api/influencers/featured",
       "dest": "/node-functions/influencers/featured"
     },
     {
-      "src": "/influencers/list",
+      "src": "/api/influencers/list",
       "dest": "/node-functions/influencers/list"
     },
     {
-      "src": "/influencers",
+      "src": "/api/influencers",
       "dest": "/node-functions/influencers/index"
     },
     {
-      "src": "/reviews",
+      "src": "/api/reviews",
       "dest": "/node-functions/reviews/index"
     },
     {
-      "src": "/orders",
+      "src": "/api/orders",
       "dest": "/node-functions/orders/index"
     },
     {
-      "src": "/profile",
+      "src": "/api/profile",
       "dest": "/node-functions/profile/index"
     },
     {
-      "src": "/ai-recommendations",
+      "src": "/api/ai-recommendations",
       "dest": "/node-functions/ai-recommendations/index"
     },
     {

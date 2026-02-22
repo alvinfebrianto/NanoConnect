@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@/types";
 
-async function fetchProfile(): Promise<User | null> {
+export async function fetchProfile(): Promise<User | null> {
   const { data: sessionData } = await supabase.auth.getSession();
   const accessToken = sessionData.session?.access_token;
   if (!accessToken) {
     return null;
   }
 
-  const response = await fetch("/profile", {
+  const response = await fetch("/api/profile", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

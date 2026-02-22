@@ -401,7 +401,7 @@ export function Profile() {
       if (!accessToken) {
         throw new Error("Sesi tidak valid. Silakan masuk kembali.");
       }
-      const response = await fetch("/profile", {
+      const response = await fetch("/api/profile", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -442,7 +442,7 @@ export function Profile() {
         }));
         return;
       }
-      const response = await fetch("/profile", {
+      const response = await fetch("/api/profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -7,7 +7,7 @@ interface InfluencerDetailData {
 }
 
 async function fetchInfluencer(id: string): Promise<InfluencerDetailData> {
-  const response = await fetch(`/influencers?id=${encodeURIComponent(id)}`);
+  const response = await fetch(`/api/influencers?id=${encodeURIComponent(id)}`);
   if (!response.ok) {
     const payload = (await response.json()) as { message?: string };
     throw new Error(payload.message || "Gagal memuat influencer.");
@@ -17,7 +17,7 @@ async function fetchInfluencer(id: string): Promise<InfluencerDetailData> {
   const influencer = payload.data;
 
   const reviewsResponse = await fetch(
-    `/reviews?influencer_id=${encodeURIComponent(id)}`
+    `/api/reviews?influencer_id=${encodeURIComponent(id)}`
   );
   let reviews: Review[] = [];
   if (reviewsResponse.ok) {

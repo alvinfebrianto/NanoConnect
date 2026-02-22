@@ -521,7 +521,7 @@ export function AIRecommendations() {
         throw new Error("Sesi tidak valid. Silakan masuk kembali.");
       }
 
-      const response = await fetch("/ai-recommendations", {
+      const response = await fetch("/api/ai-recommendations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

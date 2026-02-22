@@ -1,5 +1,6 @@
 import { Agentation } from "agentation";
 import { Route, Routes } from "react-router-dom";
+import { GuestRoute } from "./components/auth/guest-route";
 import { ProtectedRoute } from "./components/auth/protected-route";
 import { Footer } from "./components/layout/footer";
 import { Navbar } from "./components/layout/navbar";
@@ -40,8 +41,22 @@ function App() {
                 path="/ai-recommendations"
               />
               <Route element={<Terms />} path="/terms" />
-              <Route element={<Login />} path="/login" />
-              <Route element={<Register />} path="/register" />
+              <Route
+                element={
+                  <GuestRoute>
+                    <Login />
+                  </GuestRoute>
+                }
+                path="/login"
+              />
+              <Route
+                element={
+                  <GuestRoute>
+                    <Register />
+                  </GuestRoute>
+                }
+                path="/register"
+              />
               <Route
                 element={
                   <ProtectedRoute>

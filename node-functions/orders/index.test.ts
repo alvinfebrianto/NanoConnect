@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createOrdersHandler } from "../index";
+import { createOrdersHandler } from "./index";
 
 const buildRequest = (body: Record<string, unknown>, token?: string) =>
   new Request("https://example.com/api/orders", {

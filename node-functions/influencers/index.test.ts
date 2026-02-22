@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createInfluencersHandler } from "../index";
+import { createInfluencersHandler } from "./index";
 
 const createContext = (url: string) => ({
   request: new Request(url, { method: "GET" }),

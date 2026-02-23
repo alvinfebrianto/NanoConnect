@@ -1,23 +1,26 @@
-import type { Influencer } from "../../src/types";
-import { createSupabaseClient } from "../lib/supabase-client";
+import type { Influencer } from "../../../src/types";
+import { createSupabaseClient } from "../../lib/supabase-client";
 
-interface InfluencersListHandlerDependencies {
-  listInfluencers: () => Promise<Influencer[]>;
+interface FeaturedInfluencersHandlerDependencies {
+  getFeaturedInfluencers: () => Promise<Influencer[]>;
 }
 
-type InfluencersDependenciesFactory = () => InfluencersListHandlerDependencies;
+type FeaturedInfluencersDependenciesFactory =
+  () => FeaturedInfluencersHandlerDependencies;
 
-const createInfluencersListDependencies: InfluencersDependenciesFactory =
+const createFeaturedInfluencersDependencies: FeaturedInfluencersDependenciesFactory =
   () => {
     const supabase = createSupabaseClient();
 
     return {
-      async listInfluencers() {
+      async getFeaturedInfluencers() {
         const { data, error } = await supabase
           .from("influencers")
           .select("*, user:users(*)")
+          .eq("verification_status", "verified")
           .eq("is_available", true)
-          .order("followers_count", { ascending: false });
+          .order("followers_count", { ascending: false })
+          .limit(6);
 
         if (error) {
           throw error;
@@ -34,8 +37,8 @@ const jsonResponse = (body: unknown, status = 200) =>
     headers: { "content-type": "application/json" },
   });
 
-export const createInfluencersListHandler = (
-  dependenciesFactory: InfluencersDependenciesFactory = createInfluencersListDependencies
+export const createFeaturedInfluencersHandler = (
+  dependenciesFactory: FeaturedInfluencersDependenciesFactory = createFeaturedInfluencersDependencies
 ) =>
   async function onRequest(context: { request: Request }) {
     const { request } = context;
@@ -44,8 +47,8 @@ export const createInfluencersListHandler = (
     }
 
     try {
-      const { listInfluencers } = dependenciesFactory();
-      const influencers = await listInfluencers();
+      const { getFeaturedInfluencers } = dependenciesFactory();
+      const influencers = await getFeaturedInfluencers();
 
       return jsonResponse({ data: influencers }, 200);
     } catch (_error) {
@@ -56,4 +59,4 @@ export const createInfluencersListHandler = (
     }
   };
 
-export const onRequest = createInfluencersListHandler();
+export const onRequest = createFeaturedInfluencersHandler();

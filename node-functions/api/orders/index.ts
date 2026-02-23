@@ -1,5 +1,5 @@
-import type { Database } from "../../src/lib/database.types";
-import { createSupabaseClient } from "../lib/supabase-client";
+import type { Database } from "../../../src/lib/database.types";
+import { createSupabaseClient } from "../../lib/supabase-client";
 
 const DELIVERABLES = [
   "Postingan Instagram",

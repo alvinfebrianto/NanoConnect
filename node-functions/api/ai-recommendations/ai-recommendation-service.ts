@@ -6,7 +6,7 @@ import {
   Output,
   wrapLanguageModel,
 } from "ai";
-import type { Influencer } from "../../src/types";
+import type { Influencer } from "../../../src/types";
 import type { AiConfig } from "./ai-config";
 import {
   type RecommendationOutput,

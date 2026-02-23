@@ -1,5 +1,5 @@
-import type { Influencer } from "../../src/types";
-import { createSupabaseClient } from "../lib/supabase-client";
+import type { Influencer } from "../../../src/types";
+import { createSupabaseClient } from "../../lib/supabase-client";
 
 interface InfluencerHandlerDependencies {
   getInfluencer: (influencerId: string) => Promise<Influencer | null>;

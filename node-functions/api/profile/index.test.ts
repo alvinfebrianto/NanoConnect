@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { createProfileHandler } from "./index";
 
-vi.mock("../lib/supabase-client", () => ({
+vi.mock("../../lib/supabase-client", () => ({
   createSupabaseClient: vi.fn(),
 }));
 
@@ -21,7 +21,7 @@ const createAuthenticatedRequest = (options?: {
   });
 
 const setAuthUser = async (userId: string | null) => {
-  const { createSupabaseClient } = await import("../lib/supabase-client");
+  const { createSupabaseClient } = await import("../../lib/supabase-client");
   vi.mocked(createSupabaseClient).mockReturnValue({
     auth: {
       getUser: vi.fn().mockResolvedValue({

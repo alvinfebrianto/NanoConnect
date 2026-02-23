@@ -1,56 +1,5 @@
 {
   "name": "nanoconnect-app",
-  "version": "1.0.0",
-  "description": "NanoConnect - SME & Nano Influencer Matching Platform",
-  "build": {
-    "command": "npm install && npm run build",
-    "output": "dist"
-  },
-  "functions": {
-    "directory": "node-functions",
-    "runtime": "nodejs18"
-  },
-  "edge_functions": {
-    "directory": "edge-functions"
-  },
-  "routes": [
-    {
-      "src": "/influencers/featured",
-      "dest": "/node-functions/influencers/featured"
-    },
-    {
-      "src": "/influencers/list",
-      "dest": "/node-functions/influencers/list"
-    },
-    {
-      "src": "/influencers",
-      "dest": "/node-functions/influencers/index"
-    },
-    {
-      "src": "/reviews",
-      "dest": "/node-functions/reviews/index"
-    },
-    {
-      "src": "/orders",
-      "dest": "/node-functions/orders/index"
-    },
-    {
-      "src": "/profile",
-      "dest": "/node-functions/profile/index"
-    },
-    {
-      "src": "/ai-recommendations",
-      "dest": "/node-functions/ai-recommendations/index"
-    },
-    {
-      "src": "/edge/.*",
-      "dest": "/edge-functions/$1"
-    },
-    {
-      "src": "/[^.]+",
-      "dest": "/index.html"
-    }
-  ],
   "caches": [
     {
       "source": "/images/*",

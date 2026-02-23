@@ -1,5 +1,5 @@
-import type { Review } from "../../src/types";
-import { createSupabaseClient } from "../lib/supabase-client";
+import type { Review } from "../../../src/types";
+import { createSupabaseClient } from "../../lib/supabase-client";
 
 interface ReviewsHandlerDependencies {
   getReviewsByInfluencer: (influencerId: string) => Promise<Review[]>;

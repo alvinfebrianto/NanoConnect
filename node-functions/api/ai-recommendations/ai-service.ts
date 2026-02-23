@@ -1,4 +1,4 @@
-import type { Influencer } from "../../src/types";
+import type { Influencer } from "../../../src/types";
 
 interface OpenRouterResponse {
   choices: Array<{

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { Influencer } from "../../src/types";
+import type { Influencer } from "../../../src/types";
 import {
   createAiRecommendationService,
   type GenerateTextFn,

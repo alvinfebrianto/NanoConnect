@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function HeroSection() {
@@ -57,14 +57,6 @@ export function HeroSection() {
               <span className="mr-2">Mulai Sekarang</span>
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-amber-500 to-orange-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </Link>
-
-            <Link
-              className="group inline-flex items-center justify-center rounded-full border-2 border-stone-200 bg-white/50 px-8 py-4 font-semibold text-lg text-stone-700 backdrop-blur-sm transition-all hover:scale-105 hover:border-amber-200 hover:bg-white hover:text-amber-700"
-              to="/how-it-works"
-            >
-              <Zap className="mr-2 h-5 w-5 text-amber-500" />
-              <span>Cara Kerja</span>
             </Link>
           </div>
         </div>

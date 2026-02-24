@@ -56,33 +56,33 @@ export function InteractiveDemo() {
                 NanoConnect menyediakan ruang kerja terpadu untuk negosiasi
                 hingga pembayaran.
               </p>
-              <dl className="mt-10 max-w-xl space-y-8 text-base text-stone-600 leading-7 lg:max-w-none">
+              <dl className="mt-10 max-w-xl space-y-6 text-base text-stone-600 leading-7 lg:max-w-none">
                 <div className="relative pl-9">
-                  <dt className="inline font-semibold text-stone-900">
+                  <dt className="font-semibold text-stone-900">
                     <MessageCircle className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
                     Direct Chat.
                   </dt>
-                  <dd className="inline">
+                  <dd className="mt-1">
                     Komunikasi langsung antara brand dan influencer tanpa
                     perantara agency.
                   </dd>
                 </div>
                 <div className="relative pl-9">
-                  <dt className="inline font-semibold text-stone-900">
+                  <dt className="font-semibold text-stone-900">
                     <Check className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
                     Kontrak Digital.
                   </dt>
-                  <dd className="inline">
+                  <dd className="mt-1">
                     Setiap kesepakatan tercatat otomatis sebagai kontrak kerja
                     yang sah.
                   </dd>
                 </div>
                 <div className="relative pl-9">
-                  <dt className="inline font-semibold text-stone-900">
+                  <dt className="font-semibold text-stone-900">
                     <Star className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
                     Review System.
                   </dt>
-                  <dd className="inline">
+                  <dd className="mt-1">
                     Sistem rating transparan untuk menjaga kualitas komunitas.
                   </dd>
                 </div>

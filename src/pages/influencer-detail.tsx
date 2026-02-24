@@ -215,7 +215,7 @@ export function InfluencerDetail() {
         </div>
       </div>
 
-      <div className="mx-auto -mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto -mt-4 max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <InfluencerSummaryCard influencer={influencer} />

@@ -11,6 +11,7 @@ import {
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ProtectedRoute } from "@/components/auth/protected-route";
 import { useAuth } from "@/contexts/auth-context";
 import { useProfile } from "@/hooks/use-profile";
 import { supabase } from "@/lib/supabase";
@@ -592,115 +593,121 @@ export function AIRecommendations() {
   }
 
   return (
-    <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="space-y-8">
-              <div>
-                <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-medium text-primary-600 text-sm shadow-sm">
-                  <Sparkles className="h-4 w-4" />
-                  Pemetaan Kampanye SME
-                </p>
-                <h1 className="mb-4 font-bold font-display text-4xl text-gray-900">
-                  Bangun brief kampanye yang tajam untuk AI NanoConnect
-                </h1>
-                <p className="text-gray-600 text-lg">
-                  Isi 6 data utama agar AI memahami identitas SME Anda dan
-                  langsung menyaring influencer paling relevan.
-                </p>
-              </div>
+    <ProtectedRoute>
+      <div className="animate-fade-in">
+        <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="space-y-8">
+                <div>
+                  <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-medium text-primary-600 text-sm shadow-sm">
+                    <Sparkles className="h-4 w-4" />
+                    Pemetaan Kampanye SME
+                  </p>
+                  <h1 className="mb-4 font-bold font-display text-4xl text-gray-900">
+                    Bangun brief kampanye yang tajam untuk AI NanoConnect
+                  </h1>
+                  <p className="text-gray-600 text-lg">
+                    Isi 6 data utama agar AI memahami identitas SME Anda dan
+                    langsung menyaring influencer paling relevan.
+                  </p>
+                </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100">
-                    <Target className="h-5 w-5 text-primary-600" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Brief fokus</h3>
-                  <p className="mt-2 text-gray-600 text-sm">
-                    AI membaca niche dan jenis kampanye untuk menyesuaikan gaya
-                    konten.
-                  </p>
-                </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-accent-100">
-                    <DollarSign className="h-5 w-5 text-accent-600" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Budget sehat</h3>
-                  <p className="mt-2 text-gray-600 text-sm">
-                    Rekomendasi influencer dikalibrasi dari budget SME Anda.
-                  </p>
-                </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-green-100">
-                    <Users className="h-5 w-5 text-green-600" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Audiens tepat</h3>
-                  <p className="mt-2 text-gray-600 text-sm">
-                    AI menyesuaikan persona audiens dan lokasi target.
-                  </p>
-                </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
-                    <Building2 className="h-5 w-5 text-slate-600" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Skala SME</h3>
-                  <p className="mt-2 text-gray-600 text-sm">
-                    Ukuran bisnis membantu menentukan intensitas kolaborasi.
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/60 bg-white/80 p-6 shadow-lg backdrop-blur">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-[0.2em]">
-                      Profil SME
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl bg-white p-5 shadow-sm">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100">
+                      <Target className="h-5 w-5 text-primary-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Brief fokus</h3>
+                    <p className="mt-2 text-gray-600 text-sm">
+                      AI membaca niche dan jenis kampanye untuk menyesuaikan
+                      gaya konten.
                     </p>
-                    <h3 className="mt-2 font-semibold text-gray-900 text-lg">
-                      {profileLoading
-                        ? "Memuat profil..."
-                        : profile?.name || "Silakan masuk"}
+                  </div>
+                  <div className="rounded-2xl bg-white p-5 shadow-sm">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-accent-100">
+                      <DollarSign className="h-5 w-5 text-accent-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">
+                      Budget sehat
                     </h3>
-                    <p className="mt-1 text-gray-600 text-sm">
-                      {profileLoading
-                        ? ""
-                        : profile?.email ||
-                          "Masuk untuk mengambil data profil SME Anda."}
+                    <p className="mt-2 text-gray-600 text-sm">
+                      Rekomendasi influencer dikalibrasi dari budget SME Anda.
                     </p>
                   </div>
-                  <div className="rounded-full bg-primary-50 px-3 py-1 text-primary-600 text-xs">
-                    {accountStatusLabel}
+                  <div className="rounded-2xl bg-white p-5 shadow-sm">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-green-100">
+                      <Users className="h-5 w-5 text-green-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">
+                      Audiens tepat
+                    </h3>
+                    <p className="mt-2 text-gray-600 text-sm">
+                      AI menyesuaikan persona audiens dan lokasi target.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white p-5 shadow-sm">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+                      <Building2 className="h-5 w-5 text-slate-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Skala SME</h3>
+                    <p className="mt-2 text-gray-600 text-sm">
+                      Ukuran bisnis membantu menentukan intensitas kolaborasi.
+                    </p>
                   </div>
                 </div>
-                {profileError && (
-                  <p className="mt-4 text-red-600 text-sm">
-                    {profileError.message}
-                  </p>
-                )}
-                {!(user || profileLoading) && (
-                  <Link
-                    className="mt-4 inline-flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700"
-                    to="/login"
-                  >
-                    Masuk untuk melanjutkan
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                )}
-              </div>
-            </div>
 
-            <CampaignForm
-              canSubmit={canSubmit}
-              formData={formData}
-              isSme={isSme}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-              submissionError={submissionError}
-            />
+                <div className="rounded-2xl border border-white/60 bg-white/80 p-6 shadow-lg backdrop-blur">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-gray-500 text-xs uppercase tracking-[0.2em]">
+                        Profil SME
+                      </p>
+                      <h3 className="mt-2 font-semibold text-gray-900 text-lg">
+                        {profileLoading
+                          ? "Memuat profil..."
+                          : profile?.name || "Silakan masuk"}
+                      </h3>
+                      <p className="mt-1 text-gray-600 text-sm">
+                        {profileLoading
+                          ? ""
+                          : profile?.email ||
+                            "Masuk untuk mengambil data profil SME Anda."}
+                      </p>
+                    </div>
+                    <div className="rounded-full bg-primary-50 px-3 py-1 text-primary-600 text-xs">
+                      {accountStatusLabel}
+                    </div>
+                  </div>
+                  {profileError && (
+                    <p className="mt-4 text-red-600 text-sm">
+                      {profileError.message}
+                    </p>
+                  )}
+                  {!(user || profileLoading) && (
+                    <Link
+                      className="mt-4 inline-flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700"
+                      to="/login"
+                    >
+                      Masuk untuk melanjutkan
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              <CampaignForm
+                canSubmit={canSubmit}
+                formData={formData}
+                isSme={isSme}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                submissionError={submissionError}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 }

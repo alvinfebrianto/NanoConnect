@@ -2,6 +2,7 @@ import { LogOut, Menu, Sparkles, User, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -14,7 +15,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-gray-100 border-b bg-white/80 backdrop-blur-lg">
+    <nav className="sticky top-0 z-50 border-stone-200 border-b bg-white/80 backdrop-blur-lg dark:border-stone-800 dark:bg-stone-950/80">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link className="flex items-center space-x-2" to="/">
@@ -28,35 +29,37 @@ export function Navbar() {
 
           <div className="hidden items-center space-x-8 md:flex">
             <Link
-              className="font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="font-medium text-stone-600 transition-colors hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               to="/influencers"
             >
               Cari Influencer
             </Link>
             <Link
-              className="font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="font-medium text-stone-600 transition-colors hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               to="/ai-recommendations"
             >
               Cocokan AI
             </Link>
             <Link
-              className="font-medium text-gray-600 transition-colors hover:text-primary-600"
+              className="font-medium text-stone-600 transition-colors hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               to="/about"
             >
               Tentang
             </Link>
 
+            <ThemeSwitcher />
+
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link
-                  className="flex items-center space-x-2 text-gray-600 hover:text-primary-600"
+                  className="flex items-center space-x-2 text-stone-600 hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
                   to="/profile"
                 >
                   <User className="h-5 w-5" />
                   <span className="font-medium">{user.name}</span>
                 </Link>
                 <button
-                  className="p-2 text-gray-600 transition-colors hover:text-red-600"
+                  className="p-2 text-stone-600 transition-colors hover:text-red-600 dark:text-stone-300 dark:hover:text-red-400"
                   onClick={handleLogout}
                   title="Keluar"
                   type="button"
@@ -76,39 +79,42 @@ export function Navbar() {
             )}
           </div>
 
-          <button
-            className="p-2 text-gray-600 md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            type="button"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeSwitcher />
+            <button
+              className="p-2 text-stone-600 dark:text-stone-300"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              type="button"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="border-gray-100 border-t bg-white md:hidden">
+        <div className="border-stone-200 border-t bg-white md:hidden dark:border-stone-800 dark:bg-stone-950">
           <div className="space-y-3 px-4 py-3">
             <Link
-              className="block py-2 font-medium text-gray-600 hover:text-primary-600"
+              className="block py-2 font-medium text-stone-600 hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               onClick={() => setIsMenuOpen(false)}
               to="/influencers"
             >
               Cari Influencer
             </Link>
             <Link
-              className="block py-2 font-medium text-gray-600 hover:text-primary-600"
+              className="block py-2 font-medium text-stone-600 hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               onClick={() => setIsMenuOpen(false)}
               to="/ai-recommendations"
             >
               Cocokan AI
             </Link>
             <Link
-              className="block py-2 font-medium text-gray-600 hover:text-primary-600"
+              className="block py-2 font-medium text-stone-600 hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
               onClick={() => setIsMenuOpen(false)}
               to="/about"
             >
@@ -117,14 +123,14 @@ export function Navbar() {
             {user ? (
               <>
                 <Link
-                  className="block py-2 font-medium text-gray-600 hover:text-primary-600"
+                  className="block py-2 font-medium text-stone-600 hover:text-primary-600 dark:text-stone-300 dark:hover:text-amber-400"
                   onClick={() => setIsMenuOpen(false)}
                   to="/profile"
                 >
                   Profil
                 </Link>
                 <button
-                  className="block w-full py-2 text-left font-medium text-red-600"
+                  className="block w-full py-2 text-left font-medium text-red-600 dark:text-red-400"
                   onClick={() => {
                     handleLogout();
                     setIsMenuOpen(false);
@@ -137,7 +143,7 @@ export function Navbar() {
             ) : (
               <div className="space-y-2 pt-3">
                 <Link
-                  className="block w-full rounded-xl border-2 border-gray-200 py-2.5 text-center font-medium"
+                  className="block w-full rounded-xl border-2 border-stone-200 py-2.5 text-center font-medium dark:border-stone-700 dark:text-stone-200"
                   onClick={() => setIsMenuOpen(false)}
                   to="/login"
                 >

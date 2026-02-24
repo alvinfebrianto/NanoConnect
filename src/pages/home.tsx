@@ -8,7 +8,7 @@ import { Testimonials } from "@/components/home/testimonials";
 
 export function Home() {
   return (
-    <main className="flex min-h-screen flex-col overflow-x-hidden bg-white">
+    <main className="flex min-h-screen flex-col overflow-x-hidden bg-white dark:bg-stone-950">
       <HeroSection />
       <MarqueeBrands />
       <BentoFeatures />

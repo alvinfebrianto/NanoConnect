@@ -32,13 +32,13 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-24 sm:py-32 dark:bg-stone-950">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-xl text-center">
           <h2 className="font-semibold text-amber-600 text-lg leading-8 tracking-tight">
             Testimoni
           </h2>
-          <p className="mt-2 font-bold font-display text-3xl text-stone-900 tracking-tight sm:text-4xl">
+          <p className="mt-2 font-bold font-display text-3xl text-stone-900 tracking-tight sm:text-4xl dark:text-stone-50">
             Kata Mereka Tentang NanoConnect
           </p>
         </div>
@@ -46,7 +46,7 @@ export function Testimonials() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {testimonials.map((testimonial) => (
               <div className="h-full" key={testimonial.author.handle}>
-                <figure className="flex h-full flex-col justify-between rounded-2xl bg-stone-50 p-8 text-sm leading-6 transition-all hover:bg-amber-50 hover:shadow-lg">
+                <figure className="flex h-full flex-col justify-between rounded-2xl bg-stone-50 p-8 text-sm leading-6 transition-all hover:bg-amber-50 hover:shadow-lg dark:bg-stone-900 dark:hover:bg-stone-800">
                   <div>
                     <div className="mb-4 flex gap-1">
                       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
@@ -55,7 +55,7 @@ export function Testimonials() {
                       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                     </div>
-                    <blockquote className="text-stone-900">
+                    <blockquote className="text-stone-900 dark:text-stone-200">
                       <p>"{testimonial.body}"</p>
                     </blockquote>
                   </div>
@@ -68,10 +68,10 @@ export function Testimonials() {
                       width={40}
                     />
                     <div>
-                      <div className="font-semibold text-stone-900">
+                      <div className="font-semibold text-stone-900 dark:text-stone-100">
                         {testimonial.author.name}
                       </div>
-                      <div className="text-stone-600">
+                      <div className="text-stone-600 dark:text-stone-400">
                         @{testimonial.author.handle}
                       </div>
                     </div>

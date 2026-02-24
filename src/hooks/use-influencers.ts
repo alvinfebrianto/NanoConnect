@@ -1,8 +1,37 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Influencer } from "@/types";
+import type { FilterOptions, Influencer } from "@/types";
 
-async function fetchInfluencers(): Promise<Influencer[]> {
-  const response = await fetch("/api/influencers/list");
+async function fetchInfluencers(
+  filters?: FilterOptions
+): Promise<Influencer[]> {
+  const searchParams = new URLSearchParams();
+
+  if (filters?.niche && filters.niche !== "Semua Niche") {
+    searchParams.set("niche", filters.niche);
+  }
+
+  if (filters?.location && filters.location !== "Semua Lokasi") {
+    searchParams.set("location", filters.location);
+  }
+
+  if (filters?.minPrice !== undefined && filters.minPrice > 0) {
+    searchParams.set("minPrice", filters.minPrice.toString());
+  }
+
+  if (filters?.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+    searchParams.set("maxPrice", filters.maxPrice.toString());
+  }
+
+  if (filters?.verificationStatus && filters.verificationStatus !== "all") {
+    searchParams.set("verificationStatus", filters.verificationStatus);
+  }
+
+  const queryString = searchParams.toString();
+  const url = queryString
+    ? `/api/influencers/list?${queryString}`
+    : "/api/influencers/list";
+
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Failed to fetch influencers");
   }
@@ -10,9 +39,9 @@ async function fetchInfluencers(): Promise<Influencer[]> {
   return payload.data || [];
 }
 
-export function useInfluencers() {
+export function useInfluencers(filters?: FilterOptions) {
   return useQuery({
-    queryKey: ["influencers"],
-    queryFn: fetchInfluencers,
+    queryKey: ["influencers", filters],
+    queryFn: () => fetchInfluencers(filters),
   });
 }

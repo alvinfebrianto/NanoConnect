@@ -87,7 +87,6 @@ const LOCATIONS = [
 ];
 
 export function InfluencerListing() {
-  const { data: influencers = [], isLoading } = useInfluencers();
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>({
@@ -98,52 +97,48 @@ export function InfluencerListing() {
     verificationStatus: "all",
   });
 
-  const filteredInfluencers = useMemo(() => {
-    let result = [...influencers];
-
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (inf) =>
-          inf.user?.name?.toLowerCase().includes(query) ||
-          inf.niche?.toLowerCase().includes(query) ||
-          inf.location?.toLowerCase().includes(query) ||
-          inf.content_categories?.some((cat) =>
-            cat.toLowerCase().includes(query)
-          )
-      );
-    }
+  const serverFilters: FilterOptions = useMemo(() => {
+    const result: FilterOptions = {};
 
     if (filters.niche && filters.niche !== "Semua Niche") {
-      result = result.filter((inf) => inf.niche === filters.niche);
+      result.niche = filters.niche;
     }
 
     if (filters.location && filters.location !== "Semua Lokasi") {
-      result = result.filter((inf) =>
-        inf.location?.includes(filters.location || "")
-      );
+      result.location = filters.location;
     }
 
     if (filters.minPrice !== undefined && filters.minPrice > 0) {
-      result = result.filter(
-        (inf) => inf.price_per_post >= (filters.minPrice || 0)
-      );
+      result.minPrice = filters.minPrice;
     }
 
     if (filters.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
-      result = result.filter(
-        (inf) => inf.price_per_post <= (filters.maxPrice || 150_000_000)
-      );
+      result.maxPrice = filters.maxPrice;
     }
 
     if (filters.verificationStatus && filters.verificationStatus !== "all") {
-      result = result.filter(
-        (inf) => inf.verification_status === filters.verificationStatus
-      );
+      result.verificationStatus = filters.verificationStatus;
     }
 
     return result;
-  }, [searchQuery, filters, influencers]);
+  }, [filters]);
+
+  const { data: influencers = [], isLoading } = useInfluencers(serverFilters);
+
+  const filteredInfluencers = useMemo(() => {
+    if (!searchQuery) {
+      return influencers;
+    }
+
+    const query = searchQuery.toLowerCase();
+    return influencers.filter(
+      (inf) =>
+        inf.user?.name?.toLowerCase().includes(query) ||
+        inf.niche?.toLowerCase().includes(query) ||
+        inf.location?.toLowerCase().includes(query) ||
+        inf.content_categories?.some((cat) => cat.toLowerCase().includes(query))
+    );
+  }, [searchQuery, influencers]);
 
   const clearFilters = () => {
     setFilters({
@@ -161,7 +156,7 @@ export function InfluencerListing() {
       <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="mb-4 font-bold font-display text-4xl text-gray-900">
-            Temukan Influencer yang Sempurna
+            Temukan Influencer
           </h1>
           <p className="max-w-2xl text-gray-600 text-lg">
             Jelajahi daftar nano influencer pilihan kami dan temukan kecocokan

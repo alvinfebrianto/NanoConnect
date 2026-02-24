@@ -25,7 +25,7 @@ export function InteractiveDemo() {
     },
     {
       user: "System",
-      text: "Offer Sent: Rp 500.000 for 1 IG Reels",
+      text: "Offer Sent: Rp 500.000 for 1 Instagram Reels",
       time: "10:36",
       type: "system",
     },

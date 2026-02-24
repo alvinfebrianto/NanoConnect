@@ -39,7 +39,7 @@ export function Testimonials() {
             Testimoni
           </h2>
           <p className="mt-2 font-bold font-display text-3xl text-stone-900 tracking-tight sm:text-4xl">
-            Kata Mereka tentang NanoConnect
+            Kata Mereka Tentang NanoConnect
           </p>
         </div>
         <div className="mx-auto mt-16 flow-root sm:mt-20 lg:mx-0 lg:max-w-none">

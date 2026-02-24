@@ -1,8 +1,16 @@
 import type { Influencer } from "../../../src/types";
 import { createSupabaseClient } from "../../lib/supabase-client";
 
+interface FilterOptions {
+  niche?: string;
+  location?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  verificationStatus?: string;
+}
+
 interface InfluencersListHandlerDependencies {
-  listInfluencers: () => Promise<Influencer[]>;
+  listInfluencers: (filters?: FilterOptions) => Promise<Influencer[]>;
 }
 
 type InfluencersDependenciesFactory = () => InfluencersListHandlerDependencies;
@@ -12,12 +20,39 @@ const createInfluencersListDependencies: InfluencersDependenciesFactory =
     const supabase = createSupabaseClient();
 
     return {
-      async listInfluencers() {
-        const { data, error } = await supabase
+      async listInfluencers(filters?: FilterOptions) {
+        let query = supabase
           .from("influencers")
           .select("*, user:users(*)")
-          .eq("is_available", true)
-          .order("followers_count", { ascending: false });
+          .eq("is_available", true);
+
+        if (filters?.niche && filters.niche !== "Semua Niche") {
+          query = query.eq("niche", filters.niche);
+        }
+
+        if (filters?.location && filters.location !== "Semua Lokasi") {
+          const sanitized = filters.location.replace(/[%_]/g, "\\$&");
+          query = query.ilike("location", `%${sanitized}%`);
+        }
+
+        if (filters?.minPrice !== undefined && filters.minPrice > 0) {
+          query = query.gte("price_per_post", filters.minPrice);
+        }
+
+        if (filters?.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+          query = query.lte("price_per_post", filters.maxPrice);
+        }
+
+        if (
+          filters?.verificationStatus &&
+          filters.verificationStatus !== "all"
+        ) {
+          query = query.eq("verification_status", filters.verificationStatus);
+        }
+
+        query = query.order("followers_count", { ascending: false });
+
+        const { data, error } = await query;
 
         if (error) {
           throw error;
@@ -45,7 +80,22 @@ export const createInfluencersListHandler = (
 
     try {
       const { listInfluencers } = dependenciesFactory();
-      const influencers = await listInfluencers();
+
+      const url = new URL(request.url);
+      const filters: FilterOptions = {
+        niche: url.searchParams.get("niche") || undefined,
+        location: url.searchParams.get("location") || undefined,
+        minPrice: url.searchParams.get("minPrice")
+          ? Number(url.searchParams.get("minPrice") || "0")
+          : undefined,
+        maxPrice: url.searchParams.get("maxPrice")
+          ? Number(url.searchParams.get("maxPrice") || "150000000")
+          : undefined,
+        verificationStatus:
+          url.searchParams.get("verificationStatus") || undefined,
+      };
+
+      const influencers = await listInfluencers(filters);
 
       return jsonResponse({ data: influencers }, 200);
     } catch (_error) {

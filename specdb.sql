@@ -263,8 +263,8 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Influencers (2 records - linked to influencer users)
 INSERT INTO influencers (id, user_id, followers_count, engagement_rate, niche, price_per_post, instagram_handle, tiktok_handle, location, languages, content_categories, is_available, avg_delivery_days, verification_status) VALUES
-('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444', 150000, 4.5, 'Fashion & Lifestyle', 500.00, '@sarahstyle', '@sarahtiktok', 'New York, USA', ARRAY['English', 'Spanish'], ARRAY['Fashion', 'Beauty', 'Lifestyle'], true, 5, 'verified'),
-('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '55555555-5555-5555-5555-555555555555', 85000, 6.2, 'Technology', 350.00, '@miketech', '@miketechtok', 'San Francisco, USA', ARRAY['English'], ARRAY['Technology', 'Gaming', 'Reviews'], true, 3, 'verified')
+('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444', 150000, 4.5, 'Fashion & Gaya Hidup', 500.00, '@sarahstyle', '@sarahtiktok', 'Jakarta', ARRAY['Indonesian', 'English'], ARRAY['Fashion', 'Beauty', 'Lifestyle'], true, 5, 'verified'),
+('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '55555555-5555-5555-5555-555555555555', 85000, 6.2, 'Teknologi', 350.00, '@miketech', '@miketechtok', 'Surabaya', ARRAY['Indonesian'], ARRAY['Technology', 'Gaming', 'Reviews'], true, 3, 'verified')
 ON CONFLICT (id) DO NOTHING;
 
 -- Orders (5 records)

@@ -5,7 +5,7 @@ export function BentoFeatures() {
     <section className="bg-stone-50 py-24 sm:py-32">
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-center font-display font-semibold text-amber-600 text-base/7">
-          Kenapa NanoConnect?
+          Mengapa NanoConnect?
         </h2>
         <p className="mx-auto mt-2 max-w-lg text-balance text-center font-display font-semibold text-4xl text-stone-950 tracking-tight sm:text-5xl">
           Semua yang Anda butuhkan untuk campaign viral.

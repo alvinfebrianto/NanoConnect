@@ -31,7 +31,7 @@ const createInfluencersListDependencies: InfluencersDependenciesFactory =
           query = query.gte("price_per_post", filters.minPrice);
         }
 
-        if (filters?.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+        if (filters?.maxPrice !== undefined && filters.maxPrice > 0) {
           query = query.lte("price_per_post", filters.maxPrice);
         }
 
@@ -74,15 +74,14 @@ export const createInfluencersListHandler = (
       const { listInfluencers } = dependenciesFactory();
 
       const url = new URL(request.url);
+      const maxPriceParam = url.searchParams.get("maxPrice");
       const filters: FilterOptions = {
         niche: url.searchParams.get("niche") || undefined,
         location: url.searchParams.get("location") || undefined,
         minPrice: url.searchParams.get("minPrice")
-          ? Number(url.searchParams.get("minPrice") || "0")
+          ? Number(url.searchParams.get("minPrice"))
           : undefined,
-        maxPrice: url.searchParams.get("maxPrice")
-          ? Number(url.searchParams.get("maxPrice") || "150000000")
-          : undefined,
+        maxPrice: maxPriceParam ? Number(maxPriceParam) : undefined,
         verificationStatus:
           url.searchParams.get("verificationStatus") || undefined,
       };

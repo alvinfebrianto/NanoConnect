@@ -263,17 +263,17 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Influencers (2 records - linked to influencer users)
 INSERT INTO influencers (id, user_id, followers_count, engagement_rate, niche, price_per_post, instagram_handle, tiktok_handle, location, languages, content_categories, is_available, avg_delivery_days, verification_status) VALUES
-('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444', 150000, 4.5, 'Fashion & Gaya Hidup', 500.00, '@sarahstyle', '@sarahtiktok', 'Jakarta', ARRAY['Indonesian', 'English'], ARRAY['Fashion', 'Beauty', 'Lifestyle'], true, 5, 'verified'),
-('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '55555555-5555-5555-5555-555555555555', 85000, 6.2, 'Teknologi', 350.00, '@miketech', '@miketechtok', 'Surabaya', ARRAY['Indonesian'], ARRAY['Technology', 'Gaming', 'Reviews'], true, 3, 'verified')
+('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444', 150000, 4.5, 'Fashion & Gaya Hidup', 500000.00, '@sarahstyle', '@sarahtiktok', 'Jakarta', ARRAY['Indonesian', 'English'], ARRAY['Fashion', 'Beauty', 'Lifestyle'], true, 5, 'verified'),
+('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '55555555-5555-5555-5555-555555555555', 85000, 6.2, 'Teknologi', 350000.00, '@miketech', '@miketechtok', 'Surabaya', ARRAY['Indonesian'], ARRAY['Technology', 'Gaming', 'Reviews'], true, 3, 'verified')
 ON CONFLICT (id) DO NOTHING;
 
 -- Orders (5 records)
 INSERT INTO orders (id, influencer_id, sme_id, order_status, payment_status, total_price, platform_fee, title, description, requirements, deliverables, delivery_date) VALUES
-('cccccccc-cccc-cccc-cccc-cccccccccccc', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'completed', 'paid', 500.00, 50.00, 'Summer Fashion Campaign', 'Promote our new summer collection', 'Create 3 Instagram posts and 2 stories', ARRAY['Instagram Post', 'Instagram Story'], '2024-07-15'),
-('dddddddd-dddd-dddd-dddd-dddddddddddd', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 'in_progress', 'paid', 350.00, 35.00, 'Gadget Review Video', 'Review our latest smartphone', 'Create a 5-minute YouTube review video', ARRAY['YouTube Video'], '2024-08-01'),
-('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '33333333-3333-3333-3333-333333333333', 'pending', 'pending', 750.00, 75.00, 'Brand Awareness Campaign', 'Increase brand visibility', 'Create 5 posts over 2 weeks', ARRAY['Instagram Post', 'TikTok Video'], '2024-08-15'),
-('ffffffff-ffff-ffff-ffff-ffffffffffff', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '33333333-3333-3333-3333-333333333333', 'completed', 'paid', 350.00, 35.00, 'Product Launch Announcement', 'Announce our new product line', 'Create announcement content', ARRAY['Instagram Post', 'Instagram Story'], '2024-06-20'),
-('11111111-2222-3333-4444-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'cancelled', 'refunded', 500.00, 50.00, 'Holiday Special', 'Holiday promotion campaign', 'Create holiday-themed content', ARRAY['Instagram Post'], '2024-12-01')
+('cccccccc-cccc-cccc-cccc-cccccccccccc', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'completed', 'paid', 500000.00, 50000.00, 'Summer Fashion Campaign', 'Promote our new summer collection', 'Create 3 Instagram posts and 2 stories', ARRAY['Instagram Post', 'Instagram Story'], '2024-07-15'),
+('dddddddd-dddd-dddd-dddd-dddddddddddd', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 'in_progress', 'paid', 350000.00, 35000.00, 'Gadget Review Video', 'Review our latest smartphone', 'Create a 5-minute YouTube review video', ARRAY['YouTube Video'], '2024-08-01'),
+('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '33333333-3333-3333-3333-333333333333', 'pending', 'pending', 750000.00, 75000.00, 'Brand Awareness Campaign', 'Increase brand visibility', 'Create 5 posts over 2 weeks', ARRAY['Instagram Post', 'TikTok Video'], '2024-08-15'),
+('ffffffff-ffff-ffff-ffff-ffffffffffff', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '33333333-3333-3333-3333-333333333333', 'completed', 'paid', 350000.00, 35000.00, 'Product Launch Announcement', 'Announce our new product line', 'Create announcement content', ARRAY['Instagram Post', 'Instagram Story'], '2024-06-20'),
+('11111111-2222-3333-4444-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'cancelled', 'refunded', 500000.00, 50000.00, 'Holiday Special', 'Holiday promotion campaign', 'Create holiday-themed content', ARRAY['Instagram Post'], '2024-12-01')
 ON CONFLICT (id) DO NOTHING;
 
 -- Reviews (5 records)

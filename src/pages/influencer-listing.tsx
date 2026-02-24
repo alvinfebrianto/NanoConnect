@@ -93,7 +93,7 @@ export function InfluencerListing() {
     niche: "Semua Niche",
     location: "Semua Lokasi",
     minPrice: 0,
-    maxPrice: 150_000_000,
+    maxPrice: 10_000_000,
     verificationStatus: "all",
   });
 
@@ -112,7 +112,7 @@ export function InfluencerListing() {
       result.minPrice = filters.minPrice;
     }
 
-    if (filters.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+    if (filters.maxPrice !== undefined && filters.maxPrice > 0) {
       result.maxPrice = filters.maxPrice;
     }
 
@@ -145,7 +145,7 @@ export function InfluencerListing() {
       niche: "Semua Niche",
       location: "Semua Lokasi",
       minPrice: 0,
-      maxPrice: 150_000_000,
+      maxPrice: 10_000_000,
       verificationStatus: "all",
     });
     setSearchQuery("");
@@ -256,7 +256,7 @@ export function InfluencerListing() {
                 <input
                   className="w-full"
                   id="filter-price"
-                  max="150000000"
+                  max="10000000"
                   min="0"
                   onChange={(e) =>
                     setFilters({
@@ -264,7 +264,7 @@ export function InfluencerListing() {
                       maxPrice: Number.parseInt(e.target.value, 10),
                     })
                   }
-                  step="1000000"
+                  step="50000"
                   type="range"
                   value={filters.maxPrice}
                 />

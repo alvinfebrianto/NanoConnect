@@ -18,7 +18,7 @@ async function fetchInfluencers(
     searchParams.set("minPrice", filters.minPrice.toString());
   }
 
-  if (filters?.maxPrice !== undefined && filters.maxPrice < 150_000_000) {
+  if (filters?.maxPrice !== undefined && filters.maxPrice > 0) {
     searchParams.set("maxPrice", filters.maxPrice.toString());
   }
 

@@ -31,7 +31,8 @@ const createInfluencersListDependencies: InfluencersDependenciesFactory =
         }
 
         if (filters?.location && filters.location !== "Semua Lokasi") {
-          query = query.ilike("location", `%${filters.location}%`);
+          const sanitized = filters.location.replace(/[%_]/g, "\\$&");
+          query = query.ilike("location", `%${sanitized}%`);
         }
 
         if (filters?.minPrice !== undefined && filters.minPrice > 0) {

@@ -1,13 +1,5 @@
-import type { Influencer } from "../../../src/types";
+import type { FilterOptions, Influencer } from "../../../src/types";
 import { createSupabaseClient } from "../../lib/supabase-client";
-
-interface FilterOptions {
-  niche?: string;
-  location?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  verificationStatus?: string;
-}
 
 interface InfluencersListHandlerDependencies {
   listInfluencers: (filters?: FilterOptions) => Promise<Influencer[]>;

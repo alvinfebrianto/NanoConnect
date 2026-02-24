@@ -12,6 +12,7 @@ import { InfluencerDetail } from "./pages/influencer-detail";
 import { InfluencerListing } from "./pages/influencer-listing";
 import { Login } from "./pages/login";
 import { OrderBooking } from "./pages/order-booking";
+import { Privacy } from "./pages/privacy";
 import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { Terms } from "./pages/terms";
@@ -41,6 +42,7 @@ function App() {
                 path="/ai-recommendations"
               />
               <Route element={<Terms />} path="/terms" />
+              <Route element={<Privacy />} path="/privacy" />
               <Route
                 element={
                   <GuestRoute>

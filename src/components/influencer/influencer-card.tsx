@@ -77,7 +77,7 @@ export function InfluencerCard({ influencer }: InfluencerCardProps) {
           <div>
             <span className="text-gray-500 text-xs">Mulai dari</span>
             <p className="font-semibold text-gray-900">
-              Rp {(influencer.price_per_post * 15_000).toLocaleString("id-ID")}
+              Rp {influencer.price_per_post.toLocaleString("id-ID")}
             </p>
           </div>
           <Link

@@ -85,13 +85,10 @@ export const createInfluencersListHandler = (
         niche: url.searchParams.get("niche") || undefined,
         location: url.searchParams.get("location") || undefined,
         minPrice: url.searchParams.get("minPrice")
-          ? Number.parseFloat(url.searchParams.get("minPrice") || "0", 10)
+          ? Number(url.searchParams.get("minPrice") || "0")
           : undefined,
         maxPrice: url.searchParams.get("maxPrice")
-          ? Number.parseFloat(
-              url.searchParams.get("maxPrice") || "150000000",
-              10
-            )
+          ? Number(url.searchParams.get("maxPrice") || "150000000")
           : undefined,
         verificationStatus:
           url.searchParams.get("verificationStatus") || undefined,

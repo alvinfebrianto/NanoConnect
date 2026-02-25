@@ -29,14 +29,23 @@ function getUserTypeLabel(type: string): string {
 function getStatusLabel(status: string): { label: string; className: string } {
   switch (status) {
     case "active":
-      return { label: "Aktif", className: "bg-green-100 text-green-700" };
+      return {
+        label: "Aktif",
+        className:
+          "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+      };
     case "inactive":
       return {
         label: "Tidak Aktif",
-        className: "bg-yellow-100 text-yellow-700",
+        className:
+          "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
       };
     default:
-      return { label: "Suspensi", className: "bg-red-100 text-red-700" };
+      return {
+        label: "Suspensi",
+        className:
+          "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+      };
   }
 }
 
@@ -48,15 +57,21 @@ function getVerificationLabel(status: string): {
     case "verified":
       return {
         label: "Terverifikasi",
-        className: "bg-green-100 text-green-700",
+        className:
+          "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
       };
     case "pending":
       return {
         label: "Menunggu Verifikasi",
-        className: "bg-yellow-100 text-yellow-700",
+        className:
+          "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
       };
     default:
-      return { label: "Ditolak", className: "bg-red-100 text-red-700" };
+      return {
+        label: "Ditolak",
+        className:
+          "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+      };
   }
 }
 
@@ -86,14 +101,14 @@ function ProfileHeader({
           {formData.avatar_url ? (
             <img
               alt={user.name}
-              className="h-32 w-32 rounded-full border-4 border-white object-cover shadow-md"
+              className="h-32 w-32 rounded-full border-4 border-white object-cover shadow-md dark:border-stone-900"
               height={128}
               src={formData.avatar_url}
               width={128}
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-gray-200 shadow-md">
-              <UserIcon className="h-16 w-16 text-gray-400" />
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-stone-200 shadow-md dark:border-stone-900 dark:bg-stone-700">
+              <UserIcon className="h-16 w-16 text-stone-400 dark:text-stone-600" />
             </div>
           )}
           {isEditing && (
@@ -106,18 +121,20 @@ function ProfileHeader({
           )}
         </div>
         <div className="mb-2">
-          <h1 className="font-bold text-2xl text-gray-900">{user.name}</h1>
+          <h1 className="font-bold text-2xl text-stone-900 dark:text-stone-50">
+            {user.name}
+          </h1>
           <div className="mt-1 flex items-center gap-2">
             {user.user_type === "sme" ? (
-              <Building2 className="h-4 w-4 text-gray-500" />
+              <Building2 className="h-4 w-4 text-stone-500 dark:text-stone-500" />
             ) : (
               <Star className="h-4 w-4 text-yellow-500" />
             )}
-            <span className="text-gray-600 capitalize">
+            <span className="text-stone-600 capitalize dark:text-stone-400">
               {getUserTypeLabel(user.user_type)}
             </span>
             {user.email_verified && (
-              <span className="rounded-full bg-green-100 px-2 py-0.5 font-medium text-green-700 text-xs">
+              <span className="rounded-full bg-green-100 px-2 py-0.5 font-medium text-green-700 text-xs dark:bg-green-900/30 dark:text-green-400">
                 Terverifikasi
               </span>
             )}
@@ -125,7 +142,7 @@ function ProfileHeader({
         </div>
       </div>
       <button
-        className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-lg border border-stone-300 px-4 py-2 font-medium text-sm text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
         onClick={onLogout}
         type="button"
       >
@@ -141,10 +158,12 @@ function AccountInfo({ user }: { user: UserType }) {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-semibold text-gray-900 text-lg">Informasi Akun</h2>
+      <h2 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
+        Informasi Akun
+      </h2>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Status Akun
         </p>
         <span
@@ -155,17 +174,19 @@ function AccountInfo({ user }: { user: UserType }) {
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Bergabung Sejak
         </p>
-        <p className="text-gray-900">{formatDate(user.created_at)}</p>
+        <p className="text-stone-900 dark:text-stone-100">
+          {formatDate(user.created_at)}
+        </p>
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Terakhir Masuk
         </p>
-        <p className="text-gray-900">
+        <p className="text-stone-900 dark:text-stone-100">
           {user.last_login_at ? formatDate(user.last_login_at) : "Belum pernah"}
         </p>
       </div>
@@ -179,46 +200,54 @@ function InfluencerProfileSection({
   influencerProfile: Influencer;
 }) {
   return (
-    <div className="mt-8 border-t pt-6">
-      <h2 className="mb-4 font-semibold text-gray-900 text-lg">
+    <div className="mt-8 border-t pt-6 dark:border-stone-700">
+      <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
         Profil Influencer
       </h2>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-xl bg-gray-50 p-4">
-          <p className="text-gray-600 text-sm">Pengikut</p>
-          <p className="font-bold text-gray-900 text-xl">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">Pengikut</p>
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             {influencerProfile.followers_count.toLocaleString()}
           </p>
         </div>
-        <div className="rounded-xl bg-gray-50 p-4">
-          <p className="text-gray-600 text-sm">Tingkat Engagement</p>
-          <p className="font-bold text-gray-900 text-xl">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            Tingkat Engagement
+          </p>
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             {influencerProfile.engagement_rate}%
           </p>
         </div>
-        <div className="rounded-xl bg-gray-50 p-4">
-          <p className="text-gray-600 text-sm">Harga per Post</p>
-          <p className="font-bold text-gray-900 text-xl">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            Harga per Post
+          </p>
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             Rp{influencerProfile.price_per_post.toLocaleString()}
           </p>
         </div>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm">Niche</p>
-        <p className="font-medium text-gray-900">{influencerProfile.niche}</p>
+        <p className="text-sm text-stone-600 dark:text-stone-400">Niche</p>
+        <p className="font-medium text-stone-900 dark:text-stone-100">
+          {influencerProfile.niche}
+        </p>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm">Lokasi</p>
-        <p className="font-medium text-gray-900">
+        <p className="text-sm text-stone-600 dark:text-stone-400">Lokasi</p>
+        <p className="font-medium text-stone-900 dark:text-stone-100">
           {influencerProfile.location}
         </p>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm">Status Verifikasi</p>
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Status Verifikasi
+        </p>
         <span
           className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getVerificationLabel(influencerProfile.verification_status).className}`}
         >
@@ -242,10 +271,12 @@ function PersonalInfo({
 }) {
   return (
     <div className="space-y-4">
-      <h2 className="font-semibold text-gray-900 text-lg">Informasi Pribadi</h2>
+      <h2 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
+        Informasi Pribadi
+      </h2>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Nama Lengkap
         </p>
         {isEditing ? (
@@ -256,20 +287,22 @@ function PersonalInfo({
             value={formData.name}
           />
         ) : (
-          <p className="text-gray-900">{user.name}</p>
+          <p className="text-stone-900 dark:text-stone-100">{user.name}</p>
         )}
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">Email</p>
-        <div className="flex items-center gap-2 text-gray-900">
-          <Mail className="h-4 w-4 text-gray-400" />
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
+          Email
+        </p>
+        <div className="flex items-center gap-2 text-stone-900 dark:text-stone-100">
+          <Mail className="h-4 w-4 text-stone-400 dark:text-stone-600" />
           {user.email}
         </div>
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Nomor Telepon
         </p>
         {isEditing ? (
@@ -281,12 +314,16 @@ function PersonalInfo({
             value={formData.phone}
           />
         ) : (
-          <p className="text-gray-900">{user.phone || "Belum diisi"}</p>
+          <p className="text-stone-900 dark:text-stone-100">
+            {user.phone || "Belum diisi"}
+          </p>
         )}
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm">Bio</p>
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
+          Bio
+        </p>
         {isEditing ? (
           <textarea
             className="input-field min-h-[100px]"
@@ -295,7 +332,9 @@ function PersonalInfo({
             value={formData.bio}
           />
         ) : (
-          <p className="text-gray-900">{user.bio || "Belum diisi"}</p>
+          <p className="text-stone-900 dark:text-stone-100">
+            {user.bio || "Belum diisi"}
+          </p>
         )}
       </div>
     </div>
@@ -305,35 +344,39 @@ function PersonalInfo({
 function UserTypeMenu({ userType }: { userType: string }) {
   if (userType === "sme") {
     return (
-      <div className="rounded-2xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 font-semibold text-gray-900 text-lg">
+      <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-900">
+        <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
           Menu Bisnis
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/influencers"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-              <Star className="h-6 w-6 text-primary-600" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
+              <Star className="h-6 w-6 text-primary-600 dark:text-primary-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Cari Influencer</p>
-              <p className="text-gray-600 text-sm">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
+                Cari Influencer
+              </p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Temukan influencer yang sesuai dengan kebutuhan bisnis Anda
               </p>
             </div>
           </Link>
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/ai-recommendations"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-              <Sparkles className="h-6 w-6 text-purple-600" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
+              <Sparkles className="h-6 w-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Rekomendasi AI</p>
-              <p className="text-gray-600 text-sm">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
+                Rekomendasi AI
+              </p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Dapatkan rekomendasi influencer berbasis AI
               </p>
             </div>
@@ -345,21 +388,23 @@ function UserTypeMenu({ userType }: { userType: string }) {
 
   if (userType === "influencer") {
     return (
-      <div className="rounded-2xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 font-semibold text-gray-900 text-lg">
+      <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-900">
+        <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
           Menu Influencer
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/influencers"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-              <Star className="h-6 w-6 text-primary-600" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
+              <Star className="h-6 w-6 text-primary-600 dark:text-primary-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Lihat Profil Saya</p>
-              <p className="text-gray-600 text-sm">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
+                Lihat Profil Saya
+              </p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Kelola profil influencer Anda
               </p>
             </div>
@@ -495,10 +540,10 @@ export function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-stone-50 py-12 dark:bg-stone-950">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
-          <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-stone-900">
             <div className="relative h-32 bg-gradient-to-r from-primary-500 to-primary-600" />
             <div className="px-6 pb-6">
               <ProfileHeader
@@ -509,13 +554,13 @@ export function Profile() {
               />
 
               {editState.success && (
-                <div className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700 text-sm">
+                <div className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700 text-sm dark:border-green-800/30 dark:bg-green-900/20 dark:text-green-400">
                   {editState.success}
                 </div>
               )}
 
               {editState.error && (
-                <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 text-sm">
+                <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 text-sm dark:border-red-800/30 dark:bg-red-900/20 dark:text-red-400">
                   {editState.error}
                 </div>
               )}
@@ -542,7 +587,7 @@ export function Profile() {
                 {editState.isEditing ? (
                   <>
                     <button
-                      className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50"
+                      className="flex items-center gap-2 rounded-lg border border-stone-300 px-4 py-2 font-medium text-sm text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
                       onClick={() =>
                         setEditState((prev) => ({
                           ...prev,

@@ -20,6 +20,7 @@ dist-ssr
 
 # Editor directories and files
 .letta/
+.codemogger/
 .vscode/*
 !.vscode/extensions.json
 .idea

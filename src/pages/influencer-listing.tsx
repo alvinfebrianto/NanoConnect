@@ -22,9 +22,9 @@ function InfluencerListContent({
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {SKELETON_IDS.map((id) => (
           <div className="card animate-pulse" key={id}>
-            <div className="mb-4 h-48 rounded-xl bg-gray-200" />
-            <div className="mb-2 h-6 w-3/4 rounded bg-gray-200" />
-            <div className="h-4 w-1/2 rounded bg-gray-200" />
+            <div className="mb-4 h-48 rounded-xl bg-stone-200 dark:bg-stone-700" />
+            <div className="mb-2 h-6 w-3/4 rounded bg-stone-200 dark:bg-stone-700" />
+            <div className="h-4 w-1/2 rounded bg-stone-200 dark:bg-stone-700" />
           </div>
         ))}
       </div>
@@ -34,11 +34,11 @@ function InfluencerListContent({
   if (influencers.length === 0) {
     return (
       <div className="py-20 text-center">
-        <Users className="mx-auto mb-4 h-16 w-16 text-gray-300" />
-        <h3 className="mb-2 font-display font-semibold text-gray-900 text-xl">
+        <Users className="mx-auto mb-4 h-16 w-16 text-stone-300 dark:text-stone-600" />
+        <h3 className="mb-2 font-display font-semibold text-stone-900 text-xl dark:text-stone-50">
           Tidak ada influencer ditemukan
         </h3>
-        <p className="mb-4 text-gray-600">
+        <p className="mb-4 text-stone-600 dark:text-stone-400">
           Coba sesuaikan filter atau kriteria pencarian Anda
         </p>
         <button className="btn-primary" onClick={onClearFilters} type="button">
@@ -153,23 +153,23 @@ export function InfluencerListing() {
 
   return (
     <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12">
+      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12 dark:from-stone-950 dark:via-stone-950 dark:to-stone-950">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="mb-4 font-bold font-display text-4xl text-gray-900">
+          <h1 className="mb-4 font-bold font-display text-4xl text-stone-900 dark:text-stone-50">
             Temukan Influencer
           </h1>
-          <p className="max-w-2xl text-gray-600 text-lg">
+          <p className="max-w-2xl text-lg text-stone-600 dark:text-stone-400">
             Jelajahi daftar nano influencer pilihan kami dan temukan kecocokan
             sempurna untuk brand Anda.
           </p>
         </div>
       </div>
 
-      <div className="sticky top-16 z-40 border-gray-100 border-b bg-white shadow-sm">
+      <div className="sticky top-16 z-40 border-stone-100 border-b bg-white shadow-sm dark:border-stone-800 dark:bg-stone-950">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
+              <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-500" />
               <input
                 className="input-field w-full pl-12"
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -182,7 +182,7 @@ export function InfluencerListing() {
               className={`flex items-center justify-center space-x-2 rounded-xl px-6 py-3 font-medium transition-all ${
                 showFilters
                   ? "bg-primary-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
               }`}
               onClick={() => setShowFilters(!showFilters)}
               type="button"
@@ -191,7 +191,7 @@ export function InfluencerListing() {
               <span>Filter</span>
               {(filters.niche !== "Semua Niche" ||
                 filters.location !== "Semua Lokasi") && (
-                <span className="rounded-full bg-white px-2 py-0.5 font-bold text-primary-600 text-xs">
+                <span className="rounded-full bg-white px-2 py-0.5 font-bold text-primary-600 text-xs dark:bg-stone-900">
                   !
                 </span>
               )}
@@ -199,10 +199,10 @@ export function InfluencerListing() {
           </div>
 
           {showFilters && (
-            <div className="mt-4 grid animate-slide-up grid-cols-1 gap-4 border-gray-100 border-t pt-4 md:grid-cols-4">
+            <div className="mt-4 grid animate-slide-up grid-cols-1 gap-4 border-stone-100 border-t pt-4 md:grid-cols-4 dark:border-stone-800">
               <div>
                 <label
-                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
                   htmlFor="filter-niche"
                 >
                   Niche
@@ -225,7 +225,7 @@ export function InfluencerListing() {
 
               <div>
                 <label
-                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
                   htmlFor="filter-location"
                 >
                   Lokasi
@@ -248,7 +248,7 @@ export function InfluencerListing() {
 
               <div>
                 <label
-                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
                   htmlFor="filter-price"
                 >
                   Harga Maks: Rp {filters.maxPrice?.toLocaleString("id-ID")}
@@ -272,7 +272,7 @@ export function InfluencerListing() {
 
               <div>
                 <label
-                  className="mb-2 block font-medium text-gray-700 text-sm"
+                  className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
                   htmlFor="filter-verification"
                 >
                   Verifikasi
@@ -297,7 +297,7 @@ export function InfluencerListing() {
 
               <div className="flex justify-end md:col-span-4">
                 <button
-                  className="flex items-center space-x-1 text-gray-500 text-sm hover:text-gray-700"
+                  className="flex items-center space-x-1 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
                   onClick={clearFilters}
                   type="button"
                 >
@@ -312,9 +312,9 @@ export function InfluencerListing() {
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
-          <p className="text-gray-600">
+          <p className="text-stone-600 dark:text-stone-400">
             Menampilkan{" "}
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-stone-900 dark:text-stone-50">
               {filteredInfluencers.length}
             </span>{" "}
             influencer

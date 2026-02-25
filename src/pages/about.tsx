@@ -55,12 +55,12 @@ const TEAM = [
 export function About() {
   return (
     <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-20">
+      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-20 dark:from-stone-950 dark:via-stone-950 dark:to-stone-950">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="mb-6 font-bold font-display text-5xl text-gray-900">
+          <h1 className="mb-6 font-bold font-display text-5xl text-stone-900 dark:text-stone-50">
             Tentang NanoConnect
           </h1>
-          <p className="text-gray-600 text-xl leading-relaxed">
+          <p className="text-stone-600 text-xl leading-relaxed dark:text-stone-400">
             Kami memiliki misi untuk mendemokratisasi pemasaran influencer
             dengan menghubungkan usaha kecil dan menengah dengan nano influencer
             yang autentik yang dapat menceritakan kisah brand mereka kepada
@@ -72,10 +72,10 @@ export function About() {
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-20 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div>
-            <h2 className="mb-6 font-bold font-display text-3xl text-gray-900">
+            <h2 className="mb-6 font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
               Mengapa Kami Memulai
             </h2>
-            <div className="space-y-4 text-gray-600 leading-relaxed">
+            <div className="space-y-4 text-stone-600 leading-relaxed dark:text-stone-400">
               <p>
                 NanoConnect lahir dari observasi sederhana: bisnis kecil
                 kesulitan menemukan suara autentik untuk mempromosikan produk
@@ -96,31 +96,39 @@ export function About() {
           </div>
           <div className="relative">
             <div className="absolute inset-0 rotate-3 transform rounded-3xl bg-gradient-to-br from-primary-200 to-accent-200" />
-            <div className="relative rounded-3xl bg-white p-8 shadow-xl">
+            <div className="relative rounded-3xl bg-white p-8 shadow-xl dark:bg-stone-800">
               <div className="grid grid-cols-2 gap-6">
-                <div className="rounded-2xl bg-primary-50 p-4 text-center">
-                  <div className="mb-1 font-bold font-display text-4xl text-primary-600">
+                <div className="rounded-2xl bg-primary-50 p-4 text-center dark:bg-primary-900/30">
+                  <div className="mb-1 font-bold font-display text-4xl text-primary-600 dark:text-primary-400">
                     10K+
                   </div>
-                  <div className="text-gray-600 text-sm">Influencer Aktif</div>
+                  <div className="text-sm text-stone-600 dark:text-stone-400">
+                    Influencer Aktif
+                  </div>
                 </div>
-                <div className="rounded-2xl bg-accent-50 p-4 text-center">
-                  <div className="mb-1 font-bold font-display text-4xl text-accent-600">
+                <div className="rounded-2xl bg-accent-50 p-4 text-center dark:bg-accent-900/30">
+                  <div className="mb-1 font-bold font-display text-4xl text-accent-600 dark:text-accent-400">
                     500+
                   </div>
-                  <div className="text-gray-600 text-sm">Mitra Brand</div>
+                  <div className="text-sm text-stone-600 dark:text-stone-400">
+                    Mitra Brand
+                  </div>
                 </div>
-                <div className="rounded-2xl bg-green-50 p-4 text-center">
-                  <div className="mb-1 font-bold font-display text-4xl text-green-600">
+                <div className="rounded-2xl bg-green-50 p-4 text-center dark:bg-green-900/30">
+                  <div className="mb-1 font-bold font-display text-4xl text-green-600 dark:text-green-400">
                     50+
                   </div>
-                  <div className="text-gray-600 text-sm">Negara</div>
+                  <div className="text-sm text-stone-600 dark:text-stone-400">
+                    Negara
+                  </div>
                 </div>
-                <div className="rounded-2xl bg-purple-50 p-4 text-center">
-                  <div className="mb-1 font-bold font-display text-4xl text-purple-600">
+                <div className="rounded-2xl bg-purple-50 p-4 text-center dark:bg-purple-900/30">
+                  <div className="mb-1 font-bold font-display text-4xl text-purple-600 dark:text-purple-400">
                     98%
                   </div>
-                  <div className="text-gray-600 text-sm">Tingkat Kepuasan</div>
+                  <div className="text-sm text-stone-600 dark:text-stone-400">
+                    Tingkat Kepuasan
+                  </div>
                 </div>
               </div>
             </div>
@@ -129,10 +137,10 @@ export function About() {
 
         <div className="mb-20">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 font-bold font-display text-3xl text-gray-900">
+            <h2 className="mb-4 font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
               Nilai-Nilai Kami
             </h2>
-            <p className="mx-auto max-w-2xl text-gray-600">
+            <p className="mx-auto max-w-2xl text-stone-600 dark:text-stone-400">
               Prinsip-prinsip inti ini memandu segala sesuatu yang kami lakukan
               di NanoConnect
             </p>
@@ -140,13 +148,15 @@ export function About() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((value) => (
               <div className="card text-center" key={value.id}>
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100">
-                  <value.icon className="h-7 w-7 text-primary-600" />
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100 dark:bg-primary-900/30">
+                  <value.icon className="h-7 w-7 text-primary-600 dark:text-primary-400" />
                 </div>
                 <h3 className="mb-2 font-display font-semibold text-lg">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 text-sm">{value.description}</p>
+                <p className="text-sm text-stone-600 dark:text-stone-400">
+                  {value.description}
+                </p>
               </div>
             ))}
           </div>
@@ -154,10 +164,10 @@ export function About() {
 
         <div className="mb-20">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 font-bold font-display text-3xl text-gray-900">
+            <h2 className="mb-4 font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
               Kenali Tim Kami
             </h2>
-            <p className="mx-auto max-w-2xl text-gray-600">
+            <p className="mx-auto max-w-2xl text-stone-600 dark:text-stone-400">
               Individu yang bersemangat dan berdedikasi untuk mengubah pemasaran
               influencer
             </p>
@@ -176,28 +186,30 @@ export function About() {
                 <h3 className="font-display font-semibold text-lg">
                   {member.name}
                 </h3>
-                <p className="mb-2 font-medium text-primary-600">
+                <p className="mb-2 font-medium text-primary-600 dark:text-primary-400">
                   {member.role}
                 </p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
+                <p className="text-sm text-stone-600 dark:text-stone-400">
+                  {member.bio}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-3xl bg-gray-900 p-12 text-center text-white">
+        <div className="rounded-3xl bg-stone-900 p-12 text-center text-white">
           <Globe className="mx-auto mb-6 h-16 w-16 text-primary-400" />
           <h2 className="mb-4 font-bold font-display text-3xl">
             Bergabunglah dalam Revolusi
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-gray-300">
+          <p className="mx-auto mb-8 max-w-2xl text-stone-300">
             Baik Anda bisnis kecil yang ingin berkembang atau nano influencer
             yang siap memonetisasi passion Anda, NanoConnect siap membantu Anda
             sukses.
           </p>
           <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
             <a
-              className="rounded-xl bg-white px-8 py-3 font-medium text-gray-900 transition-colors hover:bg-gray-100"
+              className="rounded-xl bg-white px-8 py-3 font-medium text-stone-900 transition-colors hover:bg-stone-100"
               href="/register"
             >
               Mulai Sekarang

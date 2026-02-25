@@ -107,8 +107,8 @@ function ProfileHeader({
               width={128}
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-gray-200 shadow-md dark:border-stone-900 dark:bg-stone-700">
-              <UserIcon className="h-16 w-16 text-gray-400 dark:text-stone-600" />
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white bg-stone-200 shadow-md dark:border-stone-900 dark:bg-stone-700">
+              <UserIcon className="h-16 w-16 text-stone-400 dark:text-stone-600" />
             </div>
           )}
           {isEditing && (
@@ -121,16 +121,16 @@ function ProfileHeader({
           )}
         </div>
         <div className="mb-2">
-          <h1 className="font-bold text-2xl text-gray-900 dark:text-stone-50">
+          <h1 className="font-bold text-2xl text-stone-900 dark:text-stone-50">
             {user.name}
           </h1>
           <div className="mt-1 flex items-center gap-2">
             {user.user_type === "sme" ? (
-              <Building2 className="h-4 w-4 text-gray-500 dark:text-stone-500" />
+              <Building2 className="h-4 w-4 text-stone-500 dark:text-stone-500" />
             ) : (
               <Star className="h-4 w-4 text-yellow-500" />
             )}
-            <span className="text-gray-600 capitalize dark:text-stone-400">
+            <span className="text-stone-600 capitalize dark:text-stone-400">
               {getUserTypeLabel(user.user_type)}
             </span>
             {user.email_verified && (
@@ -142,7 +142,7 @@ function ProfileHeader({
         </div>
       </div>
       <button
-        className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
+        className="flex items-center gap-2 rounded-lg border border-stone-300 px-4 py-2 font-medium text-sm text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
         onClick={onLogout}
         type="button"
       >
@@ -158,12 +158,12 @@ function AccountInfo({ user }: { user: UserType }) {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-semibold text-gray-900 text-lg dark:text-stone-50">
+      <h2 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
         Informasi Akun
       </h2>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Status Akun
         </p>
         <span
@@ -174,19 +174,19 @@ function AccountInfo({ user }: { user: UserType }) {
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Bergabung Sejak
         </p>
-        <p className="text-gray-900 dark:text-stone-100">
+        <p className="text-stone-900 dark:text-stone-100">
           {formatDate(user.created_at)}
         </p>
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Terakhir Masuk
         </p>
-        <p className="text-gray-900 dark:text-stone-100">
+        <p className="text-stone-900 dark:text-stone-100">
           {user.last_login_at ? formatDate(user.last_login_at) : "Belum pernah"}
         </p>
       </div>
@@ -201,51 +201,51 @@ function InfluencerProfileSection({
 }) {
   return (
     <div className="mt-8 border-t pt-6 dark:border-stone-700">
-      <h2 className="mb-4 font-semibold text-gray-900 text-lg dark:text-stone-50">
+      <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
         Profil Influencer
       </h2>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-xl bg-gray-50 p-4 dark:bg-stone-800">
-          <p className="text-gray-600 text-sm dark:text-stone-400">Pengikut</p>
-          <p className="font-bold text-gray-900 text-xl dark:text-stone-100">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">Pengikut</p>
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             {influencerProfile.followers_count.toLocaleString()}
           </p>
         </div>
-        <div className="rounded-xl bg-gray-50 p-4 dark:bg-stone-800">
-          <p className="text-gray-600 text-sm dark:text-stone-400">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
             Tingkat Engagement
           </p>
-          <p className="font-bold text-gray-900 text-xl dark:text-stone-100">
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             {influencerProfile.engagement_rate}%
           </p>
         </div>
-        <div className="rounded-xl bg-gray-50 p-4 dark:bg-stone-800">
-          <p className="text-gray-600 text-sm dark:text-stone-400">
+        <div className="rounded-xl bg-stone-50 p-4 dark:bg-stone-800">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
             Harga per Post
           </p>
-          <p className="font-bold text-gray-900 text-xl dark:text-stone-100">
+          <p className="font-bold text-stone-900 text-xl dark:text-stone-100">
             Rp{influencerProfile.price_per_post.toLocaleString()}
           </p>
         </div>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm dark:text-stone-400">Niche</p>
-        <p className="font-medium text-gray-900 dark:text-stone-100">
+        <p className="text-sm text-stone-600 dark:text-stone-400">Niche</p>
+        <p className="font-medium text-stone-900 dark:text-stone-100">
           {influencerProfile.niche}
         </p>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm dark:text-stone-400">Lokasi</p>
-        <p className="font-medium text-gray-900 dark:text-stone-100">
+        <p className="text-sm text-stone-600 dark:text-stone-400">Lokasi</p>
+        <p className="font-medium text-stone-900 dark:text-stone-100">
           {influencerProfile.location}
         </p>
       </div>
 
       <div className="mt-4">
-        <p className="text-gray-600 text-sm dark:text-stone-400">
+        <p className="text-sm text-stone-600 dark:text-stone-400">
           Status Verifikasi
         </p>
         <span
@@ -271,12 +271,12 @@ function PersonalInfo({
 }) {
   return (
     <div className="space-y-4">
-      <h2 className="font-semibold text-gray-900 text-lg dark:text-stone-50">
+      <h2 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
         Informasi Pribadi
       </h2>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Nama Lengkap
         </p>
         {isEditing ? (
@@ -287,22 +287,22 @@ function PersonalInfo({
             value={formData.name}
           />
         ) : (
-          <p className="text-gray-900 dark:text-stone-100">{user.name}</p>
+          <p className="text-stone-900 dark:text-stone-100">{user.name}</p>
         )}
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Email
         </p>
-        <div className="flex items-center gap-2 text-gray-900 dark:text-stone-100">
-          <Mail className="h-4 w-4 text-gray-400 dark:text-stone-600" />
+        <div className="flex items-center gap-2 text-stone-900 dark:text-stone-100">
+          <Mail className="h-4 w-4 text-stone-400 dark:text-stone-600" />
           {user.email}
         </div>
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Nomor Telepon
         </p>
         {isEditing ? (
@@ -314,14 +314,14 @@ function PersonalInfo({
             value={formData.phone}
           />
         ) : (
-          <p className="text-gray-900 dark:text-stone-100">
+          <p className="text-stone-900 dark:text-stone-100">
             {user.phone || "Belum diisi"}
           </p>
         )}
       </div>
 
       <div>
-        <p className="mb-1 block font-medium text-gray-700 text-sm dark:text-stone-300">
+        <p className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300">
           Bio
         </p>
         {isEditing ? (
@@ -332,7 +332,7 @@ function PersonalInfo({
             value={formData.bio}
           />
         ) : (
-          <p className="text-gray-900 dark:text-stone-100">
+          <p className="text-stone-900 dark:text-stone-100">
             {user.bio || "Belum diisi"}
           </p>
         )}
@@ -345,38 +345,38 @@ function UserTypeMenu({ userType }: { userType: string }) {
   if (userType === "sme") {
     return (
       <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-900">
-        <h2 className="mb-4 font-semibold text-gray-900 text-lg dark:text-stone-50">
+        <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
           Menu Bisnis
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-stone-700 dark:hover:bg-stone-800"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/influencers"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
               <Star className="h-6 w-6 text-primary-600 dark:text-primary-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-stone-100">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
                 Cari Influencer
               </p>
-              <p className="text-gray-600 text-sm dark:text-stone-400">
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Temukan influencer yang sesuai dengan kebutuhan bisnis Anda
               </p>
             </div>
           </Link>
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-stone-700 dark:hover:bg-stone-800"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/ai-recommendations"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
               <Sparkles className="h-6 w-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-stone-100">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
                 Rekomendasi AI
               </p>
-              <p className="text-gray-600 text-sm dark:text-stone-400">
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Dapatkan rekomendasi influencer berbasis AI
               </p>
             </div>
@@ -389,22 +389,22 @@ function UserTypeMenu({ userType }: { userType: string }) {
   if (userType === "influencer") {
     return (
       <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-900">
-        <h2 className="mb-4 font-semibold text-gray-900 text-lg dark:text-stone-50">
+        <h2 className="mb-4 font-semibold text-lg text-stone-900 dark:text-stone-50">
           Menu Influencer
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Link
-            className="flex items-center gap-4 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-stone-700 dark:hover:bg-stone-800"
+            className="flex items-center gap-4 rounded-xl border border-stone-200 p-4 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:hover:bg-stone-800"
             to="/influencers"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
               <Star className="h-6 w-6 text-primary-600 dark:text-primary-400" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-stone-100">
+              <p className="font-medium text-stone-900 dark:text-stone-100">
                 Lihat Profil Saya
               </p>
-              <p className="text-gray-600 text-sm dark:text-stone-400">
+              <p className="text-sm text-stone-600 dark:text-stone-400">
                 Kelola profil influencer Anda
               </p>
             </div>
@@ -540,7 +540,7 @@ export function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 dark:bg-stone-950">
+    <div className="min-h-screen bg-stone-50 py-12 dark:bg-stone-950">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           <div className="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-stone-900">
@@ -587,7 +587,7 @@ export function Profile() {
                 {editState.isEditing ? (
                   <>
                     <button
-                      className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 text-sm hover:bg-gray-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
+                      className="flex items-center gap-2 rounded-lg border border-stone-300 px-4 py-2 font-medium text-sm text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
                       onClick={() =>
                         setEditState((prev) => ({
                           ...prev,

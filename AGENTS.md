@@ -19,13 +19,37 @@ Instructions:
 
 For EdgeOne Pages CLI best practices: @rules/pages-llms.mdc
 
+## Code Search Workflow
+
+CRITICAL: use `codemogger` CLI commands for semantic lookup before broad/manual code exploration when task intent is unclear
+
+Instructions:
+
+- Do NOT use MCP `codemogger mcp` for codemogger - use CLI only
+
+Command:
+
+```bash
+# 1) Index (first run or after large codebase changes)
+codemogger index .
+
+# 2) Semantic/hybrid search during implementation
+codemogger search "natural language query" --mode hybrid --limit 10
+
+# 3) Optional: include snippets for quick inspection
+codemogger search "query" --mode semantic --snippet --format text
+
+# 4) Inspect indexed coverage
+codemogger list --format text
+```
+
+Usage:
+
+1. Re-run `codemogger index .` after significant file additions, renames, or refactors.
+2. Use `--mode keyword` only for exact symbol lookup; use `--mode semantic` or `--mode hybrid` for concept search.
+3. Keep `rg` for exact text matching and file discovery; use codemogger when intent is conceptual.
+
 ## Business Requirements
-
-### Core Features
-
-- **Matching Algorithm**: Budget-based, niche-specific, location-aware matching
-- **Target Users**: SMEs and local nano influencers
-- **Low Latency**: Real-time data using edge computing
 
 ### Website Localization
 

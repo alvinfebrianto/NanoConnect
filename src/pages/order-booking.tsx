@@ -83,7 +83,7 @@ export function OrderBooking() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-cream-50 dark:bg-stone-950">
+      <div className="flex min-h-screen items-center justify-center bg-cream-50 dark:bg-zinc-950">
         <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
       </div>
     );
@@ -92,11 +92,11 @@ export function OrderBooking() {
   if (error || !influencer) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+        <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
           Influencer tidak ditemukan
         </h2>
         {errorMessage && (
-          <p className="text-sm text-stone-600 dark:text-stone-400">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
             {errorMessage}
           </p>
         )}
@@ -109,10 +109,10 @@ export function OrderBooking() {
   }
 
   return (
-    <div className="min-h-screen animate-fade-in bg-cream-50 py-12 dark:bg-stone-950">
+    <div className="min-h-screen animate-fade-in bg-cream-50 py-12 dark:bg-zinc-950">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <button
-          className="mb-6 inline-flex items-center space-x-2 text-stone-600 hover:text-primary-600 dark:text-stone-400 dark:hover:text-primary-400"
+          className="mb-6 inline-flex items-center space-x-2 text-zinc-600 hover:text-primary-600 dark:text-zinc-400 dark:hover:text-primary-400"
           onClick={() => navigate(-1)}
           type="button"
         >
@@ -120,8 +120,8 @@ export function OrderBooking() {
           <span>Kembali</span>
         </button>
 
-        <div className="rounded-2xl bg-white p-8 shadow-xl dark:bg-stone-900 dark:shadow-stone-950/50">
-          <div className="mb-8 flex items-center space-x-4 border-stone-200 border-b pb-8 dark:border-stone-800">
+        <div className="rounded-2xl bg-white p-8 shadow-xl dark:bg-zinc-900 dark:shadow-zinc-950/50">
+          <div className="mb-8 flex items-center space-x-4 border-zinc-200 border-b pb-8 dark:border-zinc-800">
             <img
               alt={influencer.user?.name}
               className="h-16 w-16 rounded-xl object-cover"
@@ -133,10 +133,10 @@ export function OrderBooking() {
               width={64}
             />
             <div>
-              <h1 className="font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+              <h1 className="font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
                 Pesan Kolaborasi
               </h1>
-              <p className="text-stone-600 dark:text-stone-400">
+              <p className="text-zinc-600 dark:text-zinc-400">
                 dengan {influencer.user?.name}
               </p>
             </div>
@@ -150,7 +150,7 @@ export function OrderBooking() {
             )}
             <div>
               <label
-                className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="campaign-title"
               >
                 Judul Kampanye *
@@ -170,7 +170,7 @@ export function OrderBooking() {
 
             <div>
               <label
-                className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="campaign-description"
               >
                 Deskripsi Kampanye *
@@ -190,7 +190,7 @@ export function OrderBooking() {
 
             <div>
               <label
-                className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="campaign-requirements"
               >
                 Persyaratan Spesifik
@@ -214,7 +214,7 @@ export function OrderBooking() {
 
             <div>
               <label
-                className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="delivery-date"
               >
                 Tanggal Pengiriman *
@@ -252,7 +252,7 @@ export function OrderBooking() {
               )}
             </button>
 
-            <p className="text-center text-stone-500 text-xs dark:text-stone-400">
+            <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
               Dengan mengirimkan permintaan ini, Anda setuju dengan Syarat dan
               Ketentuan kami. Pembayaran hanya akan diproses setelah influencer
               menerima permintaan Anda.

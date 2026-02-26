@@ -22,7 +22,7 @@ export function DeliverablesSelector({
 }: DeliverablesSelectorProps) {
   return (
     <fieldset className="space-y-3">
-      <legend className="font-medium text-sm text-stone-700 dark:text-stone-300">
+      <legend className="font-medium text-sm text-zinc-700 dark:text-zinc-300">
         Deliverables *
       </legend>
       <div className="grid grid-cols-2 gap-3">
@@ -31,7 +31,7 @@ export function DeliverablesSelector({
             className={`rounded-xl border-2 p-3 text-left transition-all ${
               selected.includes(deliverable)
                 ? "border-primary-500 bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400"
-                : "border-stone-200 hover:border-stone-300 dark:border-stone-700 dark:hover:border-stone-600"
+                : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
             }`}
             key={deliverable}
             onClick={() => onToggle(deliverable)}
@@ -42,14 +42,14 @@ export function DeliverablesSelector({
                 className={`flex h-4 w-4 items-center justify-center rounded border-2 ${
                   selected.includes(deliverable)
                     ? "border-primary-500 bg-primary-500"
-                    : "border-stone-300 dark:border-stone-600"
+                    : "border-zinc-300 dark:border-zinc-600"
                 }`}
               >
                 {selected.includes(deliverable) && (
                   <CheckCircle className="h-3 w-3 text-white" />
                 )}
               </div>
-              <span className="font-medium text-sm dark:text-stone-200">
+              <span className="font-medium text-sm dark:text-zinc-200">
                 {deliverable}
               </span>
             </div>

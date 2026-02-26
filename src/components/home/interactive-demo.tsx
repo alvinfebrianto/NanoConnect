@@ -39,27 +39,27 @@ export function InteractiveDemo() {
   ];
 
   return (
-    <section className="overflow-hidden bg-white py-24 sm:py-32 dark:bg-stone-950">
+    <section className="overflow-hidden bg-white py-24 sm:py-32 dark:bg-zinc-950">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pt-4 lg:pr-8">
             <div className="lg:max-w-lg">
-              <h2 className="font-semibold text-amber-600 text-base leading-7">
+              <h2 className="font-semibold text-base text-primary-600 leading-7">
                 Kolaborasi Tanpa Ribet
               </h2>
-              <p className="mt-2 font-bold font-display text-3xl text-stone-900 tracking-tight sm:text-4xl dark:text-stone-50">
+              <p className="mt-2 font-bold font-display text-3xl text-zinc-900 tracking-tight sm:text-4xl dark:text-zinc-50">
                 Chat, Deal, Bayar. <br />
                 Dalam Satu Aplikasi.
               </p>
-              <p className="mt-6 text-lg text-stone-600 leading-8 dark:text-stone-400">
+              <p className="mt-6 text-lg text-zinc-600 leading-8 dark:text-zinc-400">
                 Lupakan email yang tenggelam atau DM yang tidak terbalas.
                 NanoConnect menyediakan ruang kerja terpadu untuk negosiasi
                 hingga pembayaran.
               </p>
-              <dl className="mt-10 max-w-xl space-y-6 text-base text-stone-600 leading-7 lg:max-w-none dark:text-stone-400">
+              <dl className="mt-10 max-w-xl space-y-6 text-base text-zinc-600 leading-7 lg:max-w-none dark:text-zinc-400">
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-stone-900 dark:text-stone-100">
-                    <MessageCircle className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
+                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <MessageCircle className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
                     Direct Chat.
                   </dt>
                   <dd className="mt-1">
@@ -68,8 +68,8 @@ export function InteractiveDemo() {
                   </dd>
                 </div>
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-stone-900 dark:text-stone-100">
-                    <Check className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
+                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <Check className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
                     Kontrak Digital.
                   </dt>
                   <dd className="mt-1">
@@ -78,8 +78,8 @@ export function InteractiveDemo() {
                   </dd>
                 </div>
                 <div className="relative pl-9">
-                  <dt className="font-semibold text-stone-900 dark:text-stone-100">
-                    <Star className="absolute top-1 left-1 h-5 w-5 text-amber-600" />
+                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <Star className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
                     Review System.
                   </dt>
                   <dd className="mt-1">
@@ -91,44 +91,44 @@ export function InteractiveDemo() {
           </div>
 
           <div className="flex items-center justify-center lg:justify-end">
-            <div className="relative h-[600px] w-[300px] rounded-[3rem] border-[14px] border-stone-900 bg-stone-950 shadow-2xl ring-1 ring-stone-900/50">
+            <div className="relative h-[600px] w-[300px] rounded-[3rem] border-[14px] border-zinc-900 bg-zinc-950 shadow-2xl ring-1 ring-zinc-900/50">
               <div className="absolute top-4 left-1/2 z-20 h-[25px] w-[90px] -translate-x-1/2 rounded-full bg-black" />
 
-              <div className="absolute top-[100px] -left-[16px] h-[40px] w-[4px] rounded-l-lg bg-stone-800" />
-              <div className="absolute top-[150px] -left-[16px] h-[40px] w-[4px] rounded-l-lg bg-stone-800" />
-              <div className="absolute top-[120px] -right-[16px] h-[60px] w-[4px] rounded-r-lg bg-stone-800" />
+              <div className="absolute top-[100px] -left-[16px] h-[40px] w-[4px] rounded-l-lg bg-zinc-800" />
+              <div className="absolute top-[150px] -left-[16px] h-[40px] w-[4px] rounded-l-lg bg-zinc-800" />
+              <div className="absolute top-[120px] -right-[16px] h-[60px] w-[4px] rounded-r-lg bg-zinc-800" />
 
-              <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-stone-50 dark:bg-stone-900">
+              <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900">
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-50" />
 
-                <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 px-5 pt-12 pb-3 shadow-sm backdrop-blur-md dark:bg-stone-900/90 dark:shadow-stone-950/20">
+                <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 px-5 pt-12 pb-3 shadow-sm backdrop-blur-md dark:bg-zinc-900/90 dark:shadow-zinc-950/20">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 font-bold text-amber-800 shadow-inner">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-accent-100 to-accent-200 font-bold text-accent-800 shadow-inner">
                         S
                       </div>
-                      <div className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-stone-900" />
+                      <div className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
                     </div>
                     <div>
-                      <div className="font-semibold text-sm text-stone-900 leading-tight dark:text-stone-50">
+                      <div className="font-semibold text-sm text-zinc-900 leading-tight dark:text-zinc-50">
                         Sari Dewi
                       </div>
-                      <div className="font-medium text-[10px] text-stone-500 dark:text-stone-400">
+                      <div className="font-medium text-[10px] text-zinc-500 dark:text-zinc-400">
                         Online
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="scrollbar-hide flex h-[calc(100%-8.5rem)] flex-col gap-3 overflow-y-auto bg-stone-50 p-4 dark:bg-stone-900">
+                <div className="scrollbar-hide flex h-[calc(100%-8.5rem)] flex-col gap-3 overflow-y-auto bg-zinc-50 p-4 dark:bg-zinc-900">
                   {messages.map((msg, i) => {
                     const messageStyles: Record<string, string> = {
                       brand:
-                        "self-end rounded-br-sm bg-gradient-to-br from-amber-500 to-orange-500 text-white",
+                        "self-end rounded-br-sm bg-gradient-to-br from-accent-500 to-accent-600 text-white",
                       system:
-                        "my-2 w-full max-w-[90%] self-center rounded-full border border-stone-200 bg-stone-100/80 py-1.5 text-center text-[10px] text-stone-500 shadow-none backdrop-blur-sm dark:border-stone-700 dark:bg-stone-800/80 dark:text-stone-400",
+                        "my-2 w-full max-w-[90%] self-center rounded-full border border-zinc-200 bg-zinc-100/80 py-1.5 text-center text-[10px] text-zinc-500 shadow-none backdrop-blur-sm dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-400",
                       influencer:
-                        "self-start rounded-bl-sm border border-stone-100 bg-white text-stone-800 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200",
+                        "self-start rounded-bl-sm border border-zinc-100 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200",
                     };
                     return (
                       <div
@@ -143,7 +143,7 @@ export function InteractiveDemo() {
                         {msg.text}
                         {msg.type !== "system" && (
                           <span
-                            className={`text-[10px] ${msg.type === "brand" ? "text-amber-100/80" : "text-stone-400"} mt-1 self-end leading-none`}
+                            className={`text-[10px] ${msg.type === "brand" ? "text-accent-100/80" : "text-zinc-400"} mt-1 self-end leading-none`}
                           >
                             {msg.time}
                           </span>
@@ -152,18 +152,18 @@ export function InteractiveDemo() {
                     );
                   })}
 
-                  <div className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-stone-100 bg-white px-3 py-3 opacity-0 shadow-sm [animation-delay:5000ms] [animation-fill-mode:forwards] dark:border-stone-700 dark:bg-stone-800">
-                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.3s]" />
-                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.15s]" />
-                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400" />
+                  <div className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-zinc-100 bg-white px-3 py-3 opacity-0 shadow-sm [animation-delay:5000ms] [animation-fill-mode:forwards] dark:border-zinc-700 dark:bg-zinc-800">
+                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.3s]" />
+                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.15s]" />
+                    <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400" />
                   </div>
                 </div>
 
-                <div className="absolute bottom-0 w-full border-stone-100 border-t bg-white px-4 py-3 dark:border-stone-800 dark:bg-stone-900">
-                  <div className="flex items-center gap-2 rounded-full border border-stone-200 bg-stone-100 px-4 py-2.5 dark:border-stone-700 dark:bg-stone-800">
-                    <div className="text-sm text-stone-400">Tulis pesan...</div>
+                <div className="absolute bottom-0 w-full border-zinc-100 border-t bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+                  <div className="flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-2.5 dark:border-zinc-700 dark:bg-zinc-800">
+                    <div className="text-sm text-zinc-400">Tulis pesan...</div>
                   </div>
-                  <div className="mx-auto mt-2 h-1 w-1/3 rounded-full bg-stone-300 dark:bg-stone-600" />
+                  <div className="mx-auto mt-2 h-1 w-1/3 rounded-full bg-zinc-300 dark:bg-zinc-600" />
                 </div>
               </div>
             </div>

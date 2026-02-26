@@ -68,13 +68,13 @@ export function Register() {
   };
 
   return (
-    <div className="gradient-bg flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8 dark:bg-stone-950">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-stone-900">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-zinc-950">
+      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-zinc-900">
         <div className="text-center">
-          <h2 className="font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
+          <h2 className="font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
             Buat Akun
           </h2>
-          <p className="mt-2 text-stone-600 dark:text-stone-400">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
             Bergabung dengan NanoConnect dan mulai berkolaborasi
           </p>
         </div>
@@ -91,16 +91,16 @@ export function Register() {
               className={`flex flex-col items-center space-y-2 rounded-xl border-2 p-4 transition-all duration-200 ${
                 form.userType === "sme"
                   ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30"
-                  : "border-stone-200 hover:border-stone-300 dark:border-stone-700 dark:hover:border-stone-600"
+                  : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
               }`}
               onClick={() => setField("userType", "sme")}
               type="button"
             >
               <Building2
-                className={`h-8 w-8 ${form.userType === "sme" ? "text-primary-600" : "text-stone-400 dark:text-stone-600"}`}
+                className={`h-8 w-8 ${form.userType === "sme" ? "text-primary-600" : "text-zinc-400 dark:text-zinc-600"}`}
               />
               <span
-                className={`font-medium ${form.userType === "sme" ? "text-primary-700 dark:text-primary-400" : "text-stone-600 dark:text-stone-400"}`}
+                className={`font-medium ${form.userType === "sme" ? "text-primary-700 dark:text-primary-400" : "text-zinc-600 dark:text-zinc-400"}`}
               >
                 Saya Pemilik Bisnis
               </span>
@@ -109,16 +109,16 @@ export function Register() {
               className={`flex flex-col items-center space-y-2 rounded-xl border-2 p-4 transition-all duration-200 ${
                 form.userType === "influencer"
                   ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30"
-                  : "border-stone-200 hover:border-stone-300 dark:border-stone-700 dark:hover:border-stone-600"
+                  : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
               }`}
               onClick={() => setField("userType", "influencer")}
               type="button"
             >
               <Star
-                className={`h-8 w-8 ${form.userType === "influencer" ? "text-primary-600" : "text-stone-400 dark:text-stone-600"}`}
+                className={`h-8 w-8 ${form.userType === "influencer" ? "text-primary-600" : "text-zinc-400 dark:text-zinc-600"}`}
               />
               <span
-                className={`font-medium ${form.userType === "influencer" ? "text-primary-700 dark:text-primary-400" : "text-stone-600 dark:text-stone-400"}`}
+                className={`font-medium ${form.userType === "influencer" ? "text-primary-700 dark:text-primary-400" : "text-zinc-600 dark:text-zinc-400"}`}
               >
                 Saya Influencer
               </span>
@@ -128,13 +128,13 @@ export function Register() {
           <div className="space-y-4">
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="name"
               >
                 Nama Lengkap
               </label>
               <div className="relative">
-                <User className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <User className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pl-10"
                   id="name"
@@ -150,13 +150,13 @@ export function Register() {
 
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="email"
               >
                 Alamat Email
               </label>
               <div className="relative">
-                <Mail className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <Mail className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pl-10"
                   id="email"
@@ -172,13 +172,13 @@ export function Register() {
 
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="password"
               >
                 Kata Sandi
               </label>
               <div className="relative">
-                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pr-10 pl-10"
                   id="password"
@@ -190,7 +190,7 @@ export function Register() {
                   value={form.password}
                 />
                 <button
-                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-stone-400 hover:text-stone-600 dark:text-stone-600 dark:hover:text-stone-400"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-zinc-400 hover:text-zinc-600 dark:text-zinc-600 dark:hover:text-zinc-400"
                   onClick={() => setShowPassword(!showPassword)}
                   type="button"
                 >
@@ -205,13 +205,13 @@ export function Register() {
 
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="confirmPassword"
               >
                 Konfirmasi Kata Sandi
               </label>
               <div className="relative">
-                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pl-10"
                   id="confirmPassword"
@@ -228,14 +228,14 @@ export function Register() {
 
           <div className="flex items-start">
             <input
-              className="mt-1 rounded border-stone-300 text-primary-600 focus:ring-primary-500 dark:border-stone-700"
+              className="mt-1 rounded border-zinc-300 text-primary-600 focus:ring-primary-500 dark:border-zinc-700"
               id="terms"
               name="terms"
               required
               type="checkbox"
             />
             <label
-              className="ml-2 text-sm text-stone-600 dark:text-stone-400"
+              className="ml-2 text-sm text-zinc-600 dark:text-zinc-400"
               htmlFor="terms"
             >
               Saya setuju dengan{" "}
@@ -264,7 +264,7 @@ export function Register() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-stone-600 dark:text-stone-400">
+        <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
           Sudah punya akun?{" "}
           <Link
             className="font-medium text-primary-600 hover:text-primary-700"

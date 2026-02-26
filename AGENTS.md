@@ -11,9 +11,6 @@ You are on Git Bash on Windows.
 - Pricing and budget displays must use Rupiah (`Rp`).
 - Load referenced files lazily (need-to-know), then treat loaded instructions as mandatory.
 
-## Progressive disclosure
-
-- [Workflow and command rules](docs/agents/workflow.md)
 - [Product and business rules](docs/agents/product.md)
 - [Tech stack and architecture](docs/agents/stack-and-architecture.md)
 - [Code standards and patterns](docs/agents/code-standards.md)

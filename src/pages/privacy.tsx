@@ -1,12 +1,12 @@
 export function Privacy() {
   return (
     <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16 dark:from-stone-950 dark:via-stone-950 dark:to-stone-950">
+      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-950">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h1 className="mb-4 font-bold font-display text-4xl text-stone-900 dark:text-stone-50">
+          <h1 className="mb-4 font-bold font-display text-4xl text-zinc-900 dark:text-zinc-50">
             Kebijakan Privasi
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-zinc-600 dark:text-zinc-400">
             Terakhir diperbarui: Januari 2024
           </p>
         </div>
@@ -15,17 +15,17 @@ export function Privacy() {
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="prose prose-lg max-w-none">
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               1. Pendahuluan
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Selamat datang di NanoConnect. Kami menghargai privasi Anda dan
               berkomitmen untuk melindungi informasi pribadi Anda. Kebijakan
               privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan,
               dan melindungi informasi Anda ketika Anda menggunakan platform
               kami.
             </p>
-            <p className="text-stone-600 dark:text-stone-400">
+            <p className="text-zinc-600 dark:text-zinc-400">
               Dengan mengakses atau menggunakan NanoConnect, Anda setuju dengan
               praktik yang dijelaskan dalam kebijakan ini. Jika Anda tidak
               setuju dengan kebijakan ini, harap tidak menggunakan layanan kami.
@@ -33,17 +33,17 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               2. Informasi yang Kami Kumpulkan
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami mengumpulkan berbagai jenis informasi untuk menyediakan dan
               meningkatkan layanan kami:
             </p>
-            <h3 className="mb-2 font-semibold text-lg text-stone-800 dark:text-stone-200">
+            <h3 className="mb-2 font-semibold text-lg text-zinc-800 dark:text-zinc-200">
               Informasi yang Anda Berikan:
             </h3>
-            <ul className="mb-4 list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="mb-4 list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 Informasi akun: nama, alamat email, kata sandi, foto profil
               </li>
@@ -57,10 +57,10 @@ export function Privacy() {
               </li>
               <li>Konten yang Anda buat: posting kampanye, pesan, ulasan</li>
             </ul>
-            <h3 className="mb-2 font-semibold text-lg text-stone-800 dark:text-stone-200">
+            <h3 className="mb-2 font-semibold text-lg text-zinc-800 dark:text-zinc-200">
               Informasi yang Dikumpulkan Secara Otomatis:
             </h3>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 Data penggunaan: halaman yang Anda kunjungi, fitur yang Anda
                 gunakan
@@ -72,14 +72,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               3. Bagaimana Kami Menggunakan Informasi Anda
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami menggunakan informasi yang kami kumpulkan untuk berbagai
               tujuan:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 <strong>Menyediakan layanan:</strong> Memproses transaksi,
                 mengelola akun, memfasilitasi komunikasi
@@ -104,14 +104,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               4. Berbagi Informasi
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami tidak menjual atau menyewakan informasi pribadi Anda. Kami
               dapat membagikan informasi Anda dalam situasi berikut:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 <strong>Dengan penyedia layanan:</strong> Pemroses pembayaran,
                 penyedia hosting, layanan analitik
@@ -132,14 +132,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               5. Keamanan Data
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami menerapkan langkah-langkah keamanan yang sesuai untuk
               melindungi informasi pribadi Anda:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>Enkripsi data dalam transit menggunakan teknologi SSL/TLS</li>
               <li>
                 Penyimpanan data yang aman dengan kontrol akses yang ketat
@@ -148,7 +148,7 @@ export function Privacy() {
               <li>Audit keamanan berkala dan pembaruan sistem</li>
               <li>Pelatihan kesadaran keamanan untuk karyawan</li>
             </ul>
-            <p className="mt-4 text-stone-600 dark:text-stone-400">
+            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               Meskipun kami berusaha keras untuk melindungi informasi Anda,
               tidak ada metode transmisi melalui internet atau penyimpanan
               elektronik yang 100% aman. Kami tidak dapat menjamin keamanan
@@ -157,14 +157,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               6. Hak Anda
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Tergantung pada yurisdiksi Anda, Anda mungkin memiliki hak-hak
               berikut terkait informasi pribadi Anda:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 <strong>Akses:</strong> Meminta salinan informasi pribadi yang
                 kami miliki tentang Anda
@@ -189,7 +189,7 @@ export function Privacy() {
                 <strong>Keberatan:</strong> Menolak pemrosesan data pribadi Anda
               </li>
             </ul>
-            <p className="mt-4 text-stone-600 dark:text-stone-400">
+            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               Untuk menggunakan hak-hak ini, silakan hubungi kami di
               privacy@nanoconnect.com. Kami akan merespons permintaan Anda dalam
               waktu 30 hari.
@@ -197,14 +197,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               7. Cookie
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami menggunakan cookie dan teknologi pelacakan serupa untuk
               meningkatkan pengalaman Anda:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>
                 <strong>Cookie esensial:</strong> Diperlukan untuk fungsi dasar
                 platform
@@ -222,7 +222,7 @@ export function Privacy() {
                 ditargetkan
               </li>
             </ul>
-            <p className="mt-4 text-stone-600 dark:text-stone-400">
+            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               Anda dapat mengontrol cookie melalui pengaturan browser Anda.
               Namun, menonaktifkan cookie tertentu dapat mempengaruhi
               fungsionalitas platform.
@@ -230,30 +230,30 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               8. Retensi Data
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami menyimpan informasi pribadi Anda selama akun Anda aktif dan
               untuk periode yang diperlukan untuk:
             </p>
-            <ul className="list-inside list-disc space-y-2 text-stone-600 dark:text-stone-400">
+            <ul className="list-inside list-disc space-y-2 text-zinc-600 dark:text-zinc-400">
               <li>Memenuhi tujuan yang dijelaskan dalam kebijakan ini</li>
               <li>Mematuhi kewajiban hukum</li>
               <li>Menyelesaikan sengketa</li>
               <li>Menegakkan perjanjian kami</li>
             </ul>
-            <p className="mt-4 text-stone-600 dark:text-stone-400">
+            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               Ketika informasi tidak lagi diperlukan, kami akan menghapus atau
               mengamankan data tersebut dengan cara yang tidak dapat dipulihkan.
             </p>
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               9. Privasi Anak-Anak
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Layanan kami tidak ditujukan untuk individu di bawah usia 18
               tahun. Kami tidak secara sengaja mengumpulkan informasi pribadi
               dari anak-anak. Jika kami mengetahui bahwa kami telah mengumpulkan
@@ -263,15 +263,15 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               10. Perubahan Kebijakan Ini
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Kami dapat memperbarui kebijakan privasi ini dari waktu ke waktu
               untuk mencerminkan perubahan dalam praktik kami atau untuk alasan
               operasional, hukum, atau peraturan lainnya.
             </p>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Setiap perubahan material akan diberitahukan kepada Anda melalui
               email atau pemberitahuan yang mencolok di platform kami. Kami
               mendorong Anda untuk meninjau kebijakan ini secara berkala.
@@ -279,14 +279,14 @@ export function Privacy() {
           </section>
 
           <section className="mb-12">
-            <h2 className="mb-4 font-bold font-display text-2xl text-stone-900 dark:text-stone-50">
+            <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
               11. Informasi Kontak
             </h2>
-            <p className="mb-4 text-stone-600 dark:text-stone-400">
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
               Jika Anda memiliki pertanyaan tentang kebijakan privasi ini atau
               praktik data kami, silakan hubungi kami di:
             </p>
-            <div className="text-stone-600 dark:text-stone-400">
+            <div className="text-zinc-600 dark:text-zinc-400">
               <p className="mb-2">
                 <strong>Email:</strong> privacy@nanoconnect.com
               </p>

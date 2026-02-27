@@ -8,7 +8,7 @@ export function ThemeSwitcher() {
   return (
     <button
       aria-label={isDark ? "Aktifkan mode terang" : "Aktifkan mode gelap"}
-      className="relative flex h-9 w-9 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-stone-600 backdrop-blur-md transition-all duration-300 hover:border-amber-300 hover:text-amber-600 active:scale-95 dark:border-stone-700 dark:bg-stone-800/80 dark:text-stone-300 dark:hover:border-amber-500/50 dark:hover:text-amber-400"
+      className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 text-zinc-500 transition-all hover:border-primary-300 hover:text-primary-600 active:scale-95 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-primary-600 dark:hover:text-primary-400"
       onClick={toggleTheme}
       type="button"
     >

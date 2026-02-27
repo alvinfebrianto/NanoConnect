@@ -2,15 +2,6 @@
 
 Use this file for product intent and user-facing constraints.
 
-## Product summary
-
-NanoConnect is a matching platform for SMEs and nano influencers.
-
-## Global localization requirements
-
-- User-facing website UI text must be Indonesian.
-- Pricing and budget values must use Rupiah (`Rp`).
-
 ## Core domain entities
 
 - `Influencer`: niche, rates, location, portfolio.

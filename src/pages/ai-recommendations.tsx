@@ -79,7 +79,7 @@ const formatRupiah = (value: number) => `Rp ${value.toLocaleString("id-ID")}`;
 
 function ProcessingScreen() {
   return (
-    <div className="gradient-bg flex min-h-screen items-center justify-center px-4 dark:bg-stone-950">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 dark:bg-zinc-950">
       <div className="w-full max-w-2xl text-center">
         <div className="relative mx-auto mb-8 h-24 w-24">
           <div className="absolute inset-0 animate-ping rounded-full bg-primary-200 dark:bg-primary-800/40" />
@@ -87,10 +87,10 @@ function ProcessingScreen() {
             <Sparkles className="h-12 w-12 animate-pulse text-white" />
           </div>
         </div>
-        <h2 className="mb-3 font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
+        <h2 className="mb-3 font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
           AI Sedang Menyusun Brief Kampanye Anda
         </h2>
-        <p className="mx-auto max-w-xl text-stone-600 dark:text-stone-400">
+        <p className="mx-auto max-w-xl text-zinc-600 dark:text-zinc-400">
           Kami sedang menganalisis detail SME dan kampanye untuk menemukan
           format influencer terbaik.
         </p>
@@ -129,17 +129,17 @@ function ResultsScreen({
 }: ResultsScreenProps) {
   return (
     <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12 dark:from-stone-950 dark:via-stone-950 dark:to-stone-950">
+      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-950">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="mb-2 text-primary-500 text-sm uppercase tracking-[0.3em]">
                 Hasil Singkat AI
               </p>
-              <h1 className="mb-3 font-bold font-display text-4xl text-stone-900 dark:text-stone-50">
+              <h1 className="mb-3 font-bold font-display text-4xl text-zinc-900 dark:text-zinc-50">
                 Brief Kampanye Telah Terkirim
               </h1>
-              <p className="max-w-2xl text-stone-600 dark:text-stone-400">
+              <p className="max-w-2xl text-zinc-600 dark:text-zinc-400">
                 AI kami siap menyusun daftar influencer terbaik. Berikut
                 ringkasan kampanye yang sudah Anda kirimkan.
               </p>
@@ -160,46 +160,46 @@ function ResultsScreen({
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
-            <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-800">
-              <p className="text-stone-500 text-xs uppercase tracking-[0.2em] dark:text-stone-400">
+            <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-zinc-800">
+              <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] dark:text-zinc-400">
                 Profil SME
               </p>
-              <h3 className="mt-2 font-semibold text-lg text-stone-900 dark:text-stone-50">
+              <h3 className="mt-2 font-semibold text-lg text-zinc-900 dark:text-zinc-50">
                 {profile?.name || recommendation?.user.name || "SME Anda"}
               </h3>
-              <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 {profile?.email || recommendation?.user.email || ""}
               </p>
               <div className="mt-6 space-y-3 text-sm">
-                <div className="flex items-center justify-between text-stone-600 dark:text-stone-400">
+                <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
                   <span>Niche</span>
-                  <span className="font-medium text-stone-900 dark:text-stone-100">
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
                     {formData.niche}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-stone-600 dark:text-stone-400">
+                <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
                   <span>Ukuran bisnis</span>
-                  <span className="font-medium text-stone-900 dark:text-stone-100">
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
                     {formData.company_size}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-stone-600 dark:text-stone-400">
+                <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
                   <span>Budget</span>
-                  <span className="font-medium text-stone-900 dark:text-stone-100">
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">
                     {isBudgetValid ? formatRupiah(budgetValue) : "-"}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-stone-800">
-              <p className="text-stone-500 text-xs uppercase tracking-[0.2em] dark:text-stone-400">
+            <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-zinc-800">
+              <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] dark:text-zinc-400">
                 Ringkasan Kampanye
               </p>
-              <h3 className="mt-2 font-semibold text-lg text-stone-900 dark:text-stone-50">
+              <h3 className="mt-2 font-semibold text-lg text-zinc-900 dark:text-zinc-50">
                 Snapshot singkat untuk tim AI
               </h3>
-              <p className="mt-4 whitespace-pre-line text-sm text-stone-600 leading-relaxed dark:text-stone-400">
+              <p className="mt-4 whitespace-pre-line text-sm text-zinc-600 leading-relaxed dark:text-zinc-400">
                 {recommendation?.summary ||
                   "Ringkasan kampanye belum tersedia."}
               </p>
@@ -211,26 +211,26 @@ function ResultsScreen({
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-6 md:grid-cols-3">
           <div className="rounded-2xl border border-primary-100 bg-primary-50 p-6 dark:border-primary-800/30 dark:bg-primary-900/30">
-            <h3 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
+            <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-50">
               Target Audiens
             </h3>
-            <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               {formData.target_audience}
             </p>
           </div>
           <div className="rounded-2xl border border-accent-100 bg-accent-50 p-6 dark:border-accent-800/30 dark:bg-accent-900/30">
-            <h3 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
+            <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-50">
               Fokus Lokasi
             </h3>
-            <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               {formData.location}
             </p>
           </div>
-          <div className="rounded-2xl border border-stone-200 bg-white p-6 dark:border-stone-800 dark:bg-stone-800">
-            <h3 className="font-semibold text-lg text-stone-900 dark:text-stone-50">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-800">
+            <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-50">
               Jenis Kampanye
             </h3>
-            <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               {formData.campaign_type}
             </p>
           </div>
@@ -265,12 +265,12 @@ function CampaignForm({
   onSubmit,
 }: CampaignFormProps) {
   return (
-    <div className="rounded-3xl bg-white p-8 shadow-xl dark:bg-stone-900">
+    <div className="rounded-3xl bg-white p-8 shadow-xl dark:bg-zinc-900">
       <div className="mb-6">
-        <h2 className="font-semibold text-2xl text-stone-900 dark:text-stone-50">
+        <h2 className="font-semibold text-2xl text-zinc-900 dark:text-zinc-50">
           Form Brief Kampanye
         </h2>
-        <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           Semua kolom wajib diisi agar AI bisa merangkum kebutuhan SME.
         </p>
       </div>
@@ -284,7 +284,7 @@ function CampaignForm({
       <form className="space-y-6" onSubmit={onSubmit}>
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="niche"
           >
             <Target className="mr-2 inline h-4 w-4" />
@@ -308,7 +308,7 @@ function CampaignForm({
 
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="company_size"
           >
             <Building2 className="mr-2 inline h-4 w-4" />
@@ -332,7 +332,7 @@ function CampaignForm({
 
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="budget"
           >
             <DollarSign className="mr-2 inline h-4 w-4" />
@@ -349,14 +349,14 @@ function CampaignForm({
             type="number"
             value={formData.budget}
           />
-          <p className="mt-2 text-stone-500 text-xs dark:text-stone-400">
+          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
             Estimasi yang akan digunakan AI untuk mengatur jumlah influencer.
           </p>
         </div>
 
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="target_audience"
           >
             <Users className="mr-2 inline h-4 w-4" />
@@ -375,7 +375,7 @@ function CampaignForm({
 
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="location"
           >
             <MapPin className="mr-2 inline h-4 w-4" />
@@ -399,7 +399,7 @@ function CampaignForm({
 
         <div>
           <label
-            className="mb-2 block font-medium text-sm text-stone-700 dark:text-stone-300"
+            className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
             htmlFor="campaign_type"
           >
             <Sparkles className="mr-2 inline h-4 w-4" />
@@ -597,84 +597,84 @@ export function AIRecommendations() {
   return (
     <ProtectedRoute>
       <div className="animate-fade-in">
-        <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16 dark:from-stone-950 dark:via-stone-950 dark:to-stone-950">
+        <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-16 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-950">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
               <div className="space-y-8">
                 <div>
-                  <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-medium text-primary-600 text-sm shadow-sm dark:bg-stone-800 dark:text-primary-400">
+                  <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-medium text-primary-600 text-sm shadow-sm dark:bg-zinc-800 dark:text-primary-400">
                     <Sparkles className="h-4 w-4" />
                     Pemetaan Kampanye SME
                   </p>
-                  <h1 className="mb-4 font-bold font-display text-4xl text-stone-900 dark:text-stone-50">
+                  <h1 className="mb-4 font-bold font-display text-4xl text-zinc-900 dark:text-zinc-50">
                     Bangun brief kampanye yang tajam untuk AI NanoConnect
                   </h1>
-                  <p className="text-lg text-stone-600 dark:text-stone-400">
+                  <p className="text-lg text-zinc-600 dark:text-zinc-400">
                     Isi 6 data utama agar AI memahami identitas SME Anda dan
                     langsung menyaring influencer paling relevan.
                   </p>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-stone-800">
+                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-zinc-800">
                     <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
                       <Target className="h-5 w-5 text-primary-600" />
                     </div>
-                    <h3 className="font-semibold text-stone-900 dark:text-stone-50">
+                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                       Brief fokus
                     </h3>
-                    <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       AI membaca niche dan jenis kampanye untuk menyesuaikan
                       gaya konten.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-stone-800">
+                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-zinc-800">
                     <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-accent-100 dark:bg-accent-900/30">
                       <DollarSign className="h-5 w-5 text-accent-600" />
                     </div>
-                    <h3 className="font-semibold text-stone-900 dark:text-stone-50">
+                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                       Budget sehat
                     </h3>
-                    <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       Rekomendasi influencer dikalibrasi dari budget SME Anda.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-stone-800">
+                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-zinc-800">
                     <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-green-100 dark:bg-green-900/30">
                       <Users className="h-5 w-5 text-green-600" />
                     </div>
-                    <h3 className="font-semibold text-stone-900 dark:text-stone-50">
+                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                       Audiens tepat
                     </h3>
-                    <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       AI menyesuaikan persona audiens dan lokasi target.
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-stone-800">
-                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900/30">
-                      <Building2 className="h-5 w-5 text-slate-600" />
+                  <div className="rounded-2xl bg-white p-5 shadow-sm dark:bg-zinc-800">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900/30">
+                      <Building2 className="h-5 w-5 text-zinc-600" />
                     </div>
-                    <h3 className="font-semibold text-stone-900 dark:text-stone-50">
+                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                       Skala SME
                     </h3>
-                    <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       Ukuran bisnis membantu menentukan intensitas kolaborasi.
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-white/60 bg-white/80 p-6 shadow-lg backdrop-blur dark:border-stone-700/60 dark:bg-stone-800/80">
+                <div className="rounded-2xl border border-white/60 bg-white/80 p-6 shadow-lg backdrop-blur dark:border-zinc-700/60 dark:bg-zinc-800/80">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-stone-500 text-xs uppercase tracking-[0.2em] dark:text-stone-400">
+                      <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] dark:text-zinc-400">
                         Profil SME
                       </p>
-                      <h3 className="mt-2 font-semibold text-lg text-stone-900 dark:text-stone-50">
+                      <h3 className="mt-2 font-semibold text-lg text-zinc-900 dark:text-zinc-50">
                         {profileLoading
                           ? "Memuat profil..."
                           : profile?.name || "Silakan masuk"}
                       </h3>
-                      <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+                      <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                         {profileLoading
                           ? ""
                           : profile?.email ||

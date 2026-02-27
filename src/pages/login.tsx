@@ -32,13 +32,13 @@ export function Login() {
   };
 
   return (
-    <div className="gradient-bg flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8 dark:bg-stone-950">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-stone-900">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-zinc-950">
+      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-zinc-900">
         <div className="text-center">
-          <h2 className="font-bold font-display text-3xl text-stone-900 dark:text-stone-50">
+          <h2 className="font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
             Selamat Datang Kembali
           </h2>
-          <p className="mt-2 text-stone-600 dark:text-stone-400">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
             Masuk ke akun NanoConnect Anda
           </p>
         </div>
@@ -55,13 +55,13 @@ export function Login() {
           <div className="space-y-4">
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="email"
               >
                 Alamat Email
               </label>
               <div className="relative">
-                <Mail className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <Mail className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pl-10"
                   id="email"
@@ -79,13 +79,13 @@ export function Login() {
 
             <div>
               <label
-                className="mb-1 block font-medium text-sm text-stone-700 dark:text-stone-300"
+                className="mb-1 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                 htmlFor="password"
               >
                 Kata Sandi
               </label>
               <div className="relative">
-                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-stone-400 dark:text-stone-600" />
+                <Lock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-600" />
                 <input
                   className="input-field pr-10 pl-10"
                   id="password"
@@ -99,7 +99,7 @@ export function Login() {
                   value={form.password}
                 />
                 <button
-                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-stone-400 hover:text-stone-600 dark:text-stone-600 dark:hover:text-stone-400"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-zinc-400 hover:text-zinc-600 dark:text-zinc-600 dark:hover:text-zinc-400"
                   onClick={() => setShowPassword(!showPassword)}
                   type="button"
                 >
@@ -116,10 +116,10 @@ export function Login() {
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center">
               <input
-                className="rounded border-stone-300 text-primary-600 focus:ring-primary-500 dark:border-stone-700"
+                className="rounded border-zinc-300 text-primary-600 focus:ring-primary-500 dark:border-zinc-700"
                 type="checkbox"
               />
-              <span className="ml-2 text-stone-600 dark:text-stone-400">
+              <span className="ml-2 text-zinc-600 dark:text-zinc-400">
                 Ingat saya
               </span>
             </label>
@@ -144,7 +144,7 @@ export function Login() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-stone-600 dark:text-stone-400">
+        <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
           Belum punya akun?{" "}
           <Link
             className="font-medium text-primary-600 hover:text-primary-700"

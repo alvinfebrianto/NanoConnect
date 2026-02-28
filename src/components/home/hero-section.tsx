@@ -14,8 +14,11 @@ export function HeroSection() {
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <div className="mb-6 animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-            <span className="group inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 font-semibold text-primary-600 text-sm shadow-sm ring-1 ring-black/5 backdrop-blur-md transition-all hover:scale-105 hover:shadow-md dark:bg-zinc-800/80 dark:ring-white/10">
-              <Sparkles className="h-4 w-4 transition-transform group-hover:rotate-12 group-hover:scale-125" />
+            <span className="group inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 font-semibold text-primary-600 text-sm shadow-sm ring-1 ring-black/5 backdrop-blur-md transition hover:scale-105 hover:shadow-md dark:bg-zinc-800/80 dark:ring-white/10">
+              <Sparkles
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform group-hover:rotate-12 group-hover:scale-125"
+              />
               <span>Revolusi Marketing UMKM Indonesia</span>
             </span>
           </div>
@@ -52,18 +55,20 @@ export function HeroSection() {
             Platform pertama yang menghubungkan UMKM dengan ribuan Nano
             Influencer lokal.
             <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-              {" "}
-              Hemat budget, hasil maksimal.
+              &nbsp;Hemat budget, hasil maksimal.
             </span>
           </p>
 
           <div className="flex w-full animate-slide-up flex-col gap-4 opacity-0 [animation-delay:800ms] [animation-fill-mode:forwards] sm:w-auto sm:flex-row">
             <Link
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-zinc-900 px-8 py-4 font-semibold text-lg text-white transition-all hover:scale-105 hover:bg-zinc-800 hover:shadow-primary-500/20 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-zinc-900 px-8 py-4 font-semibold text-lg text-white transition hover:scale-105 hover:bg-zinc-800 hover:shadow-primary-500/20 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
               to="/influencers"
             >
               <span className="mr-2">Mulai Sekarang</span>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                aria-hidden="true"
+                className="h-5 w-5 transition-transform group-hover:translate-x-1"
+              />
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary-500 to-primary-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
             </Link>

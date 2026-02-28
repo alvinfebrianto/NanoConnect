@@ -1,5 +1,6 @@
 import { Filter, Search, Users, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { InfluencerCard } from "@/components/influencer/influencer-card";
 import { useInfluencers } from "@/hooks/use-influencers";
 import type { FilterOptions, Influencer } from "@/types";
@@ -34,7 +35,10 @@ function InfluencerListContent({
   if (influencers.length === 0) {
     return (
       <div className="py-20 text-center">
-        <Users className="mx-auto mb-4 h-16 w-16 text-zinc-300 dark:text-zinc-600" />
+        <Users
+          aria-hidden="true"
+          className="mx-auto mb-4 h-16 w-16 text-zinc-300 dark:text-zinc-600"
+        />
         <h3 className="mb-2 font-display font-semibold text-xl text-zinc-900 dark:text-zinc-50">
           Tidak ada influencer ditemukan
         </h3>
@@ -86,16 +90,49 @@ const LOCATIONS = [
   "Malang",
 ];
 
+const currencyFormatter = new Intl.NumberFormat("id-ID");
+
 export function InfluencerListing() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState<FilterOptions>({
-    niche: "Semua Niche",
-    location: "Semua Lokasi",
-    minPrice: 0,
-    maxPrice: 10_000_000,
-    verificationStatus: "all",
-  });
+
+  const initialFilters: FilterOptions = {
+    niche: searchParams.get("niche") || "Semua Niche",
+    location: searchParams.get("location") || "Semua Lokasi",
+    minPrice: Number(searchParams.get("minPrice")) || 0,
+    maxPrice: Number(searchParams.get("maxPrice")) || 10_000_000,
+    verificationStatus:
+      (searchParams.get(
+        "verificationStatus"
+      ) as FilterOptions["verificationStatus"]) || "all",
+  };
+
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const [filters, setFilters] = useState<FilterOptions>(initialFilters);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchQuery) {
+      params.set("q", searchQuery);
+    }
+    if (filters.niche && filters.niche !== "Semua Niche") {
+      params.set("niche", filters.niche);
+    }
+    if (filters.location && filters.location !== "Semua Lokasi") {
+      params.set("location", filters.location);
+    }
+    if (filters.minPrice !== undefined && filters.minPrice > 0) {
+      params.set("minPrice", String(filters.minPrice));
+    }
+    if (filters.maxPrice !== undefined && filters.maxPrice !== 10_000_000) {
+      params.set("maxPrice", String(filters.maxPrice));
+    }
+    if (filters.verificationStatus && filters.verificationStatus !== "all") {
+      params.set("verificationStatus", filters.verificationStatus);
+    }
+
+    setSearchParams(params, { replace: true });
+  }, [searchQuery, filters, setSearchParams]);
 
   const serverFilters: FilterOptions = useMemo(() => {
     const result: FilterOptions = {};
@@ -169,17 +206,24 @@ export function InfluencerListing() {
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-500" />
+              <label className="sr-only" htmlFor="search-influencer">
+                Cari influencer
+              </label>
+              <Search
+                aria-hidden="true"
+                className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-zinc-400 dark:text-zinc-500"
+              />
               <input
                 className="input-field w-full pl-12"
+                id="search-influencer"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari berdasarkan nama, niche, atau lokasi..."
-                type="text"
+                type="search"
                 value={searchQuery}
               />
             </div>
             <button
-              className={`flex items-center justify-center space-x-2 rounded-xl px-6 py-3 font-medium transition-all ${
+              className={`flex items-center justify-center space-x-2 rounded-xl px-6 py-3 font-medium transition ${
                 showFilters
                   ? "bg-primary-600 text-white"
                   : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
@@ -187,7 +231,7 @@ export function InfluencerListing() {
               onClick={() => setShowFilters(!showFilters)}
               type="button"
             >
-              <Filter className="h-5 w-5" />
+              <Filter aria-hidden="true" className="h-5 w-5" />
               <span>Filter</span>
               {(filters.niche !== "Semua Niche" ||
                 filters.location !== "Semua Lokasi") && (
@@ -251,7 +295,8 @@ export function InfluencerListing() {
                   className="mb-2 block font-medium text-sm text-zinc-700 dark:text-zinc-300"
                   htmlFor="filter-price"
                 >
-                  Harga Maks: Rp {filters.maxPrice?.toLocaleString("id-ID")}
+                  Harga Maks: Rp{" "}
+                  {currencyFormatter.format(filters.maxPrice || 0)}
                 </label>
                 <input
                   className="w-full"
@@ -301,7 +346,7 @@ export function InfluencerListing() {
                   onClick={clearFilters}
                   type="button"
                 >
-                  <X className="h-4 w-4" />
+                  <X aria-hidden="true" className="h-4 w-4" />
                   <span>Hapus semua filter</span>
                 </button>
               </div>

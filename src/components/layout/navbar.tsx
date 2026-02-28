@@ -72,16 +72,17 @@ export function Navbar() {
                   className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                   to="/profile"
                 >
-                  <User className="h-4 w-4" />
+                  <User aria-hidden="true" className="h-4 w-4" />
                   <span className="font-medium">{user.name}</span>
                 </Link>
                 <button
+                  aria-label="Keluar"
                   className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                   onClick={handleLogout}
                   title="Keluar"
                   type="button"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut aria-hidden="true" className="h-4 w-4" />
                 </button>
               </div>
             ) : (
@@ -93,7 +94,7 @@ export function Navbar() {
                   Masuk
                 </Link>
                 <Link
-                  className="rounded-full bg-primary-600 px-5 py-2 font-semibold text-sm text-white shadow-sm transition-all hover:bg-primary-500 hover:shadow-md active:scale-[0.98]"
+                  className="rounded-full bg-primary-600 px-5 py-2 font-semibold text-sm text-white shadow-sm transition hover:bg-primary-500 hover:shadow-md active:scale-[0.98]"
                   to="/register"
                 >
                   Mulai
@@ -105,14 +106,16 @@ export function Navbar() {
           <div className="flex items-center gap-2 md:hidden">
             <ThemeSwitcher />
             <button
+              aria-expanded={isMenuOpen}
+              aria-label="Toggle menu"
               className="rounded-lg p-2 text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
             >
               {isMenuOpen ? (
-                <X className="h-5 w-5" />
+                <X aria-hidden="true" className="h-5 w-5" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Menu aria-hidden="true" className="h-5 w-5" />
               )}
             </button>
           </div>

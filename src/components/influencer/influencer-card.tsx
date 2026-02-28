@@ -6,19 +6,21 @@ interface InfluencerCardProps {
   influencer: Influencer;
 }
 
-export function InfluencerCard({ influencer }: InfluencerCardProps) {
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000) {
-      return `${(num / 1_000_000).toFixed(1)}M`;
-    }
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
-    return num.toString();
-  };
+const formatNumber = (num: number): string => {
+  if (num >= 1_000_000) {
+    return `${(num / 1_000_000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}K`;
+  }
+  return num.toString();
+};
 
+const currencyFormatter = new Intl.NumberFormat("id-ID");
+
+export function InfluencerCard({ influencer }: InfluencerCardProps) {
   return (
-    <div className="card group cursor-pointer transition-all duration-300 hover:border-primary-200 dark:hover:border-primary-700/50">
+    <div className="card group cursor-pointer transition duration-300 hover:border-primary-200 dark:hover:border-primary-700/50">
       <div className="relative mb-4">
         <img
           alt={influencer.user?.name}
@@ -32,7 +34,7 @@ export function InfluencerCard({ influencer }: InfluencerCardProps) {
         />
         {influencer.verification_status === "verified" && (
           <div className="absolute top-3 right-3 rounded-full bg-white p-1 shadow-md dark:bg-zinc-800">
-            <CheckCircle className="h-5 w-5 text-blue-500" />
+            <CheckCircle aria-hidden="true" className="h-5 w-5 text-blue-500" />
           </div>
         )}
       </div>
@@ -49,15 +51,15 @@ export function InfluencerCard({ influencer }: InfluencerCardProps) {
 
         <div className="flex items-center space-x-4 text-sm">
           <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-            <Users className="h-4 w-4" />
+            <Users aria-hidden="true" className="h-4 w-4" />
             <span>{formatNumber(influencer.followers_count)}</span>
           </div>
           <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-            <Star className="h-4 w-4 text-yellow-500" />
+            <Star aria-hidden="true" className="h-4 w-4 text-yellow-500" />
             <span>{influencer.engagement_rate}%</span>
           </div>
           <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-            <MapPin className="h-4 w-4" />
+            <MapPin aria-hidden="true" className="h-4 w-4" />
             <span className="max-w-[80px] truncate">
               {influencer.location?.split(",")[0]}
             </span>
@@ -81,7 +83,7 @@ export function InfluencerCard({ influencer }: InfluencerCardProps) {
               Mulai dari
             </span>
             <p className="font-semibold text-zinc-900 dark:text-zinc-50">
-              Rp {influencer.price_per_post.toLocaleString("id-ID")}
+              Rp {currencyFormatter.format(influencer.price_per_post)}
             </p>
           </div>
           <Link

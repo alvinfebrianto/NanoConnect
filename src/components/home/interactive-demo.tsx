@@ -91,7 +91,10 @@ export function InteractiveDemo() {
                     style={{ transitionDelay: `${item.delay}ms` }}
                   >
                     <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      <item.icon className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
+                      <item.icon
+                        aria-hidden="true"
+                        className="absolute top-1 left-1 h-5 w-5 text-primary-600"
+                      />
                       {item.title}
                     </dt>
                     <dd className="mt-1">{item.desc}</dd>
@@ -112,10 +115,10 @@ export function InteractiveDemo() {
               <div className="absolute top-[150px] -left-[16px] h-[40px] w-[4px] rounded-l-lg bg-zinc-800" />
               <div className="absolute top-[120px] -right-[16px] h-[60px] w-[4px] rounded-r-lg bg-zinc-800" />
 
-              <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900">
+              <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900">
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-50" />
 
-                <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 px-5 pt-12 pb-3 shadow-sm backdrop-blur-md dark:bg-zinc-900/90 dark:shadow-zinc-950/20">
+                <div className="relative z-10 flex shrink-0 items-center justify-between bg-white/90 px-5 pt-12 pb-3 shadow-sm backdrop-blur-md dark:bg-zinc-900/90 dark:shadow-zinc-950/20">
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-bold text-primary-800 shadow-inner">
@@ -134,7 +137,7 @@ export function InteractiveDemo() {
                   </div>
                 </div>
 
-                <div className="scrollbar-hide flex h-[calc(100%-8.5rem)] flex-col gap-3 overflow-y-auto bg-zinc-50 p-4 dark:bg-zinc-900">
+                <div className="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto bg-zinc-50 p-4 dark:bg-zinc-900">
                   {messages.map((msg, i) => {
                     const messageStyles: Record<string, string> = {
                       brand:
@@ -146,13 +149,12 @@ export function InteractiveDemo() {
                     };
                     return (
                       <div
-                        className={`flex w-max max-w-[85%] flex-col gap-1 rounded-2xl px-4 py-2.5 text-sm shadow-sm transition-all ${messageStyles[msg.type]} animate-fade-in`}
+                        className={`flex w-max max-w-[85%] flex-col gap-1 rounded-2xl px-4 py-2.5 text-sm shadow-sm transition ${messageStyles[msg.type]} animate-fade-in opacity-0 motion-reduce:animate-none motion-reduce:opacity-100`}
                         key={`msg-${msg.time}`}
                         style={{
                           animationDelay: isVisible
                             ? `${i * 800 + 600}ms`
                             : "0ms",
-                          opacity: 0,
                           animationFillMode: "forwards",
                           animationPlayState: isVisible ? "running" : "paused",
                         }}
@@ -170,7 +172,7 @@ export function InteractiveDemo() {
                   })}
 
                   <div
-                    className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-zinc-100 bg-white px-3 py-3 opacity-0 shadow-sm dark:border-zinc-700 dark:bg-zinc-800"
+                    className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-zinc-100 bg-white px-3 py-3 opacity-0 shadow-sm motion-reduce:animate-none motion-reduce:opacity-100 dark:border-zinc-700 dark:bg-zinc-800"
                     style={{
                       animationDelay: isVisible ? "5000ms" : "0ms",
                       animationFillMode: "forwards",
@@ -183,7 +185,7 @@ export function InteractiveDemo() {
                   </div>
                 </div>
 
-                <div className="absolute bottom-0 w-full border-zinc-100 border-t bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+                <div className="relative z-10 w-full shrink-0 border-zinc-100 border-t bg-white px-4 pt-3 pb-6 dark:border-zinc-800 dark:bg-zinc-900">
                   <div className="flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-2.5 dark:border-zinc-700 dark:bg-zinc-800">
                     <div className="text-sm text-zinc-400">Tulis pesan...</div>
                   </div>

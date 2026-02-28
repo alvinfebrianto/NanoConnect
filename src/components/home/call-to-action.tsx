@@ -16,7 +16,7 @@ export function CallToAction() {
             </p>
             <div className="mt-6 flex max-w-md gap-x-4">
               <Link
-                className="flex-none rounded-md bg-accent-500 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-500 focus-visible:outline-offset-2"
+                className="flex-none rounded-md bg-primary-500 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2"
                 to="/register"
               >
                 Daftar Gratis
@@ -60,7 +60,7 @@ export function CallToAction() {
         className="absolute top-0 left-1/2 -z-10 -translate-x-1/2 blur-3xl xl:-top-6"
       >
         <div
-          className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-primary-600 to-accent-500 opacity-30"
+          className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-primary-600 to-primary-400 opacity-30"
           style={{
             clipPath:
               "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",

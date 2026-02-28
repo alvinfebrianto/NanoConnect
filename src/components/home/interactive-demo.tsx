@@ -104,7 +104,7 @@ export function InteractiveDemo() {
                 <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 px-5 pt-12 pb-3 shadow-sm backdrop-blur-md dark:bg-zinc-900/90 dark:shadow-zinc-950/20">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-accent-100 to-accent-200 font-bold text-accent-800 shadow-inner">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-bold text-primary-800 shadow-inner">
                         S
                       </div>
                       <div className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
@@ -124,7 +124,7 @@ export function InteractiveDemo() {
                   {messages.map((msg, i) => {
                     const messageStyles: Record<string, string> = {
                       brand:
-                        "self-end rounded-br-sm bg-gradient-to-br from-accent-500 to-accent-600 text-white",
+                        "self-end rounded-br-sm bg-gradient-to-br from-primary-500 to-primary-600 text-white",
                       system:
                         "my-2 w-full max-w-[90%] self-center rounded-full border border-zinc-200 bg-zinc-100/80 py-1.5 text-center text-[10px] text-zinc-500 shadow-none backdrop-blur-sm dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-400",
                       influencer:
@@ -143,7 +143,7 @@ export function InteractiveDemo() {
                         {msg.text}
                         {msg.type !== "system" && (
                           <span
-                            className={`text-[10px] ${msg.type === "brand" ? "text-accent-100/80" : "text-zinc-400"} mt-1 self-end leading-none`}
+                            className={`text-[10px] ${msg.type === "brand" ? "text-primary-100/80" : "text-zinc-400"} mt-1 self-end leading-none`}
                           >
                             {msg.time}
                           </span>

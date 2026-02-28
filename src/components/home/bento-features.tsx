@@ -62,7 +62,7 @@ export function BentoFeatures() {
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
                 <div className="relative h-24 w-full max-w-[200px] rotate-3 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-700 p-4 text-white shadow-xl transition-transform hover:rotate-0">
-                  <CreditCard className="mb-2 h-6 w-6 text-accent-400" />
+                  <CreditCard className="mb-2 h-6 w-6 text-primary-400" />
                   <div className="h-2 w-12 rounded bg-white/20" />
                   <div className="mt-4 h-2 w-24 rounded bg-white/10" />
                 </div>
@@ -85,10 +85,10 @@ export function BentoFeatures() {
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
                 <div className="flex items-end gap-3 pb-8">
                   <div className="h-8 w-6 rounded-t-md bg-zinc-200 dark:bg-zinc-700" />
-                  <div className="h-14 w-6 rounded-t-md bg-accent-200" />
-                  <div className="h-20 w-6 rounded-t-md bg-accent-300" />
-                  <div className="h-28 w-6 rounded-t-md bg-accent-400" />
-                  <div className="h-36 w-6 animate-pulse rounded-t-md bg-accent-500 shadow-accent-500/20 shadow-lg" />
+                  <div className="h-14 w-6 rounded-t-md bg-primary-200" />
+                  <div className="h-20 w-6 rounded-t-md bg-primary-300" />
+                  <div className="h-28 w-6 rounded-t-md bg-primary-400" />
+                  <div className="h-36 w-6 animate-pulse rounded-t-md bg-primary-500 shadow-lg shadow-primary-500/20" />
                 </div>
               </div>
             </div>

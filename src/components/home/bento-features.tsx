@@ -1,18 +1,26 @@
 import { BrainCircuit, CreditCard } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function BentoFeatures() {
+  const { ref, isVisible } = useScrollReveal<HTMLElement>();
+
   return (
-    <section className="bg-zinc-50 py-24 sm:py-32 dark:bg-zinc-900">
+    <section className="bg-zinc-50 py-24 sm:py-32 dark:bg-zinc-900" ref={ref}>
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-        <h2 className="text-center font-display font-semibold text-base/7 text-primary-600">
-          Mengapa NanoConnect?
-        </h2>
-        <p className="mx-auto mt-2 max-w-lg text-balance text-center font-display font-semibold text-4xl text-zinc-950 tracking-tight sm:text-5xl dark:text-zinc-50">
-          Semua yang Anda butuhkan untuk campaign viral.
-        </p>
+        <div className={isVisible ? "scroll-visible" : "scroll-hidden"}>
+          <h2 className="text-center font-display font-semibold text-base/7 text-primary-600">
+            Mengapa NanoConnect?
+          </h2>
+          <p className="mx-auto mt-2 max-w-lg text-balance text-center font-display font-semibold text-4xl text-zinc-950 tracking-tight sm:text-5xl dark:text-zinc-50">
+            Semua yang Anda butuhkan untuk campaign viral.
+          </p>
+        </div>
 
         <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-          <div className="relative lg:col-span-2 lg:row-span-2">
+          <div
+            className={`relative lg:col-span-2 lg:row-span-2 ${isVisible ? "scroll-visible-left" : "scroll-hidden-left"}`}
+            style={{ transitionDelay: "200ms" }}
+          >
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem] dark:bg-zinc-800" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
@@ -49,7 +57,10 @@ export function BentoFeatures() {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem] dark:ring-white/10" />
           </div>
 
-          <div className="relative lg:col-start-3 lg:row-start-1">
+          <div
+            className={`relative lg:col-start-3 lg:row-start-1 ${isVisible ? "scroll-visible" : "scroll-hidden"}`}
+            style={{ transitionDelay: "350ms" }}
+          >
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-tr-[2rem] dark:bg-zinc-800" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-tr-[calc(2rem+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
@@ -61,17 +72,21 @@ export function BentoFeatures() {
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
-                <div className="relative h-24 w-full max-w-[200px] rotate-3 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-700 p-4 text-white shadow-xl transition-transform hover:rotate-0">
-                  <CreditCard className="mb-2 h-6 w-6 text-primary-400" />
+                <div className="group relative h-24 w-full max-w-[200px] rotate-3 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-700 p-4 text-white shadow-xl transition-all duration-500 hover:rotate-0 hover:scale-105 hover:shadow-2xl">
+                  <CreditCard className="mb-2 h-6 w-6 text-primary-400 transition-transform duration-300 group-hover:scale-110" />
                   <div className="h-2 w-12 rounded bg-white/20" />
                   <div className="mt-4 h-2 w-24 rounded bg-white/10" />
+                  <div className="absolute inset-0 -translate-x-full rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 </div>
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-tr-[2rem] dark:ring-white/10" />
           </div>
 
-          <div className="relative lg:col-start-3 lg:row-start-2">
+          <div
+            className={`relative lg:col-start-3 lg:row-start-2 ${isVisible ? "scroll-visible" : "scroll-hidden"}`}
+            style={{ transitionDelay: "500ms" }}
+          >
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-br-[2rem] dark:bg-zinc-800" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-br-[calc(2rem+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
@@ -84,11 +99,34 @@ export function BentoFeatures() {
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
                 <div className="flex items-end gap-3 pb-8">
-                  <div className="h-8 w-6 rounded-t-md bg-zinc-200 dark:bg-zinc-700" />
-                  <div className="h-14 w-6 rounded-t-md bg-primary-200" />
-                  <div className="h-20 w-6 rounded-t-md bg-primary-300" />
-                  <div className="h-28 w-6 rounded-t-md bg-primary-400" />
-                  <div className="h-36 w-6 animate-pulse rounded-t-md bg-primary-500 shadow-lg shadow-primary-500/20" />
+                  {[
+                    {
+                      h: "h-8",
+                      color: "bg-zinc-200 dark:bg-zinc-700",
+                      delay: 0,
+                    },
+                    { h: "h-14", color: "bg-primary-200", delay: 100 },
+                    { h: "h-20", color: "bg-primary-300", delay: 200 },
+                    { h: "h-28", color: "bg-primary-400", delay: 300 },
+                    {
+                      h: "h-36",
+                      color: "bg-primary-500 shadow-lg shadow-primary-500/20",
+                      delay: 400,
+                    },
+                  ].map((bar) => (
+                    <div
+                      className={`${bar.h} w-6 rounded-t-md ${bar.color} transition-all duration-500 hover:scale-y-110 hover:brightness-110`}
+                      key={bar.delay}
+                      style={{
+                        transformOrigin: "bottom",
+                        transitionDelay: isVisible
+                          ? `${600 + bar.delay}ms`
+                          : "0ms",
+                        opacity: isVisible ? 1 : 0,
+                        transform: isVisible ? "scaleY(1)" : "scaleY(0)",
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

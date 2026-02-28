@@ -1,6 +1,9 @@
 import { Check, MessageCircle, Star } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function InteractiveDemo() {
+  const { ref: sectionRef, isVisible } = useScrollReveal<HTMLElement>();
+
   const messages = [
     {
       user: "Batik Kencana",
@@ -39,10 +42,15 @@ export function InteractiveDemo() {
   ];
 
   return (
-    <section className="overflow-hidden bg-white py-24 sm:py-32 dark:bg-zinc-950">
+    <section
+      className="overflow-hidden bg-white py-24 sm:py-32 dark:bg-zinc-950"
+      ref={sectionRef}
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-          <div className="lg:pt-4 lg:pr-8">
+          <div
+            className={`lg:pt-4 lg:pr-8 ${isVisible ? "scroll-visible-left" : "scroll-hidden-left"}`}
+          >
             <div className="lg:max-w-lg">
               <h2 className="font-semibold text-base text-primary-600 leading-7">
                 Kolaborasi Tanpa Ribet
@@ -57,40 +65,46 @@ export function InteractiveDemo() {
                 hingga pembayaran.
               </p>
               <dl className="mt-10 max-w-xl space-y-6 text-base text-zinc-600 leading-7 lg:max-w-none dark:text-zinc-400">
-                <div className="relative pl-9">
-                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
-                    <MessageCircle className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
-                    Direct Chat.
-                  </dt>
-                  <dd className="mt-1">
-                    Komunikasi langsung antara brand dan influencer tanpa
-                    perantara agency.
-                  </dd>
-                </div>
-                <div className="relative pl-9">
-                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
-                    <Check className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
-                    Kontrak Digital.
-                  </dt>
-                  <dd className="mt-1">
-                    Setiap kesepakatan tercatat otomatis sebagai kontrak kerja
-                    yang sah.
-                  </dd>
-                </div>
-                <div className="relative pl-9">
-                  <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
-                    <Star className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
-                    Review System.
-                  </dt>
-                  <dd className="mt-1">
-                    Sistem rating transparan untuk menjaga kualitas komunitas.
-                  </dd>
-                </div>
+                {[
+                  {
+                    icon: MessageCircle,
+                    title: "Direct Chat.",
+                    desc: "Komunikasi langsung antara brand dan influencer tanpa perantara agency.",
+                    delay: 200,
+                  },
+                  {
+                    icon: Check,
+                    title: "Kontrak Digital.",
+                    desc: "Setiap kesepakatan tercatat otomatis sebagai kontrak kerja yang sah.",
+                    delay: 350,
+                  },
+                  {
+                    icon: Star,
+                    title: "Review System.",
+                    desc: "Sistem rating transparan untuk menjaga kualitas komunitas.",
+                    delay: 500,
+                  },
+                ].map((item) => (
+                  <div
+                    className={`relative pl-9 ${isVisible ? "scroll-visible" : "scroll-hidden"}`}
+                    key={item.title}
+                    style={{ transitionDelay: `${item.delay}ms` }}
+                  >
+                    <dt className="font-semibold text-zinc-900 dark:text-zinc-100">
+                      <item.icon className="absolute top-1 left-1 h-5 w-5 text-primary-600" />
+                      {item.title}
+                    </dt>
+                    <dd className="mt-1">{item.desc}</dd>
+                  </div>
+                ))}
               </dl>
             </div>
           </div>
 
-          <div className="flex items-center justify-center lg:justify-end">
+          <div
+            className={`flex items-center justify-center lg:justify-end ${isVisible ? "scroll-visible-right" : "scroll-hidden-right"}`}
+            style={{ transitionDelay: "300ms" }}
+          >
             <div className="relative h-[600px] w-[300px] rounded-[3rem] border-[14px] border-zinc-900 bg-zinc-950 shadow-2xl ring-1 ring-zinc-900/50">
               <div className="absolute top-4 left-1/2 z-20 h-[25px] w-[90px] -translate-x-1/2 rounded-full bg-black" />
 
@@ -107,7 +121,7 @@ export function InteractiveDemo() {
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 font-bold text-primary-800 shadow-inner">
                         S
                       </div>
-                      <div className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
+                      <div className="absolute right-0 bottom-0 h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-500 ring-2 ring-white dark:ring-zinc-900" />
                     </div>
                     <div>
                       <div className="font-semibold text-sm text-zinc-900 leading-tight dark:text-zinc-50">
@@ -135,9 +149,12 @@ export function InteractiveDemo() {
                         className={`flex w-max max-w-[85%] flex-col gap-1 rounded-2xl px-4 py-2.5 text-sm shadow-sm transition-all ${messageStyles[msg.type]} animate-fade-in`}
                         key={`msg-${msg.time}`}
                         style={{
-                          animationDelay: `${i * 800}ms`,
+                          animationDelay: isVisible
+                            ? `${i * 800 + 600}ms`
+                            : "0ms",
                           opacity: 0,
                           animationFillMode: "forwards",
+                          animationPlayState: isVisible ? "running" : "paused",
                         }}
                       >
                         {msg.text}
@@ -152,7 +169,14 @@ export function InteractiveDemo() {
                     );
                   })}
 
-                  <div className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-zinc-100 bg-white px-3 py-3 opacity-0 shadow-sm [animation-delay:5000ms] [animation-fill-mode:forwards] dark:border-zinc-700 dark:bg-zinc-800">
+                  <div
+                    className="flex w-max animate-fade-in items-center gap-1 self-start rounded-2xl rounded-bl-sm border border-zinc-100 bg-white px-3 py-3 opacity-0 shadow-sm dark:border-zinc-700 dark:bg-zinc-800"
+                    style={{
+                      animationDelay: isVisible ? "5000ms" : "0ms",
+                      animationFillMode: "forwards",
+                      animationPlayState: isVisible ? "running" : "paused",
+                    }}
+                  >
                     <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.3s]" />
                     <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.15s]" />
                     <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400" />

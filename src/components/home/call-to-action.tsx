@@ -1,12 +1,20 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function CallToAction() {
+  const { ref, isVisible } = useScrollReveal<HTMLElement>();
+
   return (
-    <section className="relative isolate overflow-hidden bg-zinc-900 py-16 sm:py-24 lg:py-32">
+    <section
+      className="relative isolate overflow-hidden bg-zinc-900 py-16 sm:py-24 lg:py-32"
+      ref={ref}
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
-          <div className="max-w-xl lg:max-w-lg">
+          <div
+            className={`max-w-xl lg:max-w-lg ${isVisible ? "scroll-visible-left" : "scroll-hidden-left"}`}
+          >
             <h2 className="font-bold font-display text-3xl text-white tracking-tight sm:text-4xl">
               Siap untuk Viralkan Brand Anda?
             </h2>
@@ -16,22 +24,25 @@ export function CallToAction() {
             </p>
             <div className="mt-6 flex max-w-md gap-x-4">
               <Link
-                className="flex-none rounded-md bg-primary-500 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2"
+                className="group flex-none rounded-md bg-primary-500 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-400 hover:shadow-lg hover:shadow-primary-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2"
                 to="/register"
               >
                 Daftar Gratis
               </Link>
               <Link
-                className="flex-none rounded-md bg-white/10 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm hover:bg-white/20"
+                className="flex-none rounded-md bg-white/10 px-3.5 py-2.5 font-semibold text-sm text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
                 to="/contact"
               >
                 Hubungi Kami <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
-          <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+          <dl
+            className={`grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2 ${isVisible ? "scroll-visible-right" : "scroll-hidden-right"}`}
+            style={{ transitionDelay: "200ms" }}
+          >
             <div className="flex flex-col items-start">
-              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/10">
                 <ArrowRight aria-hidden="true" className="h-6 w-6 text-white" />
               </div>
               <dt className="mt-4 font-semibold text-white">
@@ -43,7 +54,7 @@ export function CallToAction() {
               </dd>
             </div>
             <div className="flex flex-col items-start">
-              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+              <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/10">
                 <ArrowRight aria-hidden="true" className="h-6 w-6 text-white" />
               </div>
               <dt className="mt-4 font-semibold text-white">Support 24/7</dt>

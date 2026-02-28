@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const testimonials = [
   {
@@ -31,10 +32,14 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
+
   return (
-    <div className="bg-white py-24 sm:py-32 dark:bg-zinc-950">
+    <div className="bg-white py-24 sm:py-32 dark:bg-zinc-950" ref={ref}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-xl text-center">
+        <div
+          className={`mx-auto max-w-xl text-center ${isVisible ? "scroll-visible" : "scroll-hidden"}`}
+        >
           <h2 className="font-semibold text-lg text-primary-600 leading-8 tracking-tight">
             Testimoni
           </h2>
@@ -44,16 +49,24 @@ export function Testimonials() {
         </div>
         <div className="mx-auto mt-16 flow-root sm:mt-20 lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <div className="h-full" key={testimonial.author.handle}>
-                <figure className="flex h-full flex-col justify-between rounded-2xl bg-zinc-50 p-8 text-sm leading-6 transition-all hover:bg-primary-50 hover:shadow-lg dark:bg-zinc-900 dark:hover:bg-zinc-800">
+            {testimonials.map((testimonial, i) => (
+              <div
+                className={`h-full ${isVisible ? "scroll-visible-scale" : "scroll-hidden-scale"}`}
+                key={testimonial.author.handle}
+                style={{ transitionDelay: `${200 + i * 150}ms` }}
+              >
+                <figure className="group flex h-full flex-col justify-between rounded-2xl bg-zinc-50 p-8 text-sm leading-6 transition-all duration-500 hover:-translate-y-1 hover:bg-primary-50 hover:shadow-lg dark:bg-zinc-900 dark:hover:bg-zinc-800">
                   <div>
                     <div className="mb-4 flex gap-1">
-                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          className="h-4 w-4 fill-amber-400 text-amber-400 transition-transform duration-300 group-hover:scale-110"
+                          key={`star-${star}`}
+                          style={{
+                            transitionDelay: `${star * 50}ms`,
+                          }}
+                        />
+                      ))}
                     </div>
                     <blockquote className="text-zinc-900 dark:text-zinc-200">
                       <p>"{testimonial.body}"</p>
@@ -62,7 +75,7 @@ export function Testimonials() {
                   <figcaption className="mt-6 flex items-center gap-x-4">
                     <img
                       alt=""
-                      className="h-10 w-10 rounded-full bg-zinc-50"
+                      className="h-10 w-10 rounded-full bg-zinc-50 transition-transform duration-300 group-hover:scale-110"
                       height={40}
                       src={testimonial.author.imageUrl}
                       width={40}

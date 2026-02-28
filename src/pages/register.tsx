@@ -68,7 +68,7 @@ export function Register() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-zinc-900">
         <div className="text-center">
           <h2 className="font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
@@ -228,7 +228,7 @@ export function Register() {
 
           <div className="flex items-start">
             <input
-              className="mt-1 rounded border-zinc-300 text-primary-600 focus:ring-primary-500 dark:border-zinc-700"
+              className="mt-1 rounded border-zinc-300 bg-white text-primary-600 focus:ring-primary-500 dark:border-zinc-700 dark:bg-zinc-800"
               id="terms"
               name="terms"
               required

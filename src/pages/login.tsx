@@ -32,7 +32,7 @@ export function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 px-4 py-12 sm:px-6 lg:px-8 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-zinc-900">
         <div className="text-center">
           <h2 className="font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
@@ -116,7 +116,7 @@ export function Login() {
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center">
               <input
-                className="rounded border-zinc-300 text-primary-600 focus:ring-primary-500 dark:border-zinc-700"
+                className="rounded border-zinc-300 bg-white text-primary-600 focus:ring-primary-500 dark:border-zinc-700 dark:bg-zinc-800"
                 type="checkbox"
               />
               <span className="ml-2 text-zinc-600 dark:text-zinc-400">

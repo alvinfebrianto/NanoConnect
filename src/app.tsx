@@ -1,5 +1,5 @@
 import { Agentation } from "agentation";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { GuestRoute } from "./components/auth/guest-route";
 import { ProtectedRoute } from "./components/auth/protected-route";
 import { Footer } from "./components/layout/footer";
@@ -19,12 +19,15 @@ import { Register } from "./pages/register";
 import { Terms } from "./pages/terms";
 
 function App() {
+  const location = useLocation();
+  const hideLayout = ["/login", "/register"].includes(location.pathname);
+
   return (
     <>
       <ThemeProvider>
         <AuthProvider>
           <div className="flex min-h-screen flex-col bg-white dark:bg-stone-950">
-            <Navbar />
+            {!hideLayout && <Navbar />}
             <main className="flex-grow">
               <Routes>
                 <Route element={<Home />} path="/" />
@@ -71,7 +74,7 @@ function App() {
                 />
               </Routes>
             </main>
-            <Footer />
+            {!hideLayout && <Footer />}
           </div>
         </AuthProvider>
       </ThemeProvider>

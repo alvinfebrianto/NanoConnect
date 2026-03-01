@@ -29,6 +29,11 @@ interface OrderPayload {
 
 interface OrdersHandlerDependencies {
   getUserId: (accessToken: string) => Promise<string | null>;
+  getUserType: (
+    userId: string
+  ) => Promise<
+    Database["public"]["Tables"]["users"]["Row"]["user_type"] | null
+  >;
   getInfluencerPrice: (influencerId: string) => Promise<number | null>;
   insertOrder: (order: OrderInsert) => Promise<string>;
 }
@@ -47,6 +52,23 @@ const createOrdersDependencies: OrdersDependenciesFactory = (accessToken) => {
         return null;
       }
       return data.user.id;
+    },
+    async getUserType(userId) {
+      const { data, error } = await supabase
+        .from("users")
+        .select("user_type")
+        .eq("id", userId)
+        .single();
+
+      if (error?.code === "PGRST116") {
+        return null;
+      }
+
+      if (error) {
+        throw error;
+      }
+
+      return data.user_type;
     },
     async getInfluencerPrice(influencerId) {
       const { data, error } = await supabase
@@ -185,6 +207,11 @@ const resolveOrderInsert = async (
     return { order: null, error: "Autentikasi tidak valid." };
   }
 
+  const userType = await dependencies.getUserType(userId);
+  if (userType !== "sme") {
+    return { order: null, error: "Hanya akun SME yang dapat membuat pesanan." };
+  }
+
   const price = await dependencies.getInfluencerPrice(payload.influencerId);
   if (price === null) {
     return { order: null, error: "Influencer tidak ditemukan." };
@@ -204,6 +231,10 @@ const resolveOrderErrorStatus = (error: string) => {
 
   if (error === "Influencer tidak ditemukan.") {
     return 404;
+  }
+
+  if (error === "Hanya akun SME yang dapat membuat pesanan.") {
+    return 403;
   }
 
   return 400;

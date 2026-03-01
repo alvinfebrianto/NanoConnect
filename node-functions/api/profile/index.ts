@@ -1,14 +1,16 @@
 import type { Database } from "../../../src/lib/database.types";
 import { createSupabaseClient } from "../../lib/supabase-client";
+import {
+  PRIVATE_USER_PROFILE_SELECT,
+  type PrivateUserProfile,
+} from "../../lib/user-profiles";
 
 type UserUpdate = Database["public"]["Tables"]["users"]["Update"];
 
 type InfluencerRow = Database["public"]["Tables"]["influencers"]["Row"];
 
 interface ProfileHandlerDependencies {
-  getUser: (
-    userId: string
-  ) => Promise<Database["public"]["Tables"]["users"]["Row"] | null>;
+  getUser: (userId: string) => Promise<PrivateUserProfile | null>;
   getInfluencerProfile: (userId: string) => Promise<InfluencerRow | null>;
   updateUser: (userId: string, data: UserUpdate) => Promise<void>;
 }
@@ -24,7 +26,7 @@ const createProfileDependencies: ProfileDependenciesFactory = (accessToken) => {
     async getUser(userId: string) {
       const { data, error } = await supabase
         .from("users")
-        .select("*")
+        .select(PRIVATE_USER_PROFILE_SELECT)
         .eq("id", userId)
         .single();
 
@@ -36,7 +38,7 @@ const createProfileDependencies: ProfileDependenciesFactory = (accessToken) => {
         throw error;
       }
 
-      return data;
+      return data as PrivateUserProfile;
     },
     async getInfluencerProfile(userId: string) {
       const { data, error } = await supabase
@@ -153,13 +155,28 @@ const handleGetProfile = async (
     return { error: "Pengguna tidak ditemukan.", status: 404 };
   }
 
+  const safeUserData: PrivateUserProfile = {
+    id: userData.id,
+    name: userData.name,
+    email: userData.email,
+    user_type: userData.user_type,
+    avatar_url: userData.avatar_url,
+    bio: userData.bio,
+    phone: userData.phone,
+    email_verified: userData.email_verified,
+    status: userData.status,
+    last_login_at: userData.last_login_at,
+    created_at: userData.created_at,
+    updated_at: userData.updated_at,
+  };
+
   const influencerProfile: InfluencerRow | null =
     userData.user_type === "influencer"
       ? await dependencies.getInfluencerProfile(userId)
       : null;
 
   return {
-    data: { user: userData, influencerProfile },
+    data: { user: safeUserData, influencerProfile },
     status: 200,
   };
 };

@@ -232,7 +232,14 @@ export interface Database {
       };
     };
     Views: {
-      [_ in never]: never;
+      public_user_profiles: {
+        Row: {
+          id: string;
+          name: string;
+          avatar_url: string | null;
+          bio: string | null;
+        };
+      };
     };
     Functions: {
       [_ in never]: never;

@@ -139,6 +139,39 @@ describe("influencers list node function", () => {
       expect(payload.data.every((inf) => inf.is_available)).toBe(true);
     });
 
+    it("hanya mengembalikan field publik pada data user influencer", async () => {
+      const handler = createInfluencersListHandler(() => ({
+        listInfluencers: async () => [
+          {
+            ...mockInfluencers[0],
+            user: {
+              ...mockInfluencers[0].user,
+              password_hash: "secret-hash",
+              phone: "+6281234567890",
+            } as unknown as Influencer["user"],
+          },
+        ],
+      }));
+
+      const response = await handler(
+        createContext("https://example.com/api/influencers/list")
+      );
+      const payload = (await response.json()) as {
+        data: Array<{ user?: Record<string, unknown> }>;
+      };
+
+      expect(response.status).toBe(200);
+      expect(payload.data[0]?.user).toEqual({
+        id: "user-1",
+        name: "Sarah Johnson",
+        avatar_url: "https://example.com/avatar1.jpg",
+        bio: "Fashion influencer",
+      });
+      expect(payload.data[0]?.user).not.toHaveProperty("email");
+      expect(payload.data[0]?.user).not.toHaveProperty("password_hash");
+      expect(payload.data[0]?.user).not.toHaveProperty("phone");
+    });
+
     it("memfilter influencer berdasarkan niche", async () => {
       const handler = createInfluencersListHandler(() => ({
         listInfluencers: (filters?: { niche?: string }) => {

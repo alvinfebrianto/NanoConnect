@@ -197,11 +197,17 @@ const createMockAiService = (
   }),
 });
 
+interface RateLimitResult {
+  allowed: boolean;
+  retryAfterSeconds: number;
+}
+
 const createDependencies = (overrides?: {
   getAuthUser?: () => Promise<{ id: string } | null>;
   getUserProfile?: () => Promise<typeof baseUser | null>;
   getAvailableInfluencers?: () => Promise<Influencer[]>;
   getAiService?: () => AiRecommendationService;
+  consumeRateLimit?: () => RateLimitResult;
 }) => ({
   getAuthUser: overrides?.getAuthUser ?? (async () => ({ id: baseUser.id })),
   getUserProfile: overrides?.getUserProfile ?? (async () => baseUser),
@@ -221,6 +227,9 @@ const createDependencies = (overrides?: {
         ],
         "Rekomendasi berhasil"
       )),
+  consumeRateLimit:
+    overrides?.consumeRateLimit ??
+    (() => ({ allowed: true, retryAfterSeconds: 0 })),
 });
 
 const createHandler = (overrides?: {
@@ -228,6 +237,7 @@ const createHandler = (overrides?: {
   getUserProfile?: () => Promise<typeof baseUser | null>;
   getAvailableInfluencers?: () => Promise<Influencer[]>;
   getAiService?: () => AiRecommendationService;
+  consumeRateLimit?: () => RateLimitResult;
 }) => createAiRecommendationsHandler(() => createDependencies(overrides));
 
 describe("ai recommendations handler with OpenRouter integration", () => {
@@ -390,6 +400,26 @@ describe("ai recommendations handler with OpenRouter integration", () => {
       expect(data.message).toBe("Autentikasi tidak valid.");
     });
 
+    it("membatasi permintaan ketika limit terlampaui", async () => {
+      const handler = createHandler({
+        consumeRateLimit: () => ({
+          allowed: false,
+          retryAfterSeconds: 60,
+        }),
+      });
+
+      const response = await handler({
+        request: createRequest(campaignPayload),
+      });
+      const data = (await response.json()) as { message?: string };
+
+      expect(response.status).toBe(429);
+      expect(data.message).toBe(
+        "Terlalu banyak permintaan. Silakan coba lagi nanti."
+      );
+      expect(response.headers.get("Retry-After")).toBe("60");
+    });
+
     it("menolak akun non-SME", async () => {
       const handler = createHandler({
         getUserProfile: async () => ({
@@ -550,6 +580,7 @@ describe("ai recommendations handler with OpenRouter integration", () => {
       expect(rec.influencer).toBeDefined();
       expect(rec.influencer.user?.name).toBe("Food Explorer");
       expect(rec.influencer.niche).toBe("Kuliner & Makanan");
+      expect(rec.influencer.user).not.toHaveProperty("email");
     });
   });
 });

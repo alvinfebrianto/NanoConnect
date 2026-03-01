@@ -1,6 +1,14 @@
-import type { Database } from "../../../src/lib/database.types";
 import type { Influencer } from "../../../src/types";
+import { createInMemoryRateLimiter } from "../../lib/rate-limiter";
 import { createSupabaseClient } from "../../lib/supabase-client";
+import {
+  attachPublicUserProfiles,
+  PRIVATE_USER_PROFILE_SELECT,
+  type PrivateUserProfile,
+  PUBLIC_USER_PROFILE_SELECT,
+  PUBLIC_USER_PROFILE_VIEW,
+  sanitizeInfluencersForPublic,
+} from "../../lib/user-profiles";
 import { getAiConfig } from "./ai-config";
 import type { RecommendationOutput } from "./ai-recommendation-schema";
 import {
@@ -9,12 +17,24 @@ import {
   createAiRecommendationService,
 } from "./ai-recommendation-service";
 
-type UserRow = Database["public"]["Tables"]["users"]["Row"];
+const aiRateLimiter = createInMemoryRateLimiter();
+const USER_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 6,
+};
+const IP_RATE_LIMIT = {
+  windowMs: 60_000,
+  maxRequests: 20,
+};
 
 interface AiRecommendationsDependencies {
   getAuthUser: () => Promise<{ id: string } | null>;
-  getUserProfile: (userId: string) => Promise<UserRow | null>;
+  getUserProfile: (userId: string) => Promise<PrivateUserProfile | null>;
   getAvailableInfluencers: () => Promise<Influencer[]>;
+  consumeRateLimit: (payload: { userId: string; ipAddress: string }) => {
+    allowed: boolean;
+    retryAfterSeconds: number;
+  };
   getAiService: () => AiRecommendationService;
 }
 
@@ -38,7 +58,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
       async getUserProfile(userId: string) {
         const { data, error } = await supabase
           .from("users")
-          .select("*")
+          .select(PRIVATE_USER_PROFILE_SELECT)
           .eq("id", userId)
           .single();
 
@@ -50,13 +70,13 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
           throw error;
         }
 
-        return data as UserRow;
+        return data as PrivateUserProfile;
       },
 
       async getAvailableInfluencers() {
         const { data, error } = await supabase
           .from("influencers")
-          .select("*, user:users (*)")
+          .select("*")
           .eq("is_available", true)
           .eq("verification_status", "verified")
           .order("followers_count", { ascending: false })
@@ -66,7 +86,40 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
           throw error;
         }
 
-        return (data as Influencer[]) ?? [];
+        const influencers = (data as Influencer[]) ?? [];
+        if (influencers.length === 0) {
+          return [];
+        }
+
+        const userIds = [...new Set(influencers.map((item) => item.user_id))];
+        const { data: userProfiles, error: userProfilesError } = await supabase
+          .from(PUBLIC_USER_PROFILE_VIEW)
+          .select(PUBLIC_USER_PROFILE_SELECT)
+          .in("id", userIds);
+
+        if (userProfilesError) {
+          throw userProfilesError;
+        }
+
+        return sanitizeInfluencersForPublic(
+          attachPublicUserProfiles(influencers, userProfiles ?? [])
+        );
+      },
+
+      consumeRateLimit({ userId, ipAddress }) {
+        const userResult = aiRateLimiter.consume(
+          `ai-recommendations:user:${userId}`,
+          USER_RATE_LIMIT
+        );
+        if (!userResult.allowed) {
+          return userResult;
+        }
+
+        const ipResult = aiRateLimiter.consume(
+          `ai-recommendations:ip:${ipAddress}`,
+          IP_RATE_LIMIT
+        );
+        return ipResult;
       },
 
       getAiService() {
@@ -76,11 +129,35 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
     };
   };
 
-const jsonResponse = (body: unknown, status = 200) =>
+const jsonResponse = (
+  body: unknown,
+  status = 200,
+  extraHeaders: HeadersInit = {}
+) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", ...extraHeaders },
   });
+
+const getClientIp = (request: Request): string => {
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
+  if (cfConnectingIp) {
+    return cfConnectingIp.trim();
+  }
+
+  const xRealIp = request.headers.get("x-real-ip");
+  if (xRealIp) {
+    return xRealIp.trim();
+  }
+
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    const firstForwardedIp = forwardedFor.split(",")[0];
+    return firstForwardedIp?.trim() || "unknown";
+  }
+
+  return "unknown";
+};
 
 const parsePayload = async (request: Request) => {
   try {
@@ -226,6 +303,18 @@ const processRecommendationRequest = async (
     return jsonResponse({ message: "Autentikasi tidak valid." }, 401);
   }
 
+  const rateLimit = dependencies.consumeRateLimit({
+    userId: authUser.id,
+    ipAddress: getClientIp(request),
+  });
+  if (!rateLimit.allowed) {
+    return jsonResponse(
+      { message: "Terlalu banyak permintaan. Silakan coba lagi nanti." },
+      429,
+      { "Retry-After": String(rateLimit.retryAfterSeconds) }
+    );
+  }
+
   const payload = await parsePayload(request);
   const validationError = validatePayload(payload);
   if (validationError) {
@@ -244,10 +333,11 @@ const processRecommendationRequest = async (
     );
   }
 
-  const [influencers, aiService] = await Promise.all([
+  const [influencersResult, aiService] = await Promise.all([
     dependencies.getAvailableInfluencers(),
     Promise.resolve(dependencies.getAiService()),
   ]);
+  const influencers = sanitizeInfluencersForPublic(influencersResult);
 
   if (influencers.length === 0) {
     return jsonResponse({

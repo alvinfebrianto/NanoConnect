@@ -101,9 +101,7 @@ const createAiRecommendationsDependencies: AiRecommendationsDependenciesFactory 
           throw userProfilesError;
         }
 
-        return sanitizeInfluencersForPublic(
-          attachPublicUserProfiles(influencers, userProfiles ?? [])
-        );
+        return attachPublicUserProfiles(influencers, userProfiles ?? []);
       },
 
       consumeRateLimit({ userId, ipAddress }) {

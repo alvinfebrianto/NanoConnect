@@ -259,7 +259,7 @@ describe("AiRecommendationService", () => {
 
       await expect(
         service.generateRecommendations(mockCampaign, mockInfluencers)
-      ).rejects.toThrow("rate limit");
+      ).rejects.toThrow("Semua API key telah mencapai batas");
     });
   });
 });

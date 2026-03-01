@@ -250,10 +250,24 @@ const formatErrorResponse = (error: unknown): Response => {
     );
   }
 
-  if (errorMessage.includes("API key")) {
+  if (
+    errorMessage.includes("API key") ||
+    errorMessage.includes("Provider AI")
+  ) {
     return jsonResponse(
       { message: "Konfigurasi AI tidak valid. Hubungi administrator." },
       500
+    );
+  }
+
+  if (
+    errorMessage.includes("provider") ||
+    errorMessage.includes("gateway") ||
+    errorMessage.includes("timeout")
+  ) {
+    return jsonResponse(
+      { message: "Layanan AI sedang gangguan. Silakan coba lagi nanti." },
+      503
     );
   }
 

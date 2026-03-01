@@ -1,15 +1,17 @@
 import {
   ArrowLeft,
   Calendar,
+  ChatCircle,
   CheckCircle,
   Globe,
-  Instagram,
-  Loader2,
+  InstagramLogo,
   MapPin,
-  MessageCircle,
+  Spinner,
   Star,
   Users,
-} from "lucide-react";
+  X,
+} from "@phosphor-icons/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
@@ -26,56 +28,93 @@ const formatNumber = (num: number): string => {
   return num.toString();
 };
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const fadeUpItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 100, damping: 20 },
+  },
+};
+
 function InfluencerSummaryCard({ influencer }: { influencer: Influencer }) {
   return (
-    <div className="card mb-6">
-      <div className="flex flex-col gap-6 md:flex-row">
-        <img
-          alt={influencer.user?.name}
-          className="h-32 w-32 rounded-2xl object-cover"
-          height={128}
-          src={
-            influencer.user?.avatar_url ||
-            `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
-          }
-          width={128}
-        />
+    <motion.div
+      className="relative mb-8 overflow-hidden rounded-[2.5rem] bg-white p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800"
+      variants={fadeUpItem}
+    >
+      <div className="flex flex-col gap-8 md:flex-row md:items-start">
+        <motion.div
+          className="relative h-40 w-40 shrink-0 overflow-hidden rounded-[2rem]"
+          layoutId={`avatar-${influencer.id}`}
+        >
+          <img
+            alt={influencer.user?.name}
+            className="h-full w-full object-cover"
+            height={160}
+            src={
+              influencer.user?.avatar_url ||
+              `https://api.dicebear.com/7.x/avataaars/svg?seed=${influencer.id}`
+            }
+            width={160}
+          />
+        </motion.div>
+
         <div className="flex-1">
-          <div className="flex items-start justify-between">
+          <div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="mb-2 flex items-center font-bold font-display text-3xl text-zinc-900 dark:text-zinc-50">
+              <h1 className="flex items-center font-bold font-display text-4xl text-zinc-900 tracking-tight dark:text-white">
                 {influencer.user?.name}
                 {influencer.verification_status === "verified" && (
-                  <CheckCircle className="ml-2 h-6 w-6 text-blue-500" />
+                  <CheckCircle
+                    className="ml-3 h-8 w-8 text-blue-500"
+                    weight="fill"
+                  />
                 )}
               </h1>
-              <p className="mb-3 font-medium text-lg text-primary-600">
+              <p className="mt-2 font-medium text-lg text-primary-600 dark:text-primary-400">
                 {influencer.niche}
               </p>
             </div>
           </div>
 
-          <p className="mb-4 text-zinc-600 dark:text-zinc-400">
-            {influencer.user?.bio}
+          <p className="mb-8 max-w-2xl text-zinc-600 leading-relaxed dark:text-zinc-400">
+            {influencer.user?.bio || "Kreator ini belum menambahkan bio."}
           </p>
 
-          <div className="flex flex-wrap gap-4 text-sm">
-            <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-              <MapPin className="h-4 w-4" />
+          <div className="flex flex-wrap gap-6">
+            <div className="flex items-center space-x-2 font-medium text-sm text-zinc-600 dark:text-zinc-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+                <MapPin className="h-5 w-5" weight="duotone" />
+              </div>
               <span>{influencer.location}</span>
             </div>
-            <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-              <Globe className="h-4 w-4" />
-              <span>{influencer.languages?.join(", ")}</span>
-            </div>
-            <div className="flex items-center space-x-1 text-zinc-600 dark:text-zinc-400">
-              <Calendar className="h-4 w-4" />
+            {influencer.languages && influencer.languages.length > 0 && (
+              <div className="flex items-center space-x-2 font-medium text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+                  <Globe className="h-5 w-5" weight="duotone" />
+                </div>
+                <span>{influencer.languages.join(", ")}</span>
+              </div>
+            )}
+            <div className="flex items-center space-x-2 font-medium text-sm text-zinc-600 dark:text-zinc-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+                <Calendar className="h-5 w-5" weight="duotone" />
+              </div>
               <span>{influencer.avg_delivery_days} hari pengiriman</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -89,31 +128,41 @@ function InfluencerStatsGrid({
   reviewsCount: number;
 }) {
   return (
-    <div className="mb-6 grid grid-cols-3 gap-4">
-      <div className="card text-center">
-        <Users className="mx-auto mb-2 h-6 w-6 text-primary-600" />
-        <div className="font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
+    <motion.div
+      className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3"
+      variants={fadeUpItem}
+    >
+      <div className="flex flex-col items-center justify-center rounded-[2rem] bg-white p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800">
+        <Users className="mb-3 h-8 w-8 text-primary-500" weight="duotone" />
+        <div className="font-bold font-display text-3xl text-zinc-900 tracking-tight dark:text-white">
           {formatNumber(followersCount)}
         </div>
-        <div className="text-sm text-zinc-500 dark:text-zinc-400">Pengikut</div>
+        <div className="mt-1 font-medium text-sm text-zinc-500 dark:text-zinc-400">
+          Pengikut Setia
+        </div>
       </div>
-      <div className="card text-center">
-        <Star className="mx-auto mb-2 h-6 w-6 text-yellow-500" />
-        <div className="font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
+      <div className="flex flex-col items-center justify-center rounded-[2rem] bg-white p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800">
+        <Star className="mb-3 h-8 w-8 text-yellow-500" weight="duotone" />
+        <div className="font-bold font-display text-3xl text-zinc-900 tracking-tight dark:text-white">
           {engagementRate}%
         </div>
-        <div className="text-sm text-zinc-500 dark:text-zinc-400">
-          Engagement
+        <div className="mt-1 font-medium text-sm text-zinc-500 dark:text-zinc-400">
+          Engagement Rate
         </div>
       </div>
-      <div className="card text-center">
-        <MessageCircle className="mx-auto mb-2 h-6 w-6 text-green-500" />
-        <div className="font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
+      <div className="flex flex-col items-center justify-center rounded-[2rem] bg-white p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800">
+        <ChatCircle
+          className="mb-3 h-8 w-8 text-emerald-500"
+          weight="duotone"
+        />
+        <div className="font-bold font-display text-3xl text-zinc-900 tracking-tight dark:text-white">
           {reviewsCount}
         </div>
-        <div className="text-sm text-zinc-500 dark:text-zinc-400">Ulasan</div>
+        <div className="mt-1 font-medium text-sm text-zinc-500 dark:text-zinc-400">
+          Total Ulasan
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -125,36 +174,37 @@ function OrderCard({
   onOrder: () => void;
 }) {
   return (
-    <div className="lg:col-span-1">
-      <div className="card sticky top-24">
-        <h3 className="mb-4 font-display font-semibold text-lg dark:text-zinc-50">
+    <motion.div className="lg:col-span-1" variants={fadeUpItem}>
+      <div className="sticky top-24 overflow-hidden rounded-[2.5rem] bg-white p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800">
+        <div className="pointer-events-none absolute inset-0 z-10 rounded-[2.5rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]" />
+        <h3 className="mb-6 font-bold font-display text-2xl tracking-tight dark:text-white">
           Pesan Kolaborasi
         </h3>
-        <div className="mb-6 space-y-4">
-          <div className="flex items-center justify-between border-zinc-100 border-b py-3 dark:border-zinc-800">
-            <span className="text-zinc-600 dark:text-zinc-400">
-              Harga per postingan
+        <div className="mb-8 space-y-5">
+          <div className="flex items-center justify-between border-zinc-100 border-b pb-4 dark:border-zinc-800/50">
+            <span className="font-medium text-zinc-500 dark:text-zinc-400">
+              Harga per konten
             </span>
-            <span className="font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
+            <span className="font-bold font-display text-xl text-zinc-900 dark:text-white">
               Rp {(influencer.price_per_post * 15_000).toLocaleString("id-ID")}
             </span>
           </div>
-          <div className="flex items-center justify-between border-zinc-100 border-b py-3 dark:border-zinc-800">
-            <span className="text-zinc-600 dark:text-zinc-400">
+          <div className="flex items-center justify-between border-zinc-100 border-b pb-4 dark:border-zinc-800/50">
+            <span className="font-medium text-zinc-500 dark:text-zinc-400">
               Biaya platform (10%)
             </span>
-            <span className="text-zinc-900 dark:text-zinc-100">
+            <span className="font-medium text-zinc-900 dark:text-zinc-300">
               Rp{" "}
               {(influencer.price_per_post * 15_000 * 0.1).toLocaleString(
                 "id-ID"
               )}
             </span>
           </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="font-medium text-zinc-900 dark:text-zinc-100">
-              Total
+          <div className="flex items-center justify-between pt-2">
+            <span className="font-bold text-lg text-zinc-900 dark:text-zinc-100">
+              Total Investasi
             </span>
-            <span className="font-bold font-display text-primary-600 text-xl">
+            <span className="font-bold font-display text-2xl text-primary-600">
               Rp{" "}
               {(influencer.price_per_post * 15_000 * 1.1).toLocaleString(
                 "id-ID"
@@ -162,19 +212,20 @@ function OrderCard({
             </span>
           </div>
         </div>
-        <button
-          className="btn-primary w-full py-3"
+        <motion.button
+          className="w-full rounded-2xl bg-zinc-900 py-4 font-bold text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
           onClick={onOrder}
           type="button"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          Pesan Sekarang
-        </button>
-        <p className="mt-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
-          Anda belum akan dikenakan biaya. Influencer akan meninjau permintaan
-          Anda terlebih dahulu.
+          Lanjutkan Pesanan
+        </motion.button>
+        <p className="mt-5 text-center font-medium text-sm text-zinc-500 dark:text-zinc-400">
+          Anda tidak akan ditagih sekarang.
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -192,41 +243,60 @@ export function InfluencerDetail() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+      <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+        <Spinner className="h-10 w-10 animate-spin text-primary-600" />
       </div>
     );
   }
 
   if (error || !influencer) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <h2 className="mb-4 font-bold font-display text-2xl text-zinc-900 dark:text-zinc-50">
-          Influencer tidak ditemukan
+      <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
+        <div className="mb-6 rounded-full bg-rose-100 p-6 dark:bg-rose-900/30">
+          <X
+            className="h-12 w-12 text-rose-600 dark:text-rose-400"
+            weight="bold"
+          />
+        </div>
+        <h2 className="mb-4 font-bold font-display text-3xl text-zinc-900 dark:text-white">
+          Kreator tidak ditemukan
         </h2>
-        <Link className="btn-primary" to="/influencers">
-          Jelajahi Influencer
+        <p className="mb-8 text-center text-zinc-600 dark:text-zinc-400">
+          Profil yang Anda cari mungkin telah dihapus atau tidak tersedia.
+        </p>
+        <Link
+          className="rounded-2xl bg-zinc-900 px-8 py-4 font-medium text-white transition-all hover:bg-zinc-800 dark:bg-white dark:text-zinc-900"
+          to="/influencers"
+        >
+          Kembali Eksplor
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="animate-fade-in">
-      <div className="bg-gradient-to-br from-primary-50 via-white to-accent-50 py-8 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-950">
+    <div className="min-h-[100dvh] bg-zinc-50 pb-24 dark:bg-zinc-950">
+      <div className="sticky top-0 z-40 border-zinc-200/50 border-b bg-white/80 pt-16 pb-4 backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-950/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Link
-            className="mb-6 inline-flex items-center space-x-2 text-zinc-600 hover:text-primary-600 dark:text-zinc-400"
+            className="group inline-flex items-center space-x-2 font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
             to="/influencers"
           >
-            <ArrowLeft className="h-5 w-5" />
-            <span>Kembali ke Influencer</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 transition-transform group-hover:-translate-x-1 dark:bg-zinc-900">
+              <ArrowLeft className="h-4 w-4" weight="bold" />
+            </div>
+            <span>Kembali</span>
           </Link>
         </div>
       </div>
 
-      <div className="mx-auto -mt-4 max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <motion.div
+        animate="show"
+        className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8"
+        initial="hidden"
+        variants={staggerContainer}
+      >
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <InfluencerSummaryCard influencer={influencer} />
 
@@ -236,118 +306,160 @@ export function InfluencerDetail() {
               reviewsCount={reviews.length}
             />
 
-            <div className="card">
-              <div className="mb-6 flex space-x-6 border-zinc-100 border-b dark:border-zinc-800">
-                <button
-                  className={`pb-4 font-medium transition-colors ${
-                    activeTab === "overview"
-                      ? "border-primary-600 border-b-2 text-primary-600"
-                      : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-                  }`}
-                  onClick={() => setActiveTab("overview")}
-                  type="button"
-                >
-                  Ikhtisar
-                </button>
-                <button
-                  className={`pb-4 font-medium transition-colors ${
-                    activeTab === "reviews"
-                      ? "border-primary-600 border-b-2 text-primary-600"
-                      : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-                  }`}
-                  onClick={() => setActiveTab("reviews")}
-                  type="button"
-                >
-                  Ulasan ({reviews.length})
-                </button>
+            <motion.div
+              className="overflow-hidden rounded-[2.5rem] bg-white p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] ring-1 ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800"
+              variants={fadeUpItem}
+            >
+              <div className="mb-8 flex space-x-8 border-zinc-100 border-b dark:border-zinc-800/50">
+                {["overview", "reviews"].map((tab) => (
+                  <button
+                    className={`relative pb-4 font-bold font-display text-lg transition-colors ${
+                      activeTab === tab
+                        ? "text-zinc-900 dark:text-white"
+                        : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                    }`}
+                    key={tab}
+                    onClick={() => setActiveTab(tab as "overview" | "reviews")}
+                    type="button"
+                  >
+                    {tab === "overview"
+                      ? "Ikhtisar Profil"
+                      : `Ulasan (${reviews.length})`}
+                    {activeTab === tab && (
+                      <motion.div
+                        className="absolute right-0 bottom-0 left-0 h-0.5 bg-zinc-900 dark:bg-white"
+                        layoutId="activeTabUnderline"
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </button>
+                ))}
               </div>
 
-              {activeTab === "overview" ? (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="mb-3 font-display font-semibold text-lg dark:text-zinc-50">
-                      Tentang
-                    </h3>
-                    <p className="text-zinc-600 leading-relaxed dark:text-zinc-400">
-                      {influencer.user?.bio || "Belum ada bio."}
-                    </p>
-                  </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  key={activeTab}
+                  transition={{ duration: 0.2 }}
+                >
+                  {activeTab === "overview" ? (
+                    <div className="space-y-10">
+                      <div>
+                        <h3 className="mb-4 font-bold font-display text-xl text-zinc-900 dark:text-white">
+                          Kategori Konten
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                          {influencer.content_categories?.map((category) => (
+                            <span
+                              className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 font-medium text-sm text-zinc-700 dark:border-zinc-700/50 dark:bg-zinc-800/50 dark:text-zinc-300"
+                              key={category}
+                            >
+                              {category}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
-                  <div>
-                    <h3 className="mb-3 font-display font-semibold text-lg dark:text-zinc-50">
-                      Kategori Konten
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {influencer.content_categories?.map((category) => (
-                        <span
-                          className="rounded-lg bg-primary-50 px-3 py-1.5 font-medium text-primary-700 text-sm dark:bg-primary-900/30 dark:text-primary-400"
-                          key={category}
-                        >
-                          {category}
-                        </span>
-                      ))}
+                      <div>
+                        <h3 className="mb-4 font-bold font-display text-xl text-zinc-900 dark:text-white">
+                          Koneksi Sosial
+                        </h3>
+                        <div className="flex space-x-4">
+                          {influencer.instagram_handle && (
+                            <a
+                              className="group flex items-center space-x-3 rounded-2xl border border-zinc-200 p-4 transition-colors hover:border-pink-500 hover:bg-pink-50 dark:border-zinc-800 dark:hover:border-pink-900 dark:hover:bg-pink-900/20"
+                              href={`https://instagram.com/${influencer.instagram_handle}`}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 text-white">
+                                <InstagramLogo
+                                  className="h-6 w-6"
+                                  weight="fill"
+                                />
+                              </div>
+                              <div>
+                                <span className="block font-bold text-zinc-900 group-hover:text-pink-600 dark:text-white dark:group-hover:text-pink-400">
+                                  @{influencer.instagram_handle}
+                                </span>
+                                <span className="font-medium text-sm text-zinc-500">
+                                  Instagram
+                                </span>
+                              </div>
+                            </a>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 font-display font-semibold text-lg dark:text-zinc-50">
-                      Media Sosial
-                    </h3>
-                    <div className="flex space-x-4">
-                      {influencer.instagram_handle && (
-                        <a
-                          className="flex items-center space-x-2 text-zinc-600 transition-colors hover:text-pink-600 dark:text-zinc-400"
-                          href={`https://instagram.com/${influencer.instagram_handle}`}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <Instagram className="h-5 w-5" />
-                          <span>{influencer.instagram_handle}</span>
-                        </a>
+                  ) : (
+                    <div className="space-y-6">
+                      {reviews.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-12">
+                          <ChatCircle
+                            className="mb-4 h-16 w-16 text-zinc-300 dark:text-zinc-700"
+                            weight="duotone"
+                          />
+                          <p className="font-medium text-zinc-500 dark:text-zinc-400">
+                            Belum ada ulasan untuk kreator ini.
+                          </p>
+                        </div>
+                      ) : (
+                        reviews.map((review) => (
+                          <div
+                            className="rounded-2xl border border-zinc-100 bg-zinc-50 p-6 dark:border-zinc-800/50 dark:bg-zinc-900/50"
+                            key={review.id}
+                          >
+                            <div className="mb-4 flex items-center justify-between">
+                              <div className="flex items-center space-x-1">
+                                {[...new Array(5)].map((_, starIndex) => (
+                                  <Star
+                                    className={`h-5 w-5 ${starIndex < review.rating ? "text-yellow-400" : "text-zinc-300 dark:text-zinc-600"}`}
+                                    key={`star-${starIndex}-${review.id}`}
+                                    weight={
+                                      starIndex < review.rating
+                                        ? "fill"
+                                        : "regular"
+                                    }
+                                  />
+                                ))}
+                              </div>
+                              <span className="font-medium text-sm text-zinc-500 dark:text-zinc-400">
+                                {new Date(review.created_at).toLocaleDateString(
+                                  "id-ID",
+                                  {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </div>
+                            <p className="text-zinc-700 leading-relaxed dark:text-zinc-300">
+                              "{review.comment}"
+                            </p>
+                            {review.is_verified && (
+                              <div className="mt-4 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 font-bold text-emerald-700 text-xs dark:bg-emerald-900/20 dark:text-emerald-400">
+                                <CheckCircle
+                                  className="mr-1.5 h-4 w-4"
+                                  weight="fill"
+                                />
+                                Pembelian Terverifikasi
+                              </div>
+                            )}
+                          </div>
+                        ))
                       )}
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {reviews.length === 0 ? (
-                    <p className="py-8 text-center text-zinc-500 dark:text-zinc-400">
-                      Belum ada ulasan
-                    </p>
-                  ) : (
-                    reviews.map((review) => (
-                      <div
-                        className="border-zinc-100 border-b pb-4 last:border-0 last:pb-0 dark:border-zinc-800"
-                        key={review.id}
-                      >
-                        <div className="mb-2 flex items-center justify-between">
-                          <div className="flex items-center space-x-1">
-                            {[...new Array(5)].map((_, starIndex) => (
-                              <Star
-                                className={`h-4 w-4 ${starIndex < review.rating ? "fill-yellow-400 text-yellow-400" : "text-zinc-300 dark:text-zinc-600"}`}
-                                key={`star-${starIndex}-${review.id}`}
-                              />
-                            ))}
-                          </div>
-                          <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                            {new Date(review.created_at).toLocaleDateString()}
-                          </span>
-                        </div>
-                        <p className="text-zinc-600 dark:text-zinc-400">
-                          {review.comment}
-                        </p>
-                        {review.is_verified && (
-                          <span className="mt-2 inline-flex items-center text-green-600 text-xs">
-                            <CheckCircle className="mr-1 h-3 w-3" />
-                            Pembelian Terverifikasi
-                          </span>
-                        )}
-                      </div>
-                    ))
                   )}
-                </div>
-              )}
-            </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
           </div>
 
           <OrderCard
@@ -363,7 +475,7 @@ export function InfluencerDetail() {
             }}
           />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

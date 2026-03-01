@@ -1,5 +1,11 @@
 import type { Influencer } from "../../../src/types";
 import { createSupabaseClient } from "../../lib/supabase-client";
+import {
+  attachPublicUserProfiles,
+  PUBLIC_USER_PROFILE_SELECT,
+  PUBLIC_USER_PROFILE_VIEW,
+  sanitizeInfluencersForPublic,
+} from "../../lib/user-profiles";
 
 interface FeaturedInfluencersHandlerDependencies {
   getFeaturedInfluencers: () => Promise<Influencer[]>;
@@ -16,7 +22,7 @@ const createFeaturedInfluencersDependencies: FeaturedInfluencersDependenciesFact
       async getFeaturedInfluencers() {
         const { data, error } = await supabase
           .from("influencers")
-          .select("*, user:users(*)")
+          .select("*")
           .eq("verification_status", "verified")
           .eq("is_available", true)
           .order("followers_count", { ascending: false })
@@ -26,7 +32,22 @@ const createFeaturedInfluencersDependencies: FeaturedInfluencersDependenciesFact
           throw error;
         }
 
-        return data as Influencer[];
+        const influencers = (data as Influencer[]) ?? [];
+        if (influencers.length === 0) {
+          return [];
+        }
+
+        const userIds = [...new Set(influencers.map((item) => item.user_id))];
+        const { data: userProfiles, error: userProfilesError } = await supabase
+          .from(PUBLIC_USER_PROFILE_VIEW)
+          .select(PUBLIC_USER_PROFILE_SELECT)
+          .in("id", userIds);
+
+        if (userProfilesError) {
+          throw userProfilesError;
+        }
+
+        return attachPublicUserProfiles(influencers, userProfiles ?? []);
       },
     };
   };
@@ -49,8 +70,9 @@ export const createFeaturedInfluencersHandler = (
     try {
       const { getFeaturedInfluencers } = dependenciesFactory();
       const influencers = await getFeaturedInfluencers();
+      const publicInfluencers = sanitizeInfluencersForPublic(influencers);
 
-      return jsonResponse({ data: influencers }, 200);
+      return jsonResponse({ data: publicInfluencers }, 200);
     } catch (_error) {
       return jsonResponse(
         { message: "Terjadi kesalahan saat memuat influencer." },

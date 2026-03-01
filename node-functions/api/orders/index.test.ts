@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createOrdersHandler } from "./index";
 
 const buildRequest = (body: Record<string, unknown>, token?: string) =>
@@ -17,6 +17,7 @@ describe("orders node function", () => {
   it("menolak permintaan tanpa token", async () => {
     const handler = createOrdersHandler(() => ({
       getUserId: async () => null,
+      getUserType: async () => "sme",
       getInfluencerPrice: async () => 500,
       insertOrder: async () => "order-1",
     }));
@@ -31,6 +32,7 @@ describe("orders node function", () => {
   it("menolak deliverables yang tidak valid", async () => {
     const handler = createOrdersHandler(() => ({
       getUserId: async () => "user-1",
+      getUserType: async () => "sme",
       getInfluencerPrice: async () => 500,
       insertOrder: async () => "order-1",
     }));
@@ -58,6 +60,7 @@ describe("orders node function", () => {
   it("membuat pesanan dengan data valid", async () => {
     const handler = createOrdersHandler(() => ({
       getUserId: async () => "user-1",
+      getUserType: async () => "sme",
       getInfluencerPrice: async () => 500,
       insertOrder: async () => "order-123",
     }));
@@ -84,5 +87,36 @@ describe("orders node function", () => {
 
     expect(response.status).toBe(201);
     expect(payload.data.orderId).toBe("order-123");
+  });
+
+  it("menolak pesanan dari akun non-SME", async () => {
+    const insertOrder = vi.fn().mockResolvedValue("order-123");
+    const handler = createOrdersHandler(() => ({
+      getUserId: async () => "user-1",
+      getUserType: async () => "influencer",
+      getInfluencerPrice: async () => 500,
+      insertOrder,
+    }));
+
+    const response = await handler(
+      createContext(
+        buildRequest(
+          {
+            influencerId: "inf-1",
+            title: "Kampanye Baru",
+            description: "Deskripsi",
+            requirements: "Syarat",
+            deliverables: ["Postingan Instagram"],
+            deliveryDate: "2099-01-01",
+          },
+          "token"
+        )
+      )
+    );
+    const payload = (await response.json()) as { message: string };
+
+    expect(response.status).toBe(403);
+    expect(payload.message).toBe("Hanya akun SME yang dapat membuat pesanan.");
+    expect(insertOrder).not.toHaveBeenCalled();
   });
 });

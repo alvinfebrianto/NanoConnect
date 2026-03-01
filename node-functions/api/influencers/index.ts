@@ -1,5 +1,11 @@
 import type { Influencer } from "../../../src/types";
 import { createSupabaseClient } from "../../lib/supabase-client";
+import {
+  attachPublicUserProfiles,
+  PUBLIC_USER_PROFILE_SELECT,
+  PUBLIC_USER_PROFILE_VIEW,
+  sanitizeInfluencerForPublic,
+} from "../../lib/user-profiles";
 
 interface InfluencerHandlerDependencies {
   getInfluencer: (influencerId: string) => Promise<Influencer | null>;
@@ -12,9 +18,9 @@ const createInfluencerDependencies: InfluencerDependenciesFactory = () => {
 
   return {
     async getInfluencer(influencerId) {
-      const { data, error } = await supabase
+      const { data: influencerData, error } = await supabase
         .from("influencers")
-        .select("*, user:users(*)")
+        .select("*")
         .eq("id", influencerId)
         .single();
 
@@ -26,7 +32,22 @@ const createInfluencerDependencies: InfluencerDependenciesFactory = () => {
         throw error;
       }
 
-      return data as Influencer;
+      const { data: userProfile, error: userProfileError } = await supabase
+        .from(PUBLIC_USER_PROFILE_VIEW)
+        .select(PUBLIC_USER_PROFILE_SELECT)
+        .eq("id", influencerData.user_id)
+        .maybeSingle();
+
+      if (userProfileError) {
+        throw userProfileError;
+      }
+
+      const [influencer] = attachPublicUserProfiles(
+        [influencerData as Influencer],
+        userProfile ? [userProfile] : []
+      );
+
+      return influencer;
     },
   };
 };
@@ -61,7 +82,10 @@ export const createInfluencersHandler = (
         return jsonResponse({ message: "Influencer tidak ditemukan." }, 404);
       }
 
-      return jsonResponse({ data: influencer }, 200);
+      return jsonResponse(
+        { data: sanitizeInfluencerForPublic(influencer) },
+        200
+      );
     } catch (_error) {
       return jsonResponse(
         { message: "Terjadi kesalahan saat memuat influencer." },

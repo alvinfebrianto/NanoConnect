@@ -13,6 +13,9 @@ export interface User {
   updated_at: string;
 }
 
+export type PublicUserProfile = Pick<User, "id" | "name"> &
+  Partial<Omit<User, "id" | "name">>;
+
 export interface Influencer {
   id: string;
   user_id: string;
@@ -33,7 +36,7 @@ export interface Influencer {
   verification_status: "pending" | "verified" | "rejected";
   created_at: string;
   updated_at: string;
-  user?: User;
+  user?: PublicUserProfile;
 }
 
 export interface Order {

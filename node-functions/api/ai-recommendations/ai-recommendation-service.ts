@@ -114,8 +114,50 @@ function isRateLimitError(error: unknown): boolean {
   return false;
 }
 
+function isProviderError(error: unknown): boolean {
+  if (error instanceof Error) {
+    const httpError = error as unknown as Record<string, unknown>;
+
+    const data = httpError.data as Record<string, unknown> | undefined;
+    const statusCode = httpError.statusCode ?? httpError.status ?? data?.code;
+
+    if (typeof statusCode === "number") {
+      if (statusCode >= 500 && statusCode < 600) {
+        return true;
+      }
+      if (statusCode === 524) {
+        return true;
+      }
+    }
+
+    if (error.message.toLowerCase().includes("provider")) {
+      return true;
+    }
+    if (error.message.toLowerCase().includes("gateway")) {
+      return true;
+    }
+    if (error.message.toLowerCase().includes("timeout")) {
+      return true;
+    }
+    if (error.message.toLowerCase().includes("internal server error")) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function shouldRetryError(error: unknown): boolean {
+  return isRateLimitError(error) || isProviderError(error);
+}
+
 const RATE_LIMIT_ERROR_MSG =
   "Semua API key telah mencapai batas rate limit. Silakan coba lagi nanti.";
+
+const PROVIDER_ERROR_MSG =
+  "Provider AI mengalami gangguan. Silakan coba lagi nanti.";
+
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 const defaultDependencies: AiServiceDependencies = {
   generateText: (options) =>
@@ -201,22 +243,44 @@ Balas hanya JSON valid yang sesuai schema. Jangan tambahkan markdown/code fence.
     influencers: Influencer[],
     maxRetries?: number
   ): Promise<RecommendationOutput> => {
-    const retries = maxRetries ?? config.apiKeys.length;
+    const retries = maxRetries ?? (config.apiKeys.length * 2);
     let lastError: Error | null = null;
+    let consecutiveProviderErrors = 0;
 
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
-        return await attemptGeneration(campaign, influencers);
+        const result = await attemptGeneration(campaign, influencers);
+        consecutiveProviderErrors = 0;
+        return result;
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
-        if (!isRateLimitError(error)) {
+
+        if (!shouldRetryError(error)) {
           throw error;
         }
+
+        if (isProviderError(error)) {
+          consecutiveProviderErrors++;
+          if (consecutiveProviderErrors >= 3) {
+            throw new Error(PROVIDER_ERROR_MSG);
+          }
+        } else {
+          consecutiveProviderErrors = 0;
+        }
+
+        const baseDelay = 1000 * Math.pow(2, attempt);
+        const jitter = Math.random() * 1000;
+        const delay = baseDelay + jitter;
+
+        await sleep(delay);
       }
     }
 
     if (lastError && isRateLimitError(lastError)) {
       throw new Error(RATE_LIMIT_ERROR_MSG);
+    }
+    if (lastError && isProviderError(lastError)) {
+      throw new Error(PROVIDER_ERROR_MSG);
     }
     throw new Error("Gagal membuat rekomendasi setelah mencoba semua API key.");
   };

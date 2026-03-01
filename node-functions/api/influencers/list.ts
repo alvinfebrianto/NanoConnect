@@ -1,11 +1,63 @@
 import type { FilterOptions, Influencer } from "../../../src/types";
 import { createSupabaseClient } from "../../lib/supabase-client";
+import {
+  attachPublicUserProfiles,
+  PUBLIC_USER_PROFILE_SELECT,
+  PUBLIC_USER_PROFILE_VIEW,
+  sanitizeInfluencersForPublic,
+} from "../../lib/user-profiles";
 
 interface InfluencersListHandlerDependencies {
   listInfluencers: (filters?: FilterOptions) => Promise<Influencer[]>;
 }
 
 type InfluencersDependenciesFactory = () => InfluencersListHandlerDependencies;
+
+interface InfluencerListQuery {
+  eq: (column: string, value: string | number | boolean) => InfluencerListQuery;
+  ilike: (column: string, value: string) => InfluencerListQuery;
+  gte: (column: string, value: number) => InfluencerListQuery;
+  lte: (column: string, value: number) => InfluencerListQuery;
+}
+
+const applyInfluencerFilters = <TQuery extends InfluencerListQuery>(
+  query: TQuery,
+  filters?: FilterOptions
+): TQuery => {
+  let filteredQuery = query;
+
+  if (filters?.niche && filters.niche !== "Semua Niche") {
+    filteredQuery = filteredQuery.eq("niche", filters.niche) as TQuery;
+  }
+
+  if (filters?.location && filters.location !== "Semua Lokasi") {
+    const sanitized = filters.location.replace(/[%_]/g, "\\$&");
+    filteredQuery = filteredQuery.ilike("location", `%${sanitized}%`) as TQuery;
+  }
+
+  if (filters?.minPrice !== undefined && filters.minPrice > 0) {
+    filteredQuery = filteredQuery.gte(
+      "price_per_post",
+      filters.minPrice
+    ) as TQuery;
+  }
+
+  if (filters?.maxPrice !== undefined && filters.maxPrice > 0) {
+    filteredQuery = filteredQuery.lte(
+      "price_per_post",
+      filters.maxPrice
+    ) as TQuery;
+  }
+
+  if (filters?.verificationStatus && filters.verificationStatus !== "all") {
+    filteredQuery = filteredQuery.eq(
+      "verification_status",
+      filters.verificationStatus
+    ) as TQuery;
+  }
+
+  return filteredQuery;
+};
 
 const createInfluencersListDependencies: InfluencersDependenciesFactory =
   () => {
@@ -15,32 +67,10 @@ const createInfluencersListDependencies: InfluencersDependenciesFactory =
       async listInfluencers(filters?: FilterOptions) {
         let query = supabase
           .from("influencers")
-          .select("*, user:users(*)")
+          .select("*")
           .eq("is_available", true);
 
-        if (filters?.niche && filters.niche !== "Semua Niche") {
-          query = query.eq("niche", filters.niche);
-        }
-
-        if (filters?.location && filters.location !== "Semua Lokasi") {
-          const sanitized = filters.location.replace(/[%_]/g, "\\$&");
-          query = query.ilike("location", `%${sanitized}%`);
-        }
-
-        if (filters?.minPrice !== undefined && filters.minPrice > 0) {
-          query = query.gte("price_per_post", filters.minPrice);
-        }
-
-        if (filters?.maxPrice !== undefined && filters.maxPrice > 0) {
-          query = query.lte("price_per_post", filters.maxPrice);
-        }
-
-        if (
-          filters?.verificationStatus &&
-          filters.verificationStatus !== "all"
-        ) {
-          query = query.eq("verification_status", filters.verificationStatus);
-        }
+        query = applyInfluencerFilters(query, filters);
 
         query = query.order("followers_count", { ascending: false });
 
@@ -50,7 +80,22 @@ const createInfluencersListDependencies: InfluencersDependenciesFactory =
           throw error;
         }
 
-        return data as Influencer[];
+        const influencers = (data as Influencer[]) ?? [];
+        if (influencers.length === 0) {
+          return [];
+        }
+
+        const userIds = [...new Set(influencers.map((item) => item.user_id))];
+        const { data: userProfiles, error: userProfilesError } = await supabase
+          .from(PUBLIC_USER_PROFILE_VIEW)
+          .select(PUBLIC_USER_PROFILE_SELECT)
+          .in("id", userIds);
+
+        if (userProfilesError) {
+          throw userProfilesError;
+        }
+
+        return attachPublicUserProfiles(influencers, userProfiles ?? []);
       },
     };
   };
@@ -87,8 +132,9 @@ export const createInfluencersListHandler = (
       };
 
       const influencers = await listInfluencers(filters);
+      const publicInfluencers = sanitizeInfluencersForPublic(influencers);
 
-      return jsonResponse({ data: influencers }, 200);
+      return jsonResponse({ data: publicInfluencers }, 200);
     } catch (_error) {
       return jsonResponse(
         { message: "Terjadi kesalahan saat memuat influencer." },

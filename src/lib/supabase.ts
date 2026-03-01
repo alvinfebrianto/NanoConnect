@@ -1,8 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./database.types";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+interface SupabaseEnvConfig {
+  supabaseUrl?: string;
+  supabaseAnonKey?: string;
+  mode?: string;
+}
 
 const createDummyClient = () => {
   console.warn("Supabase environment variables not set. Using dummy client.");
@@ -44,7 +47,24 @@ const createDummyClient = () => {
   } as unknown as ReturnType<typeof createClient<Database>>;
 };
 
-export const supabase =
-  supabaseUrl && supabaseAnonKey
-    ? createClient<Database>(supabaseUrl, supabaseAnonKey)
-    : createDummyClient();
+export const createSupabaseClientFromEnv = ({
+  supabaseUrl,
+  supabaseAnonKey,
+  mode,
+}: SupabaseEnvConfig) => {
+  if (supabaseUrl && supabaseAnonKey) {
+    return createClient<Database>(supabaseUrl, supabaseAnonKey);
+  }
+
+  if (mode === "test") {
+    return createDummyClient();
+  }
+
+  throw new Error("Konfigurasi Supabase belum diatur.");
+};
+
+export const supabase = createSupabaseClientFromEnv({
+  supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
+  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+  mode: import.meta.env.MODE,
+});

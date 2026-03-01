@@ -64,4 +64,51 @@ describe("profile node function", () => {
     expect(response.status).toBe(404);
     expect(payload.message).toBe("Pengguna tidak ditemukan.");
   });
+
+  it("menyembunyikan field sensitif saat mengembalikan profil", async () => {
+    await setAuthUser("user-1");
+
+    const handler = createProfileHandler(() => ({
+      getUser: async () =>
+        ({
+          id: "user-1",
+          name: "Toko Nusantara",
+          email: "owner@example.com",
+          password_hash: "secret-hash",
+          user_type: "sme",
+          avatar_url: null,
+          bio: "Pemilik UMKM",
+          phone: "+6281234567890",
+          email_verified: true,
+          status: "active",
+          last_login_at: null,
+          created_at: "2024-01-01T00:00:00.000Z",
+          updated_at: "2024-01-01T00:00:00.000Z",
+        }) as never,
+      getInfluencerProfile: async () => null,
+      updateUser: async () => undefined,
+    }));
+
+    const response = await handler(createContext(createAuthenticatedRequest()));
+    const payload = (await response.json()) as {
+      data: { user: Record<string, unknown> };
+    };
+
+    expect(response.status).toBe(200);
+    expect(payload.data.user).toEqual({
+      id: "user-1",
+      name: "Toko Nusantara",
+      email: "owner@example.com",
+      user_type: "sme",
+      avatar_url: null,
+      bio: "Pemilik UMKM",
+      phone: "+6281234567890",
+      email_verified: true,
+      status: "active",
+      last_login_at: null,
+      created_at: "2024-01-01T00:00:00.000Z",
+      updated_at: "2024-01-01T00:00:00.000Z",
+    });
+    expect(payload.data.user).not.toHaveProperty("password_hash");
+  });
 });

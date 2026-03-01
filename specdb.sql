@@ -213,15 +213,34 @@ CREATE TRIGGER on_auth_user_created
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- ============================================
--- Step 11: Create RLS policies
+-- Step 11: Create public-safe user profile view
+-- ============================================
+
+DROP VIEW IF EXISTS public_user_profiles;
+
+CREATE VIEW public_user_profiles AS
+SELECT
+    id,
+    name,
+    avatar_url,
+    bio
+FROM users
+WHERE user_type = 'influencer'
+  AND status = 'active';
+
+GRANT SELECT ON public_user_profiles TO anon, authenticated;
+
+-- ============================================
+-- Step 12: Create RLS policies
 -- ============================================
 
 -- Users RLS
-CREATE POLICY "Anyone can view user profiles" ON users
-    FOR SELECT USING (true);
+CREATE POLICY "Users can view own profile" ON users
+    FOR SELECT USING ((SELECT auth.uid()) = id);
 
 CREATE POLICY "Users can update own profile" ON users
-    FOR UPDATE USING (auth.uid() = id);
+    FOR UPDATE USING ((SELECT auth.uid()) = id)
+    WITH CHECK ((SELECT auth.uid()) = id);
 
 -- Influencers RLS
 CREATE POLICY "Influencers are viewable by everyone" ON influencers
@@ -237,7 +256,15 @@ CREATE POLICY "Users can view own orders" ON orders
     ));
 
 CREATE POLICY "SMEs can create orders" ON orders
-    FOR INSERT WITH CHECK (auth.uid() = sme_id);
+    FOR INSERT WITH CHECK (
+        (SELECT auth.uid()) = sme_id
+        AND EXISTS (
+            SELECT 1
+            FROM users
+            WHERE id = (SELECT auth.uid())
+              AND user_type = 'sme'
+        )
+    );
 
 -- Reviews RLS
 CREATE POLICY "Reviews are viewable by everyone" ON reviews
@@ -249,7 +276,7 @@ CREATE POLICY "SMEs can create reviews for their orders" ON reviews
     ));
 
 -- ============================================
--- Step 12: Insert sample data (optional - comment out if not needed)
+-- Step 13: Insert sample data (optional - comment out if not needed)
 -- ============================================
 
 -- Users (5 records)

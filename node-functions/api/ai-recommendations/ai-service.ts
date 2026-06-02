@@ -78,7 +78,7 @@ export const createOpenRouterClient = (
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://nanoconnect.id",
+        "HTTP-Referer": "https://nanoconnectapp.edgeone.cool",
         "X-Title": "NanoConnect AI Recommendations",
       },
       body: JSON.stringify({

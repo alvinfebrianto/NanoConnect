@@ -324,7 +324,7 @@ CREATE POLICY "SMEs can create reviews for their orders" ON reviews
 
 -- Users (5 records)
 INSERT INTO users (id, name, email, password_hash, user_type, avatar_url, bio, phone, status) VALUES
-('11111111-1111-1111-1111-111111111111', 'Admin User', 'admin@nanoconnect.com', '$2b$10$hashedpassword', 'admin', 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin', 'Platform administrator', '+1234567890', 'active'),
+('11111111-1111-1111-1111-111111111111', 'Admin User', 'admin@nanoconnectapp.edgeone.cool', '$2b$10$hashedpassword', 'admin', 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin', 'Platform administrator', '+1234567890', 'active'),
 ('22222222-2222-2222-2222-222222222222', 'TechStart Inc', 'sme1@example.com', '$2b$10$hashedpassword', 'sme', 'https://api.dicebear.com/7.x/avataaars/svg?seed=SME1', 'Tech startup looking for influencers', '+1234567891', 'active'),
 ('33333333-3333-3333-3333-333333333333', 'Fashion Brand Co', 'sme2@example.com', '$2b$10$hashedpassword', 'sme', 'https://api.dicebear.com/7.x/avataaars/svg?seed=SME2', 'Fashion brand seeking promotion', '+1234567892', 'active'),
 ('44444444-4444-4444-4444-444444444444', 'Sarah Johnson', 'influencer1@example.com', '$2b$10$hashedpassword', 'influencer', 'https://api.dicebear.com/7.x/avataaars/svg?seed=Influencer1', 'Lifestyle & fashion content creator', '+1234567893', 'active'),

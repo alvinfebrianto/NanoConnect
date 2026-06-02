@@ -191,8 +191,8 @@ export function Privacy() {
             </ul>
             <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               Untuk menggunakan hak-hak ini, silakan hubungi kami di
-              privacy@nanoconnect.com. Kami akan merespons permintaan Anda dalam
-              waktu 30 hari.
+              privacy@nanoconnectapp.edgeone.cool. Kami akan merespons
+              permintaan Anda dalam waktu 30 hari.
             </p>
           </section>
 
@@ -288,7 +288,7 @@ export function Privacy() {
             </p>
             <div className="text-zinc-600 dark:text-zinc-400">
               <p className="mb-2">
-                <strong>Email:</strong> privacy@nanoconnect.com
+                <strong>Email:</strong> privacy@nanoconnectapp.edgeone.cool
               </p>
               <p className="mb-2">
                 <strong>Telepon:</strong> +62 812 3456 7890

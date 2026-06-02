@@ -276,7 +276,7 @@ export function Terms() {
               kami di:
             </p>
             <div className="mt-4 text-zinc-600 dark:text-zinc-400">
-              <p>Email: legal@nanoconnect.com</p>
+              <p>Email: legal@nanoconnectapp.edgeone.cool</p>
               <p>Alamat: Jl. Sudirman No. 123, Jakarta Pusat, Indonesia</p>
             </div>
           </section>

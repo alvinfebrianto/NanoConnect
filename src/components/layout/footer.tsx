@@ -127,7 +127,12 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 <li className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                   <Mail className="h-3.5 w-3.5 shrink-0" />
-                  <span>hello@nanoconnectapp.edgeone.cool</span>
+                  <a
+                    className="min-w-0 break-words transition-colors hover:text-primary-600 dark:hover:text-primary-400"
+                    href="mailto:hello@nanoconnectapp.edgeone.cool"
+                  >
+                    hello@nanoconnectapp.edgeone.cool
+                  </a>
                 </li>
                 <li className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                   <Phone className="h-3.5 w-3.5 shrink-0" />

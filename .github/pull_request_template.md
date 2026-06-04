@@ -22,5 +22,5 @@ Describe how you validated this PR.
 
 ### Checks run
 
-- [ ] `npm.cmd run check`
+- [ ] `pnpm check`
 - [ ] Relevant tests added or updated

@@ -1,6 +1,6 @@
 {
   "name": "nanoconnect-app",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npx pnpm@11 install --frozen-lockfile",
   "caches": [
     {
       "source": "/images/*",

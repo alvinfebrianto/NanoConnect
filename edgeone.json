@@ -1,6 +1,6 @@
 {
   "name": "nanoconnect-app",
-  "installCommand": "npx pnpm@11 install --frozen-lockfile",
+  "installCommand": "pnpm install --frozen-lockfile",
   "caches": [
     {
       "source": "/images/*",

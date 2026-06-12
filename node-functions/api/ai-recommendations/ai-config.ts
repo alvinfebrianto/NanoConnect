@@ -3,7 +3,7 @@ export interface AiConfig {
   model: string;
 }
 
-const DEFAULT_MODEL = "openrouter/free";
+const DEFAULT_MODEL = "gemini-2.5-flash-lite";
 
 function parseApiKeys(envValue: string | undefined): string[] {
   if (!envValue) {
@@ -18,9 +18,8 @@ function parseApiKeys(envValue: string | undefined): string[] {
 
 function resolveApiKeysFromEnv(): string[] {
   const supportedKeySources = [
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY,
     process.env.AI_API_KEYS,
-    process.env.OPENROUTER_API_KEYS,
-    process.env.OPENROUTER_API_KEY,
   ];
 
   for (const envValue of supportedKeySources) {
@@ -38,7 +37,7 @@ export function getAiConfig(): AiConfig {
 
   if (apiKeys.length === 0) {
     throw new Error(
-      "API key AI tidak dikonfigurasi. Set AI_API_KEYS (atau OPENROUTER_API_KEYS/OPENROUTER_API_KEY) di environment variables."
+      "API key AI tidak dikonfigurasi. Set GOOGLE_GENERATIVE_AI_API_KEY di environment variables."
     );
   }
 

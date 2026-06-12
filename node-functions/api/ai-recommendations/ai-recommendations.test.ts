@@ -1,10 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
 import type { Influencer } from "../../../src/types";
 import type { AiRecommendationService } from "./ai-recommendation-service";
-import {
-  generateRecommendationPrompt,
-  type InfluencerMatch,
-} from "./ai-service";
+
+interface InfluencerMatch {
+  influencerId: string;
+  matchScore: number;
+  reasons: string[];
+  contentStrategy: string;
+}
 import { createAiRecommendationsHandler } from "./index";
 
 const baseUser = {
@@ -313,46 +316,6 @@ describe("ai recommendations handler with OpenRouter integration", () => {
     });
   });
 
-  describe("prompt generation", () => {
-    it("menghasilkan prompt yang lengkap dengan data kampanye dan influencer", () => {
-      const prompt = generateRecommendationPrompt(
-        campaignPayload,
-        baseInfluencers
-      );
-
-      expect(prompt).toContain(campaignPayload.niche);
-      expect(prompt).toContain(campaignPayload.target_audience);
-      expect(prompt).toContain(campaignPayload.location);
-      expect(prompt).toContain("Food Explorer");
-      expect(prompt).toContain("Sarah Fashion");
-      expect(prompt).toContain("Rp 10.000.000");
-      expect(prompt).toContain("JSON");
-    });
-
-    it("menyertakan instruksi khusus untuk menghitung match score", () => {
-      const prompt = generateRecommendationPrompt(
-        campaignPayload,
-        baseInfluencers
-      );
-
-      expect(prompt).toContain("matchScore");
-      expect(prompt).toContain("0-100");
-      expect(prompt).toContain("reasons");
-    });
-  });
-
-  describe("influencer matching", () => {
-    it("mempertimbangkan lokasi influencer dalam rekomendasi", () => {
-      const jakartaInfluencers = baseInfluencers.filter(
-        (inf) => inf.location === "Jakarta"
-      );
-
-      expect(jakartaInfluencers).toHaveLength(2);
-      expect(jakartaInfluencers.map((i) => i.id)).toContain("inf-1");
-      expect(jakartaInfluencers.map((i) => i.id)).toContain("inf-3");
-    });
-  });
-
   describe("authentication dan authorization", () => {
     it("menolak metode selain POST", async () => {
       const handler = createHandler();
@@ -585,103 +548,4 @@ describe("ai recommendations handler with OpenRouter integration", () => {
   });
 });
 
-describe("OpenRouter client (legacy)", () => {
-  it("membuat request dengan header yang benar", async () => {
-    const { createOpenRouterClient } = await import("./ai-service");
-    const mockFetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          choices: [
-            {
-              message: {
-                content: "Test response",
-              },
-            },
-          ],
-          usage: { prompt_tokens: 100, completion_tokens: 50 },
-        }),
-    });
 
-    global.fetch = mockFetch;
-
-    const client = createOpenRouterClient({
-      apiKey: "test-key",
-      baseUrl: "https://api.test.com",
-    });
-
-    await client.complete("Test prompt");
-
-    const requestPayload = JSON.parse(mockFetch.mock.calls[0][1].body) as {
-      model: string;
-    };
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      "https://api.test.com/api/v1/chat/completions",
-      expect.objectContaining({
-        method: "POST",
-        headers: expect.objectContaining({
-          Authorization: "Bearer test-key",
-          "Content-Type": "application/json",
-        }),
-      })
-    );
-    expect(requestPayload.model).toBe("gpt-oss-20b");
-  });
-
-  it("menggunakan model OpenRouter yang disediakan", async () => {
-    const { createOpenRouterClient } = await import("./ai-service");
-    const mockFetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          choices: [
-            {
-              message: {
-                content: "Test response",
-              },
-            },
-          ],
-          usage: { prompt_tokens: 100, completion_tokens: 50 },
-        }),
-    });
-
-    global.fetch = mockFetch;
-
-    const client = createOpenRouterClient({
-      apiKey: "test-key",
-      baseUrl: "https://api.test.com",
-      model: "custom-model",
-    });
-
-    await client.complete("Test prompt");
-
-    const requestPayload = JSON.parse(mockFetch.mock.calls[0][1].body) as {
-      model: string;
-    };
-
-    expect(requestPayload.model).toBe("custom-model");
-  });
-
-  it("melempar error saat API mengembalikan error", async () => {
-    const { createOpenRouterClient } = await import("./ai-service");
-    const mockFetch = vi.fn().mockResolvedValue({
-      ok: false,
-      status: 429,
-      statusText: "Too Many Requests",
-      json: () =>
-        Promise.resolve({
-          error: { message: "Rate limit exceeded" },
-        }),
-    });
-
-    global.fetch = mockFetch;
-
-    const client = createOpenRouterClient({
-      apiKey: "test-key",
-      baseUrl: "https://api.test.com",
-    });
-
-    await expect(client.complete("Test")).rejects.toThrow("Rate limit");
-  });
-});

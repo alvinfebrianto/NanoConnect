@@ -1,10 +1,8 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import {
-  extractJsonMiddleware,
   generateText,
   NoObjectGeneratedError,
   Output,
-  wrapLanguageModel,
 } from "ai";
 import type { Influencer } from "../../../src/types";
 import type { AiConfig } from "./ai-config";
@@ -220,15 +218,9 @@ const defaultDependencies: AiServiceDependencies = {
       output: unknown;
     }>,
   createProvider: (apiKey: string) => {
-    const openrouter = createOpenRouter({ apiKey });
+    const provider = createGoogleGenerativeAI({ apiKey });
     return {
-      model: (id: string) =>
-        wrapLanguageModel({
-          model: openrouter(id, {
-            plugins: [{ id: "response-healing" }],
-          }),
-          middleware: extractJsonMiddleware(),
-        }),
+      model: (id: string) => provider(id),
     };
   },
 };

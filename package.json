@@ -15,7 +15,7 @@
     "check": "pnpm typecheck && pnpm doctor && pnpm lint:fix"
   },
   "dependencies": {
-    "@openrouter/ai-sdk-provider": "^2.2.3",
+    "@ai-sdk/google": "^3.0.81",
     "@phosphor-icons/react": "^2.1.10",
     "@supabase/supabase-js": "^2.39.0",
     "@tanstack/react-query": "^5.90.21",

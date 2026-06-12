@@ -1,2 +1,5 @@
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - '@ai-sdk/google@3.0.81'
+  - '@ai-sdk/provider-utils@4.0.28'

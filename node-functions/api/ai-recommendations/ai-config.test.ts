@@ -102,49 +102,37 @@ describe("getAiConfig", () => {
   });
 
   it("loads config from environment variables", async () => {
-    process.env.AI_API_KEYS = "key-1,key-2,key-3";
-    process.env.AI_MODEL = "openai/gpt-4o-mini";
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = "key-1,key-2,key-3";
+    process.env.AI_MODEL = "gemini-2.5-flash";
 
     const { getAiConfig } = await import("./ai-config");
 
     const config = getAiConfig();
 
     expect(config.apiKeys).toEqual(["key-1", "key-2", "key-3"]);
-    expect(config.model).toBe("openai/gpt-4o-mini");
+    expect(config.model).toBe("gemini-2.5-flash");
   });
 
-  it("falls back to OPENROUTER_API_KEYS when AI_API_KEYS is not set", async () => {
-    process.env.AI_API_KEYS = undefined;
-    process.env.OPENROUTER_API_KEYS = "legacy-key-1,legacy-key-2";
+  it("falls back to AI_API_KEYS when GOOGLE_GENERATIVE_AI_API_KEY is not set", async () => {
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = undefined;
+    process.env.AI_API_KEYS = "fallback-key-1,fallback-key-2";
 
     const { getAiConfig } = await import("./ai-config");
 
     const config = getAiConfig();
 
-    expect(config.apiKeys).toEqual(["legacy-key-1", "legacy-key-2"]);
+    expect(config.apiKeys).toEqual(["fallback-key-1", "fallback-key-2"]);
   });
 
-  it("falls back to OPENROUTER_API_KEY when only a single legacy key is provided", async () => {
-    process.env.AI_API_KEYS = undefined;
-    process.env.OPENROUTER_API_KEYS = undefined;
-    process.env.OPENROUTER_API_KEY = "legacy-single-key";
-
-    const { getAiConfig } = await import("./ai-config");
-
-    const config = getAiConfig();
-
-    expect(config.apiKeys).toEqual(["legacy-single-key"]);
-  });
-
-  it("uses default model openrouter/free when AI_MODEL is not set", async () => {
-    process.env.AI_API_KEYS = "key-1";
+  it("uses default model gemini-2.5-flash-lite when AI_MODEL is not set", async () => {
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = "key-1";
     process.env.AI_MODEL = undefined;
 
     const { getAiConfig } = await import("./ai-config");
 
     const config = getAiConfig();
 
-    expect(config.model).toBe("openrouter/free");
+    expect(config.model).toBe("gemini-2.5-flash-lite");
   });
 
   it("trims whitespace from keys", async () => {
@@ -168,9 +156,8 @@ describe("getAiConfig", () => {
   });
 
   it("throws when no API keys are configured", async () => {
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = undefined;
     process.env.AI_API_KEYS = undefined;
-    process.env.OPENROUTER_API_KEYS = undefined;
-    process.env.OPENROUTER_API_KEY = undefined;
 
     const { getAiConfig } = await import("./ai-config");
 

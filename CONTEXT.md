@@ -12,6 +12,7 @@
 - **Campaign Brief**: SME-submitted requirements (niche, budget, location, target audience, company size, campaign type).
 - **Match Score**: 0-100 score per influencer based on niche fit, location alignment, engagement rate, and budget compatibility.
 - **Deterministic Fallback**: Algorithmic scoring used when AI provider is unavailable — niche 45%, location 20%, engagement 20%, budget 15%.
+- **Recommendation Card**: Frontend component rendering an AI-recommended influencer — shows avatar, name, niche, match score badge (color-coded green/amber/red), followers, location, categories, reasons, price, and a link to the full influencer profile.
 
 ## Technical
 

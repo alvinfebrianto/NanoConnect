@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "../../src/lib/database.types";
+import WebSocket from "ws";
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey =
@@ -18,5 +19,6 @@ export const createSupabaseClient = (
   return createClient<Database>(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false },
     global: { headers },
+    realtime: { transport: WebSocket as any },
   });
 };
